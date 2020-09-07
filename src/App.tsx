@@ -3,12 +3,13 @@ import { observer } from 'mobx-react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import Theme from './Theme';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Router from './Views/Router';
 
 const App: React.FC = observer(() => {
   return (
     <ThemeProvider theme={Theme}>
       <CssBaseline />
-      <>Hello Stone</>
+      <Router />
     </ThemeProvider>
   );
 });
