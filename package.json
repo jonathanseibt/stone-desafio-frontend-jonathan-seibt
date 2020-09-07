@@ -20,7 +20,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "eslint": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
   },
   "prettier": {
     "trailingComma": "all",
