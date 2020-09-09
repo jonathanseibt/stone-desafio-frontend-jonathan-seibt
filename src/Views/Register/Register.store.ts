@@ -1,10 +1,11 @@
 import { observable, action } from 'mobx';
+import { InputType } from '../../Components/Input/Input.type';
 
 class Store {
-  @observable inputName = { value: '', helperText: '', error: false };
-  @observable inputEmail = { value: '', helperText: '', error: false };
-  @observable inputPassword = { value: '', helperText: '', error: false };
-  @observable inputConfirmPassword = { value: '', helperText: '', error: false };
+  @observable inputName: InputType = { value: '', helperText: '', error: false };
+  @observable inputEmail: InputType = { value: '', helperText: '', error: false };
+  @observable inputPassword: InputType = { value: '', helperText: '', error: false };
+  @observable inputConfirmPassword: InputType = { value: '', helperText: '', error: false };
 
   @action
   load = () => {
