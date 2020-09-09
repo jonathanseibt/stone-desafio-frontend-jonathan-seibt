@@ -18,33 +18,28 @@ const AuthLayout: React.FC<Props> = observer((props) => {
         <title>{`${Constants.TITLE} | ${props.title}`}</title>
       </Helmet>
 
-      <Box minHeight='100vh' minWidth='100vw'>
-        <Box minHeight='30vh' minWidth='100vw' className={styles.background} />
+      <Box minHeight='100vh' paddingTop='5%' paddingBottom={3} className={styles.background}>
+        <Container component='main' maxWidth='xs'>
+          <Box display='flex' justifyContent='center' flexDirection='column' paddingBottom={3}>
+            <Avatar variant='square' src='/assets/img/coin.svg' className={styles.logoImage} />
 
-        <Box marginTop='-200px'>
-          <Container component='main' maxWidth='xs'>
-            <Box display='flex' justifyContent='center' flexDirection='column'>
-              <Avatar variant='square' src='/assets/img/coin.svg' className={styles.logoImage} />
-              <Typography component='h1' variant='button' align='center' className={styles.logoText}>
-                {Constants.TITLE}
-              </Typography>
+            <Typography component='h1' variant='button' align='center' className={styles.logoText}>
+              {Constants.TITLE}
+            </Typography>
+          </Box>
+
+          <Paper elevation={3}>
+            <Box paddingTop={5} paddingBottom={8} paddingX={8}>
+              <Box paddingBottom={3}>
+                <Typography component='h1' variant='h5' align='center'>
+                  {props.title}
+                </Typography>
+              </Box>
+
+              {props.children}
             </Box>
-
-            <Box marginY={4}>
-              <Paper elevation={3}>
-                <Box paddingTop={5} paddingBottom={8} paddingX={8}>
-                  <Box marginBottom={3}>
-                    <Typography component='h1' variant='h5' align='center'>
-                      {props.title}
-                    </Typography>
-                  </Box>
-
-                  {props.children}
-                </Box>
-              </Paper>
-            </Box>
-          </Container>
-        </Box>
+          </Paper>
+        </Container>
       </Box>
     </>
   );
