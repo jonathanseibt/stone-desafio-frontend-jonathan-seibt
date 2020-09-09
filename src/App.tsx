@@ -5,16 +5,19 @@ import Theme from './Theme';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Router from './Router';
 import { SnackbarProvider } from 'notistack';
+import { HelmetProvider } from 'react-helmet-async';
 
 const App: React.FC = observer(() => {
   return (
-    <ThemeProvider theme={Theme}>
-      <CssBaseline />
+    <HelmetProvider>
+      <ThemeProvider theme={Theme}>
+        <CssBaseline />
 
-      <SnackbarProvider maxSnack={3}>
-        <Router />
-      </SnackbarProvider>
-    </ThemeProvider>
+        <SnackbarProvider maxSnack={3}>
+          <Router />
+        </SnackbarProvider>
+      </ThemeProvider>
+    </HelmetProvider>
   );
 });
 

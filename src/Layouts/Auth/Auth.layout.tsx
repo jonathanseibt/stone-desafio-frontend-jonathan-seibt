@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { Container, Paper, Box, Avatar, Typography } from '@material-ui/core';
 import useStyles from './Auth.styles';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import Constants from '../../Constants';
 
 interface Props {
