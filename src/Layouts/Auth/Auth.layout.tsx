@@ -31,7 +31,7 @@ const AuthLayout: React.FC<Props> = observer((props) => {
           <Paper elevation={3}>
             <Box paddingTop={5} paddingBottom={8} paddingX={8}>
               <Box paddingBottom={3}>
-                <Typography component='h1' variant='h5' align='center'>
+                <Typography component='h2' variant='h5' align='center'>
                   {props.title}
                 </Typography>
               </Box>
