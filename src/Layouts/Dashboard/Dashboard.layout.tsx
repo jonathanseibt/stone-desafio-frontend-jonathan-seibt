@@ -24,7 +24,7 @@ const DashboardLayout: React.FC<Props> = observer((props) => {
 
       <Navbar />
 
-      <Content />
+      <Content>{props.children}</Content>
     </>
   );
 });
