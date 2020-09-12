@@ -6,6 +6,12 @@
   "editor.formatOnSave": true,
   "editor.tabSize": 2,
 
+  // codeActionsOnSave
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true,
+    "source.fixAll": true
+  },
+
   // files
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
