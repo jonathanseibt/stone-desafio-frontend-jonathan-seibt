@@ -1,10 +1,10 @@
-import React from 'react';
 import { observer } from 'mobx-react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import AuthLayout from './Layouts/Auth/Auth.layout';
-import LoginView, { URL as LOGIN_VIEW_URL, TITLE as LOGIN_VIEW_TITLE } from './Views/Login/Login.view';
-import RegisterView, { URL as REGISTER_VIEW_URL, TITLE as REGISTER_VIEW_TITLE } from './Views/Register/Register.view';
-import ForgotPasswordView, { URL as FORGOT_PASSWORD_VIEW_URL, TITLE as FORGOT_PASSWORD_VIEW_TITLE } from './Views/ForgotPassword/ForgotPassword.view';
+import ForgotPasswordView, { TITLE as FORGOT_PASSWORD_VIEW_TITLE, URL as FORGOT_PASSWORD_VIEW_URL } from './Views/ForgotPassword/ForgotPassword.view';
+import LoginView, { TITLE as LOGIN_VIEW_TITLE, URL as LOGIN_VIEW_URL } from './Views/Login/Login.view';
+import RegisterView, { TITLE as REGISTER_VIEW_TITLE, URL as REGISTER_VIEW_URL } from './Views/Register/Register.view';
 
 const Router: React.FC = observer(() => {
   return (
