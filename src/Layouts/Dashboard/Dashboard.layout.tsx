@@ -1,12 +1,12 @@
-import React from 'react';
+import { AppBar, Avatar, Box, Button, Container, ListItemIcon, MenuItem, MenuList, Paper, Popover, Tab, Tabs, Toolbar, Typography } from '@material-ui/core';
+import { ExitToAppOutlined, PersonOutlined } from '@material-ui/icons';
 import { observer } from 'mobx-react';
-import { Container, Paper, Box, Avatar, Typography, AppBar, Toolbar, Button, Tabs, Tab, MenuItem, Popover, MenuList, ListItemIcon } from '@material-ui/core';
-import useStyles from './Dashboard.styles';
+import { useSnackbar } from 'notistack';
+import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Constants from '../../Constants';
-import { ExitToAppOutlined, PersonOutlined } from '@material-ui/icons';
 import DashboardStore from './Dashboard.store';
-import { useSnackbar } from 'notistack';
+import useStyles from './Dashboard.styles';
 
 interface Props {
   title: string;
