@@ -2,9 +2,11 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import AuthLayout from './Layouts/Auth/Auth.layout';
+import DashboardLayout from './Layouts/Dashboard/Dashboard.layout';
 import ForgotPasswordView, { TITLE as FORGOT_PASSWORD_VIEW_TITLE, URL as FORGOT_PASSWORD_VIEW_URL } from './Views/ForgotPassword/ForgotPassword.view';
 import LoginView, { TITLE as LOGIN_VIEW_TITLE, URL as LOGIN_VIEW_URL } from './Views/Login/Login.view';
 import RegisterView, { TITLE as REGISTER_VIEW_TITLE, URL as REGISTER_VIEW_URL } from './Views/Register/Register.view';
+import TradeView, { TITLE as TRADE_VIEW_TITLE, URL as TRADE_VIEW_URL } from './Views/Trade/Trade.view';
 
 const Router: React.FC = observer(() => {
   return (
@@ -12,6 +14,12 @@ const Router: React.FC = observer(() => {
       <Switch>
         <Route exact path='/'>
           <Redirect to={LOGIN_VIEW_URL} />
+        </Route>
+
+        <Route path={TRADE_VIEW_URL}>
+          <DashboardLayout title={TRADE_VIEW_TITLE} menu={1}>
+            <TradeView />
+          </DashboardLayout>
         </Route>
 
         <Route path={LOGIN_VIEW_URL}>

@@ -4,7 +4,9 @@ import { observer } from 'mobx-react';
 import { useSnackbar } from 'notistack';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useHistory } from 'react-router-dom';
 import Constants from '../../Constants';
+import { URL as TRADE_VIEW_URL } from '../../Views/Trade/Trade.view';
 import DashboardStore from './Dashboard.store';
 import useStyles from './Dashboard.styles';
 
@@ -72,18 +74,20 @@ const NavbarLogo: React.FC = observer(() => {
 });
 
 const NavbarNavigation: React.FC = observer(() => {
+  const history = useHistory();
   const styles = useStyles();
+
   const { enqueueSnackbar } = useSnackbar();
 
   const onChangeTab = (event: React.ChangeEvent<{}>, tab: number) => {
     // DashboardStore.tab = tab;
 
-    switch (DashboardStore.tab) {
+    switch (tab) {
       case 0:
         enqueueSnackbar('Em desenvolvimento...');
         break;
       case 1:
-        enqueueSnackbar('Em desenvolvimento...');
+        history.push(TRADE_VIEW_URL);
         break;
       case 2:
         enqueueSnackbar('Em desenvolvimento...');
