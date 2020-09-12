@@ -6,6 +6,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useHistory } from 'react-router-dom';
 import Constants from '../../Constants';
+import { URL as HISTORY_VIEW_URL } from '../../Views/History/History.view';
 import { URL as TRADE_VIEW_URL } from '../../Views/Trade/Trade.view';
 import DashboardStore from './Dashboard.store';
 import useStyles from './Dashboard.styles';
@@ -80,17 +81,17 @@ const NavbarNavigation: React.FC = observer(() => {
   const { enqueueSnackbar } = useSnackbar();
 
   const onChangeTab = (event: React.ChangeEvent<{}>, tab: number) => {
-    // DashboardStore.tab = tab;
-
     switch (tab) {
       case 0:
         enqueueSnackbar('Em desenvolvimento...');
         break;
       case 1:
+        DashboardStore.tab = 1;
         history.push(TRADE_VIEW_URL);
         break;
       case 2:
-        enqueueSnackbar('Em desenvolvimento...');
+        DashboardStore.tab = 2;
+        history.push(HISTORY_VIEW_URL);
         break;
     }
   };
