@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Box, Button, Container, ListItemIcon, MenuItem, MenuList, Paper, Popover, Tab, Tabs, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Avatar, Box, Button, Container, ListItemIcon, MenuItem, MenuList, Popover, Tab, Tabs, Toolbar, Typography } from '@material-ui/core';
 import { ExitToAppOutlined, PersonOutlined } from '@material-ui/icons';
 import { observer } from 'mobx-react';
 import { useSnackbar } from 'notistack';
@@ -170,9 +170,7 @@ const Content: React.FC = observer((props) => {
   return (
     <Box marginTop='-100px'>
       <Container component='main' maxWidth='lg'>
-        <Paper elevation={3}>
-          <Box padding={4}>{props.children}</Box>
-        </Paper>
+        <Box>{props.children}</Box>
       </Container>
     </Box>
   );
