@@ -9,20 +9,36 @@ import useStyles, { withStylesBuyButton, withStylesSellButton, withStylesSwapBut
 
 export const URL = '/negociar';
 export const TITLE = 'Negociar';
+export const SUBTITLE = 'Aqui você pode comprar, vender e trocar ativos';
 
 const TradeView: React.FC = observer(() => {
   useEffect(() => TradeStore.load());
 
-  return (
-    <>
-      <View />
-    </>
-  );
+  return <View />;
 });
 
 const View: React.FC = observer(() => {
+  const { enqueueSnackbar } = useSnackbar();
+
+  const onClickSync = () => {
+    enqueueSnackbar('Em desenvolvimento...');
+  };
+
   return (
     <Paper elevation={3}>
+      <Box display='flex' justifyContent='space-between' alignItems='center' padding={2}>
+        <Box alignSelf='center'>
+          <Typography component='h2' variant='h5'>
+            {TITLE}
+          </Typography>
+          <Typography variant='subtitle1'>{SUBTITLE}</Typography>
+        </Box>
+
+        <IconButton onClick={onClickSync}>
+          <SyncOutlined fontSize='small' />
+        </IconButton>
+      </Box>
+
       <List />
     </Paper>
   );
@@ -123,12 +139,6 @@ const List: React.FC = observer(() => {
 });
 
 const TableHeader: React.FC = observer(() => {
-  const { enqueueSnackbar } = useSnackbar();
-
-  const onClickSync = () => {
-    enqueueSnackbar('Em desenvolvimento...');
-  };
-
   return (
     <TableHead>
       <TableRow>
@@ -152,12 +162,7 @@ const TableHeader: React.FC = observer(() => {
 
         <TableCell width={1} />
         <TableCell width={1} />
-
-        <TableCell width={1} align='right'>
-          <IconButton onClick={onClickSync}>
-            <SyncOutlined fontSize='small' />
-          </IconButton>
-        </TableCell>
+        <TableCell width={1} />
       </TableRow>
     </TableHead>
   );
