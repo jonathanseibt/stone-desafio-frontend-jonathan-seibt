@@ -1,5 +1,7 @@
-import React from 'react';
 import { createMount } from '@material-ui/core/test-utils';
+import { SnackbarProvider } from 'notistack';
+import React from 'react';
+import { HelmetProvider } from 'react-helmet-async';
 import DashboardLayout from './Dashboard.layout';
 
 describe('<App />', () => {
@@ -14,6 +16,12 @@ describe('<App />', () => {
   });
 
   it('should render correctly', () => {
-    mount(<DashboardLayout title='Testing' menu={0} />);
+    mount(
+      <HelmetProvider>
+        <SnackbarProvider maxSnack={3}>
+          <DashboardLayout title='Testing' menu={0} />
+        </SnackbarProvider>
+      </HelmetProvider>,
+    );
   });
 });
