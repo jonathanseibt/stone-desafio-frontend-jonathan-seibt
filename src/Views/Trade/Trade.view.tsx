@@ -4,6 +4,8 @@ import { AvatarGroup } from '@material-ui/lab';
 import { observer } from 'mobx-react';
 import { useSnackbar } from 'notistack';
 import React, { useEffect } from 'react';
+import BuyDialog from './Buy/Buy.dialog';
+import BuyDialogStore from './Buy/Buy.dialog.store';
 import TradeStore from './Trade.store';
 import useStyles, { withStylesBuyButton, withStylesSellButton, withStylesSwapButton } from './Trade.styles';
 
@@ -14,7 +16,12 @@ export const SUBTITLE = 'Aqui você pode comprar, vender e trocar ativos';
 const TradeView: React.FC = observer(() => {
   useEffect(() => TradeStore.load());
 
-  return <View />;
+  return (
+    <>
+      <View />
+      <BuyDialog />
+    </>
+  );
 });
 
 const View: React.FC = observer(() => {
@@ -53,7 +60,7 @@ const List: React.FC = observer(() => {
   const SwapButton = withStylesSwapButton(Button);
 
   const onClickBuy = () => {
-    enqueueSnackbar('Em desenvolvimento...');
+    BuyDialogStore.open();
   };
 
   const onClickSell = () => {
