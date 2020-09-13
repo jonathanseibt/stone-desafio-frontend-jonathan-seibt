@@ -8,6 +8,8 @@ import BuyDialog from './Buy/Buy.dialog';
 import BuyDialogStore from './Buy/Buy.dialog.store';
 import SellDialog from './Sell/Sell.dialog';
 import SellDialogStore from './Sell/Sell.dialog.store';
+import SwapDialog from './Swap/Swap.dialog';
+import SwapDialogStore from './Swap/Swap.dialog.store';
 import TradeStore from './Trade.store';
 import useStyles, { withStylesBuyButton, withStylesSellButton, withStylesSwapButton } from './Trade.styles';
 
@@ -23,6 +25,7 @@ const TradeView: React.FC = observer(() => {
       <View />
       <BuyDialog />
       <SellDialog />
+      <SwapDialog />
     </>
   );
 });
@@ -56,7 +59,6 @@ const View: React.FC = observer(() => {
 
 const List: React.FC = observer(() => {
   const styles = useStyles();
-  const { enqueueSnackbar } = useSnackbar();
 
   const BuyButton = withStylesBuyButton(Button);
   const SellButton = withStylesSellButton(Button);
@@ -71,7 +73,7 @@ const List: React.FC = observer(() => {
   };
 
   const onClickSwap = () => {
-    enqueueSnackbar('Em desenvolvimento...');
+    SwapDialogStore.open();
   };
 
   return (
