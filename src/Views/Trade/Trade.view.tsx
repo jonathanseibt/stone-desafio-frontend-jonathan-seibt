@@ -6,6 +6,8 @@ import { useSnackbar } from 'notistack';
 import React, { useEffect } from 'react';
 import BuyDialog from './Buy/Buy.dialog';
 import BuyDialogStore from './Buy/Buy.dialog.store';
+import SellDialog from './Sell/Sell.dialog';
+import SellDialogStore from './Sell/Sell.dialog.store';
 import TradeStore from './Trade.store';
 import useStyles, { withStylesBuyButton, withStylesSellButton, withStylesSwapButton } from './Trade.styles';
 
@@ -20,6 +22,7 @@ const TradeView: React.FC = observer(() => {
     <>
       <View />
       <BuyDialog />
+      <SellDialog />
     </>
   );
 });
@@ -64,7 +67,7 @@ const List: React.FC = observer(() => {
   };
 
   const onClickSell = () => {
-    enqueueSnackbar('Em desenvolvimento...');
+    SellDialogStore.open();
   };
 
   const onClickSwap = () => {
