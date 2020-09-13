@@ -11,9 +11,6 @@ const useStyles = makeStyles((theme) => ({
   down: {
     color: red[500],
   },
-  main: {
-    lineHeight: 1,
-  },
 }));
 
 export const withStylesBuyButton = withStyles((theme) => ({

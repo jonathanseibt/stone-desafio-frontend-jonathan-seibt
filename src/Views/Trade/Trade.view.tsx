@@ -78,13 +78,13 @@ const List: React.FC = observer(() => {
             const balanceValue = row.balance.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
 
             return (
-              <TableRow key={index}>
+              <TableRow key={index} style={{ background: row.background }}>
                 <TableCell>
                   <Box display='flex' alignItems='center'>
                     <Avatar src={icon} />
 
                     <Box paddingX={2} alignSelf='center'>
-                      <Typography variant='h6' color='textPrimary' className={styles.main}>
+                      <Typography variant='h6' color='textPrimary'>
                         {row.acronym}
                       </Typography>
                       <Typography variant='button' color='textSecondary'>
@@ -95,14 +95,14 @@ const List: React.FC = observer(() => {
                 </TableCell>
 
                 <TableCell align='right' className={row.status === 'up' ? styles.up : styles.down}>
-                  <Typography variant='h6' align='right' className={styles.main}>
+                  <Typography variant='h6' align='right'>
                     {price}
                   </Typography>
                   <Typography variant='caption'>{status}</Typography>
                 </TableCell>
 
                 <TableCell align='right'>
-                  <Typography variant='h6' color='textPrimary' align='right' className={styles.main}>
+                  <Typography variant='h6' color='textPrimary' align='right'>
                     {balanceQuantity}
                   </Typography>
                   <Typography variant='button' color='textSecondary' align='right'>

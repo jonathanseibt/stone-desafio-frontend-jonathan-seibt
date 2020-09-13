@@ -7,6 +7,7 @@ export type DataType = {
   price: number;
   status: 'up' | 'down';
   balance: { quantity: number; value: number };
+  background: string;
 };
 
 class Store {
@@ -22,6 +23,7 @@ class Store {
         price: 55510.0058,
         status: 'up',
         balance: { quantity: 0.27, value: 14987.7 },
+        background: 'linear-gradient(90deg, rgba(255,232,222,0.5) 0%, rgba(255,255,255,0.5) 50%)',
       },
       {
         coin: 'Brita',
@@ -30,6 +32,7 @@ class Store {
         price: 55510.0058,
         status: 'down',
         balance: { quantity: 0.27, value: 14987.7 },
+        background: 'linear-gradient(90deg, rgba(223,247,242,0.5) 0%, rgba(255,255,255,0.5) 50%)',
       },
     ];
 

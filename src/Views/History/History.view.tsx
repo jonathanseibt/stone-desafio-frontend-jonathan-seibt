@@ -63,7 +63,7 @@ const List: React.FC = observer(() => {
             const balanceValue = row.balance.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
 
             return (
-              <TableRow key={index} className={row.type === 'buy' ? styles.rowBuy : styles.rowSell}>
+              <TableRow key={index} style={{ background: row.background }} className={row.type === 'buy' ? styles.rowBuy : styles.rowSell}>
                 <TableCell>
                   <Typography variant='button' className={row.type === 'buy' ? styles.textBuy : styles.textSell}>
                     {type}
@@ -71,9 +71,7 @@ const List: React.FC = observer(() => {
                 </TableCell>
 
                 <TableCell>
-                  <Typography variant='h6' className={styles.textCell}>
-                    {date}
-                  </Typography>
+                  <Typography variant='h6'>{date}</Typography>
                   <Typography variant='caption'>{time}</Typography>
                 </TableCell>
 
@@ -82,7 +80,7 @@ const List: React.FC = observer(() => {
                     <Avatar src={icon} />
 
                     <Box paddingX={2} alignSelf='center'>
-                      <Typography variant='h6' color='textPrimary' className={styles.textCell}>
+                      <Typography variant='h6' color='textPrimary'>
                         {row.acronym}
                       </Typography>
                       <Typography variant='button' color='textSecondary'>
@@ -93,7 +91,7 @@ const List: React.FC = observer(() => {
                 </TableCell>
 
                 <TableCell align='right'>
-                  <Typography variant='h6' align='right' className={`${styles.textCell} ${row.type === 'buy' ? styles.textBuy : styles.textSell}`}>
+                  <Typography variant='h6' align='right' className={row.type === 'buy' ? styles.textBuy : styles.textSell}>
                     {price}
                   </Typography>
                   <Typography variant='button' color='textSecondary' align='right'>
@@ -102,7 +100,7 @@ const List: React.FC = observer(() => {
                 </TableCell>
 
                 <TableCell align='right'>
-                  <Typography variant='h6' color='textPrimary' align='right' className={styles.textCell}>
+                  <Typography variant='h6' color='textPrimary' align='right'>
                     {balanceQuantity}
                   </Typography>
                   <Typography variant='button' color='textSecondary' align='right'>
