@@ -1,5 +1,5 @@
 import { AppBar, Avatar, Box, Button, Container, Hidden, ListItemIcon, MenuItem, MenuList, Popover, Tab, Tabs, Toolbar, Typography } from '@material-ui/core';
-import { ExitToAppOutlined, PersonOutlined } from '@material-ui/icons';
+import { ExitToAppOutlined } from '@material-ui/icons';
 import { observer } from 'mobx-react';
 import { useSnackbar } from 'notistack';
 import React from 'react';
@@ -155,14 +155,6 @@ const NavbarMenu: React.FC = observer(() => {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}>
         <MenuList>
-          <MenuItem onClick={onClickProfile}>
-            <ListItemIcon>
-              <PersonOutlined fontSize='small' />
-            </ListItemIcon>
-
-            <Typography variant='inherit'>Meu perfil</Typography>
-          </MenuItem>
-
           <MenuItem onClick={onClickLogout}>
             <ListItemIcon>
               <ExitToAppOutlined fontSize='small' color='secondary' />
