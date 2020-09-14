@@ -34,10 +34,12 @@ export class CryptoModel {
   };
 
   static updateByAcronym = (acronym: string, crypto: CryptoModel) => {
-    return BrowserStore.cryptos.splice(
-      BrowserStore.cryptos.findIndex((crypto) => crypto.acronym === acronym),
-      1,
-      crypto,
-    );
+    const index = BrowserStore.cryptos.findIndex((_crypto) => _crypto.acronym === acronym);
+
+    if (index >= 0) {
+      BrowserStore.cryptos.splice(index, 1, crypto);
+    } else {
+      BrowserStore.cryptos.push(crypto);
+    }
   };
 }
