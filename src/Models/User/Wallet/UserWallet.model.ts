@@ -16,10 +16,12 @@ export class UserWalletModel {
     this.history = userWallet.history;
   }
 
-  getCryptoBalance = () => {
+  static getCryptoBalance = (userWallet: UserWalletModel) => {
     let cryptoBalance = 0;
 
-    for (const userWalletCrypto of this.cryptos) cryptoBalance += userWalletCrypto.getBalance();
+    for (const userWalletCrypto of userWallet.cryptos) {
+      cryptoBalance += UserWalletCryptoModel.getBalance(userWalletCrypto);
+    }
 
     return cryptoBalance;
   };

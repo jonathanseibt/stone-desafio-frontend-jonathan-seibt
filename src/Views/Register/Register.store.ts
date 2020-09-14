@@ -127,11 +127,12 @@ class Store {
       return false;
     }
 
-    const newWallet = new UserWalletModel();
-    newWallet.id = uuid();
-    newWallet.balance = Constants.NEW_USERS_GIFT_BALANCE;
-    newWallet.cryptos = [];
-    newWallet.history = [];
+    const newWallet = new UserWalletModel({
+      id: uuid(),
+      balance: Constants.NEW_USERS_GIFT_BALANCE,
+      cryptos: [],
+      history: [],
+    });
 
     const newUser = new UserModel({
       id: uuid(),

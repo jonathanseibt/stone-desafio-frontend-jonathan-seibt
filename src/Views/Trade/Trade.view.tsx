@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { observer } from 'mobx-react';
 import React from 'react';
 import BrowserStore from '../../Browser.store';
+import { UserWalletCryptoModel } from '../../Models/User/Wallet/Crypto/UserWalletCrypto.model';
 import SessionStore from '../../Session.store';
 import BuyDialog from './Buy/Buy.dialog';
 import BuyDialogStore from './Buy/Buy.dialog.store';
@@ -96,14 +97,13 @@ const List: React.FC = observer(() => {
                     style: 'decimal',
                     minimumFractionDigits: 8,
                   });
-                const balanceValue = SessionStore.getUser()
-                  .wallet.cryptos.find((crypto) => (crypto._crypto = row.id))
-                  ?.getBalance()
-                  .toLocaleString('pt-BR', {
-                    style: 'currency',
-                    currency: 'BRL',
-                    minimumFractionDigits: 2,
-                  });
+                const balanceValue = UserWalletCryptoModel.getBalance(
+                  SessionStore.getUser().wallet.cryptos.find((crypto) => (crypto._crypto = row.id)) ?? new UserWalletCryptoModel(),
+                ).toLocaleString('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                  minimumFractionDigits: 2,
+                });
 
                 return (
                   <TableRow key={index} style={{ background: row.backgroundStyle }}>

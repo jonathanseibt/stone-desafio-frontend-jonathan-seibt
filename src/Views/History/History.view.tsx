@@ -1,6 +1,7 @@
 import { Avatar, Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react';
 import React from 'react';
+import { CryptoModel } from '../../Models/Crypto/Crypto.model';
 import { UserWalletHistoryModel } from '../../Models/User/Wallet/History/UserWalletHistory.model';
 import SessionStore from '../../Session.store';
 import useStyles from './History.styles';
@@ -47,7 +48,7 @@ const List: React.FC = observer(() => {
             SessionStore.getUser().wallet.history.map((row, index) => {
               const date = row.date.toLocaleDateString('pt-BR');
               const time = row.date.toLocaleTimeString('pt-BR');
-              const icon = `/assets/img/${row.getCrypto().icon}`;
+              const icon = `/assets/img/${CryptoModel.findByID(row._crypto)?.icon}`;
               const price = row.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
               const quantity = row.quantity.toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 8 });
               const balanceQuantity = row.balanceQuantity.toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 8 });
@@ -56,7 +57,7 @@ const List: React.FC = observer(() => {
               return (
                 <TableRow
                   key={index}
-                  style={{ background: row.getCrypto().backgroundStyle }}
+                  style={{ background: CryptoModel.findByID(row._crypto)?.backgroundStyle }}
                   className={row.operation === UserWalletHistoryModel.OPERATION.BUY ? styles.rowBuy : styles.rowSell}>
                   <TableCell>
                     <Typography variant='button' className={row.operation === UserWalletHistoryModel.OPERATION.BUY ? styles.textBuy : styles.textSell}>
@@ -75,10 +76,10 @@ const List: React.FC = observer(() => {
 
                       <Box paddingX={2} alignSelf='center'>
                         <Typography variant='h6' color='textPrimary'>
-                          {row.getCrypto().acronym}
+                          {CryptoModel.findByID(row._crypto)?.acronym}
                         </Typography>
                         <Typography variant='button' color='textSecondary'>
-                          {row.getCrypto().name}
+                          {CryptoModel.findByID(row._crypto)?.name}
                         </Typography>
                       </Box>
                     </Box>

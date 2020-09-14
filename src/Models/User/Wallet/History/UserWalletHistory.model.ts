@@ -1,5 +1,3 @@
-import { CryptoModel } from '../../../Crypto/Crypto.model';
-
 const BUY = 'buy';
 const SELL = 'sell';
 
@@ -27,8 +25,4 @@ export class UserWalletHistoryModel {
     this.balanceValue = userWalletHistory.balanceValue;
     this._crypto = userWalletHistory._crypto;
   }
-
-  getCrypto = () => {
-    return CryptoModel.findByID(this._crypto) ?? new CryptoModel();
-  };
 }

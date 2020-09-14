@@ -3,6 +3,9 @@ import { AvatarGroup } from '@material-ui/lab';
 import { observer } from 'mobx-react';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { CryptoModel } from '../../Models/Crypto/Crypto.model';
+import { UserWalletCryptoModel } from '../../Models/User/Wallet/Crypto/UserWalletCrypto.model';
+import { UserWalletModel } from '../../Models/User/Wallet/UserWallet.model';
 import SessionStore from '../../Session.store';
 import { URL as TRADE_VIEW_URL } from '../Trade/Trade.view';
 import useStyles from './Wallet.styles';
@@ -23,7 +26,7 @@ const Header: React.FC = observer(() => {
   const styles = useStyles();
 
   const balance = SessionStore.getUser().wallet.balance.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
-  const cryptoBalance = SessionStore.getUser().wallet.getCryptoBalance().toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
+  const cryptoBalance = UserWalletModel.getCryptoBalance(SessionStore.getUser().wallet).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
 
   return (
     <Paper elevation={3} className={styles.background}>
@@ -78,23 +81,23 @@ const Cryptos: React.FC = observer(() => {
       <Box marginTop={2} marginBottom={2}>
         <Grid container spacing={3}>
           {SessionStore.getUser().wallet.cryptos.map((row, index) => {
-            const icon = `/assets/img/${row.getCrypto().icon}`;
+            const icon = `/assets/img/${CryptoModel.findByID(row._crypto)?.icon}`;
             const quantity = row.quantity.toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 8 });
-            const balance = row.getBalance().toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
+            const balance = UserWalletCryptoModel.getBalance(row).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
 
             return (
               <Grid key={index} item xs={12} lg={4}>
-                <Paper elevation={3} style={{ background: row.getCrypto().backgroundStyle }}>
+                <Paper elevation={3} style={{ background: CryptoModel.findByID(row._crypto)?.backgroundStyle }}>
                   <Box padding={5} display='flex' justifyContent='space-between' overflow='auto'>
                     <Box display='flex' alignItems='center'>
                       <Avatar src={icon} className={styles.avatar} />
 
                       <Box paddingX={2} alignSelf='center'>
                         <Typography variant='h6' color='textPrimary'>
-                          {row.getCrypto().acronym}
+                          {CryptoModel.findByID(row._crypto)?.acronym}
                         </Typography>
                         <Typography variant='button' color='textSecondary'>
-                          {row.getCrypto().name}
+                          {CryptoModel.findByID(row._crypto)?.name}
                         </Typography>
                       </Box>
                     </Box>
