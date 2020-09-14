@@ -1,7 +1,10 @@
-import { green, red } from '@material-ui/core/colors';
+import { green, grey, red } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
+  empty: {
+    backgroundColor: grey[200],
+  },
   rowBuy: {
     borderLeftWidth: '15px',
     borderLeftColor: green[500],

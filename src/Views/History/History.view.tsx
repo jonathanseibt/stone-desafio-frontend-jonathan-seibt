@@ -52,64 +52,68 @@ const List: React.FC = observer(() => {
         <TableHeader />
 
         <TableBody>
-          {HistoryStore.data.map((row, index) => {
-            const type = row.type === 'buy' ? 'Compra' : 'Venda';
-            const date = new Date().toLocaleDateString('pt-BR');
-            const time = new Date().toLocaleTimeString('pt-BR');
-            const icon = `/assets/img/${row.icon}`;
-            const price = row.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
-            const quantity = row.quantity.toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 8 });
-            const balanceQuantity = row.balance.quantity.toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 8 });
-            const balanceValue = row.balance.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
+          {!HistoryStore.data.length ? (
+            <TableEmpty />
+          ) : (
+            HistoryStore.data.map((row, index) => {
+              const type = row.type === 'buy' ? 'Compra' : 'Venda';
+              const date = new Date().toLocaleDateString('pt-BR');
+              const time = new Date().toLocaleTimeString('pt-BR');
+              const icon = `/assets/img/${row.icon}`;
+              const price = row.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
+              const quantity = row.quantity.toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 8 });
+              const balanceQuantity = row.balance.quantity.toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 8 });
+              const balanceValue = row.balance.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
 
-            return (
-              <TableRow key={index} style={{ background: row.background }} className={row.type === 'buy' ? styles.rowBuy : styles.rowSell}>
-                <TableCell>
-                  <Typography variant='button' className={row.type === 'buy' ? styles.textBuy : styles.textSell}>
-                    {type}
-                  </Typography>
-                </TableCell>
+              return (
+                <TableRow key={index} style={{ background: row.background }} className={row.type === 'buy' ? styles.rowBuy : styles.rowSell}>
+                  <TableCell>
+                    <Typography variant='button' className={row.type === 'buy' ? styles.textBuy : styles.textSell}>
+                      {type}
+                    </Typography>
+                  </TableCell>
 
-                <TableCell>
-                  <Typography variant='h6'>{date}</Typography>
-                  <Typography variant='caption'>{time}</Typography>
-                </TableCell>
+                  <TableCell>
+                    <Typography variant='h6'>{date}</Typography>
+                    <Typography variant='caption'>{time}</Typography>
+                  </TableCell>
 
-                <TableCell>
-                  <Box display='flex' alignItems='center'>
-                    <Avatar src={icon} />
+                  <TableCell>
+                    <Box display='flex' alignItems='center'>
+                      <Avatar src={icon} />
 
-                    <Box paddingX={2} alignSelf='center'>
-                      <Typography variant='h6' color='textPrimary'>
-                        {row.acronym}
-                      </Typography>
-                      <Typography variant='button' color='textSecondary'>
-                        {row.coin}
-                      </Typography>
+                      <Box paddingX={2} alignSelf='center'>
+                        <Typography variant='h6' color='textPrimary'>
+                          {row.acronym}
+                        </Typography>
+                        <Typography variant='button' color='textSecondary'>
+                          {row.coin}
+                        </Typography>
+                      </Box>
                     </Box>
-                  </Box>
-                </TableCell>
+                  </TableCell>
 
-                <TableCell align='right'>
-                  <Typography variant='h6' align='right' className={row.type === 'buy' ? styles.textBuy : styles.textSell}>
-                    {price}
-                  </Typography>
-                  <Typography variant='button' color='textSecondary' align='right'>
-                    {quantity}
-                  </Typography>
-                </TableCell>
+                  <TableCell align='right'>
+                    <Typography variant='h6' align='right' className={row.type === 'buy' ? styles.textBuy : styles.textSell}>
+                      {price}
+                    </Typography>
+                    <Typography variant='button' color='textSecondary' align='right'>
+                      {quantity}
+                    </Typography>
+                  </TableCell>
 
-                <TableCell align='right'>
-                  <Typography variant='h6' color='textPrimary' align='right'>
-                    {balanceQuantity}
-                  </Typography>
-                  <Typography variant='button' color='textSecondary' align='right'>
-                    {balanceValue}
-                  </Typography>
-                </TableCell>
-              </TableRow>
-            );
-          })}
+                  <TableCell align='right'>
+                    <Typography variant='h6' color='textPrimary' align='right'>
+                      {balanceQuantity}
+                    </Typography>
+                    <Typography variant='button' color='textSecondary' align='right'>
+                      {balanceValue}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              );
+            })
+          )}
         </TableBody>
       </Table>
     </TableContainer>
@@ -151,6 +155,24 @@ const TableHeader: React.FC = observer(() => {
         </TableCell>
       </TableRow>
     </TableHead>
+  );
+});
+
+const TableEmpty: React.FC = observer(() => {
+  const styles = useStyles();
+
+  return (
+    <TableRow className={styles.empty}>
+      <TableCell colSpan={6}>
+        <Box display='flex' alignItems='center'>
+          <Box paddingX={2} alignSelf='center' width={1} textAlign='center'>
+            <Typography variant='button' color='textSecondary'>
+              Nenhum registro encontrado
+            </Typography>
+          </Box>
+        </Box>
+      </TableCell>
+    </TableRow>
   );
 });
 
