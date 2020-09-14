@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import { Box, Button, TextField } from '@material-ui/core';
 import { observer } from 'mobx-react';
-import { TextField, Box, Button } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
-import { URL as REGISTER_VIEW_URL } from '../Register/Register.view';
-import { URL as FORGOT_PASSWORD_VIEW_URL } from '../ForgotPassword/ForgotPassword.view';
-import LoginStore from './Login.store';
 import { useSnackbar } from 'notistack';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { URL as FORGOT_PASSWORD_VIEW_URL } from '../ForgotPassword/ForgotPassword.view';
+import { URL as REGISTER_VIEW_URL } from '../Register/Register.view';
+import LoginStore from './Login.store';
 
 export const URL = '/login';
 export const TITLE = 'Acessar';

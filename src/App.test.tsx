@@ -1,5 +1,5 @@
-import React from 'react';
 import { createMount } from '@material-ui/core/test-utils';
+import React from 'react';
 import App from './App';
 
 describe('<App />', () => {

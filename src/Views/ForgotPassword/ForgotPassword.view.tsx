@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import { Box, Button, TextField } from '@material-ui/core';
 import { observer } from 'mobx-react';
-import { TextField, Box, Button } from '@material-ui/core';
+import { useSnackbar } from 'notistack';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { URL as LOGIN_VIEW_URL } from '../Login/Login.view';
 import { URL as REGISTER_VIEW_URL } from '../Register/Register.view';
 import ForgotPasswordStore from './ForgotPassword.store';
-import { useSnackbar } from 'notistack';
 
 export const URL = '/forgot-password';
 export const TITLE = 'Recuperar a senha';

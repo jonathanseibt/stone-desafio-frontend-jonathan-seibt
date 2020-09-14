@@ -1,7 +1,7 @@
-import React from 'react';
 import { createMount } from '@material-ui/core/test-utils';
-import ForgotPasswordView from './ForgotPassword.view';
 import { SnackbarProvider } from 'notistack';
+import React from 'react';
+import ForgotPasswordView from './ForgotPassword.view';
 
 describe('<ForgotPasswordView />', () => {
   let mount: any;

@@ -1,7 +1,7 @@
-import React from 'react';
 import { createMount } from '@material-ui/core/test-utils';
-import RegisterView from './Register.view';
 import { SnackbarProvider } from 'notistack';
+import React from 'react';
+import RegisterView from './Register.view';
 
 describe('<RegisterView />', () => {
   let mount: any;

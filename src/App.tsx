@@ -1,11 +1,11 @@
-import React from 'react';
-import { observer } from 'mobx-react';
-import { ThemeProvider } from '@material-ui/core/styles';
-import Theme from './Theme';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Router from './Router';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { observer } from 'mobx-react';
 import { SnackbarProvider } from 'notistack';
+import React from 'react';
 import { HelmetProvider } from 'react-helmet-async';
+import Router from './Router';
+import Theme from './Theme';
 
 const App: React.FC = observer(() => {
   return (
