@@ -112,11 +112,22 @@ const List: React.FC = observer(() => {
                       </Box>
                     </TableCell>
 
-                    <TableCell align='right' className={row.status === 'up' ? styles.up : styles.down}>
-                      <Typography variant='h6' align='right'>
+                    <TableCell align='right'>
+                      <Typography variant='h6' align='right' className={styles.buy}>
                         {price}
                       </Typography>
-                      <Typography variant='caption'>{status}</Typography>
+                      <Typography variant='caption' className={row.status === 'up' ? styles.up : styles.down}>
+                        {status}
+                      </Typography>
+                    </TableCell>
+
+                    <TableCell align='right'>
+                      <Typography variant='h6' align='right' className={styles.sell}>
+                        {price}
+                      </Typography>
+                      <Typography variant='caption' className={row.status === 'up' ? styles.up : styles.down}>
+                        {status}
+                      </Typography>
                     </TableCell>
 
                     <TableCell align='right'>
@@ -170,7 +181,13 @@ const TableHeader: React.FC = observer(() => {
 
         <TableCell width={1} align='right'>
           <Typography noWrap variant='inherit'>
-            Último preço
+            Preço de compra
+          </Typography>
+        </TableCell>
+
+        <TableCell width={1} align='right'>
+          <Typography noWrap variant='inherit'>
+            Preço de venda
           </Typography>
         </TableCell>
 
@@ -193,7 +210,7 @@ const TableFooter: React.FC = observer(() => {
 
   return (
     <TableRow className={styles.more}>
-      <TableCell colSpan={6}>
+      <TableCell colSpan={7}>
         <Box display='flex' alignItems='center'>
           <AvatarGroup max={4}>
             <Avatar src='/assets/img/ethereum.png' />
@@ -219,7 +236,7 @@ const TableEmpty: React.FC = observer(() => {
 
   return (
     <TableRow className={styles.empty}>
-      <TableCell colSpan={6}>
+      <TableCell colSpan={7}>
         <Box display='flex' alignItems='center'>
           <Box paddingX={2} alignSelf='center' width={1} textAlign='center'>
             <Typography variant='button' color='textSecondary'>

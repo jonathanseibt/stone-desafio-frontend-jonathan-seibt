@@ -14,6 +14,12 @@ const useStyles = makeStyles((theme) => ({
   down: {
     color: red[500],
   },
+  buy: {
+    color: green[500],
+  },
+  sell: {
+    color: red[500],
+  },
 }));
 
 export const withStylesBuyButton = withStyles((theme) => ({
