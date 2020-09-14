@@ -42,7 +42,7 @@ const View: React.FC = observer(() => {
         margin='normal'
         required
         fullWidth
-        autoComplete='first-name'
+        autoComplete='name'
         autoFocus
       />
 
