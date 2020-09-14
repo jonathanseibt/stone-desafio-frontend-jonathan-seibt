@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(7),
   },
   logoText: {
+    marginTop: '1px',
     color: 'white',
   },
   menu: {

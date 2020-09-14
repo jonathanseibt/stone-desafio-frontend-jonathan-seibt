@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Box, Button, Container, ListItemIcon, MenuItem, MenuList, Popover, Tab, Tabs, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Avatar, Box, Button, Container, Hidden, ListItemIcon, MenuItem, MenuList, Popover, Tab, Tabs, Toolbar, Typography } from '@material-ui/core';
 import { ExitToAppOutlined, PersonOutlined } from '@material-ui/icons';
 import { observer } from 'mobx-react';
 import { useSnackbar } from 'notistack';
@@ -45,9 +45,11 @@ const Navbar: React.FC = observer(() => {
               <NavbarLogo />
             </Box>
 
-            <Box display='flex'>
-              <NavbarNavigation />
-            </Box>
+            <Hidden smDown>
+              <Box display='flex'>
+                <NavbarNavigation />
+              </Box>
+            </Hidden>
 
             <Box display='flex'>
               <NavbarMenu />
@@ -55,6 +57,12 @@ const Navbar: React.FC = observer(() => {
           </Box>
         </Toolbar>
       </AppBar>
+
+      <Hidden mdUp>
+        <Box display='flex' width={1} justifyContent='center'>
+          <NavbarNavigation />
+        </Box>
+      </Hidden>
     </Box>
   );
 });
@@ -67,7 +75,7 @@ const NavbarLogo: React.FC = observer(() => {
       <Avatar variant='square' src='/assets/img/logo.png' className={styles.logoImage} />
 
       <Box paddingX={1} alignSelf='center'>
-        <Typography component='h1' variant='button' align='center' className={styles.logoText}>
+        <Typography component='h1' variant='button' align='center' className={styles.logoText} noWrap>
           {Constants.TITLE}
         </Typography>
       </Box>
@@ -132,7 +140,7 @@ const NavbarMenu: React.FC = observer(() => {
     <>
       <Button onClick={onClickMenu}>
         <Box paddingX={1} marginTop='1px'>
-          <Typography component='h3' variant='button' align='center' className={styles.userText}>
+          <Typography component='h3' variant='button' align='right' className={styles.userText} noWrap>
             Nome do usuário
           </Typography>
         </Box>

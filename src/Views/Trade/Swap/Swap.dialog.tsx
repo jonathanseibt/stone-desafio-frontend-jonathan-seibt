@@ -33,7 +33,7 @@ const View: React.FC = observer(() => {
   };
 
   return (
-    <Dialog onClose={onClose} open={SwapDialogStore.opened} maxWidth='xs'>
+    <Dialog onClose={onClose} open={SwapDialogStore.opened} maxWidth='xs' scroll='body'>
       <Box padding={3} display='flex' justifyContent='space-between' alignItems='center'>
         <Typography component='h2' variant='h5'>
           {TITLE}

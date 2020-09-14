@@ -52,7 +52,9 @@ const View: React.FC = observer(() => {
         </IconButton>
       </Box>
 
-      <List />
+      <Box marginBottom={3}>
+        <List />
+      </Box>
     </Paper>
   );
 });
