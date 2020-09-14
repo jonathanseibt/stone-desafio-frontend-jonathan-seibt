@@ -1,7 +1,5 @@
-import { Avatar, Box, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
-import { SyncOutlined } from '@material-ui/icons';
+import { Avatar, Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react';
-import { useSnackbar } from 'notistack';
 import React, { useEffect } from 'react';
 import HistoryStore from './History.store';
 import useStyles from './History.styles';
@@ -17,12 +15,6 @@ const HistoryView: React.FC = observer(() => {
 });
 
 const View: React.FC = observer(() => {
-  const { enqueueSnackbar } = useSnackbar();
-
-  const onClickSync = () => {
-    enqueueSnackbar('Em desenvolvimento...');
-  };
-
   return (
     <Paper elevation={3}>
       <Box display='flex' justifyContent='space-between' alignItems='center' padding={2}>
@@ -32,10 +24,6 @@ const View: React.FC = observer(() => {
           </Typography>
           <Typography variant='subtitle1'>{SUBTITLE}</Typography>
         </Box>
-
-        <IconButton onClick={onClickSync}>
-          <SyncOutlined fontSize='small' />
-        </IconButton>
       </Box>
 
       <Box marginBottom={3}>
