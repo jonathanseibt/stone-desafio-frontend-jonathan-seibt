@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { URL as FORGOT_PASSWORD_VIEW_URL } from '../ForgotPassword/ForgotPassword.view';
 import { URL as REGISTER_VIEW_URL } from '../Register/Register.view';
+import { URL as WALLET_VIEW_URL } from '../Wallet/Wallet.view';
 import LoginStore from './Login.store';
 
 export const URL = '/login';
@@ -24,7 +25,13 @@ const View: React.FC = observer(() => {
     event.preventDefault();
 
     if (LoginStore.validateForm()) {
-      enqueueSnackbar('Em desenvolvimento...');
+      const result = LoginStore.login();
+
+      if (result) {
+        history.push(WALLET_VIEW_URL);
+      } else {
+        enqueueSnackbar('E-mail ou senha incorretos', { variant: 'error' });
+      }
     }
   };
 

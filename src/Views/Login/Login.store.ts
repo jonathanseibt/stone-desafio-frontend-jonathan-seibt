@@ -1,5 +1,7 @@
 import { action, observable } from 'mobx';
 import { InputType } from '../../Components/Input/Input.type';
+import { UserModel } from '../../Models/User/User.model';
+import SessionStore from '../../Session.store';
 
 class Store {
   @observable inputEmail: InputType = { value: '', helperText: '', error: false };
@@ -56,6 +58,19 @@ class Store {
   onChangeInputPassword = (value: string) => {
     this.clearInputPassword();
     this.inputPassword.value = value;
+  };
+
+  @action
+  login = (): boolean => {
+    const user = UserModel.findByEmailAndPassword(this.inputEmail.value, this.inputPassword.value);
+
+    if (user) {
+      SessionStore._user = user.id;
+
+      return true;
+    }
+
+    return false;
   };
 }
 
