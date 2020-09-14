@@ -82,68 +82,74 @@ const List: React.FC = observer(() => {
         <TableHeader />
 
         <TableBody>
-          {TradeStore.data.map((row, index) => {
-            const icon = `/assets/img/${row.icon}`;
-            const price = row.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
-            const status = row.status === 'up' ? 'subiu' : 'caiu';
-            const balanceQuantity = row.balance.quantity.toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 8 });
-            const balanceValue = row.balance.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
+          {!TradeStore.data.length ? (
+            <TableEmpty />
+          ) : (
+            <>
+              {TradeStore.data.map((row, index) => {
+                const icon = `/assets/img/${row.icon}`;
+                const price = row.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
+                const status = row.status === 'up' ? 'subiu' : 'caiu';
+                const balanceQuantity = row.balance.quantity.toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 8 });
+                const balanceValue = row.balance.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
 
-            return (
-              <TableRow key={index} style={{ background: row.background }}>
-                <TableCell>
-                  <Box display='flex' alignItems='center'>
-                    <Avatar src={icon} />
+                return (
+                  <TableRow key={index} style={{ background: row.background }}>
+                    <TableCell>
+                      <Box display='flex' alignItems='center'>
+                        <Avatar src={icon} />
 
-                    <Box paddingX={2} alignSelf='center'>
-                      <Typography variant='h6' color='textPrimary'>
-                        {row.acronym}
+                        <Box paddingX={2} alignSelf='center'>
+                          <Typography variant='h6' color='textPrimary'>
+                            {row.acronym}
+                          </Typography>
+                          <Typography variant='button' color='textSecondary'>
+                            {row.coin}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </TableCell>
+
+                    <TableCell align='right' className={row.status === 'up' ? styles.up : styles.down}>
+                      <Typography variant='h6' align='right'>
+                        {price}
                       </Typography>
-                      <Typography variant='button' color='textSecondary'>
-                        {row.coin}
+                      <Typography variant='caption'>{status}</Typography>
+                    </TableCell>
+
+                    <TableCell align='right'>
+                      <Typography variant='h6' color='textPrimary' align='right'>
+                        {balanceQuantity}
                       </Typography>
-                    </Box>
-                  </Box>
-                </TableCell>
+                      <Typography variant='button' color='textSecondary' align='right'>
+                        {balanceValue}
+                      </Typography>
+                    </TableCell>
 
-                <TableCell align='right' className={row.status === 'up' ? styles.up : styles.down}>
-                  <Typography variant='h6' align='right'>
-                    {price}
-                  </Typography>
-                  <Typography variant='caption'>{status}</Typography>
-                </TableCell>
+                    <TableCell align='right'>
+                      <BuyButton fullWidth size='large' variant='outlined' startIcon={<VerticalAlignBottomOutlined />} onClick={onClickBuy}>
+                        Comprar
+                      </BuyButton>
+                    </TableCell>
 
-                <TableCell align='right'>
-                  <Typography variant='h6' color='textPrimary' align='right'>
-                    {balanceQuantity}
-                  </Typography>
-                  <Typography variant='button' color='textSecondary' align='right'>
-                    {balanceValue}
-                  </Typography>
-                </TableCell>
+                    <TableCell align='right' padding='none'>
+                      <SellButton fullWidth size='large' variant='outlined' startIcon={<VerticalAlignTopOutlined />} onClick={onClickSell}>
+                        Vender
+                      </SellButton>
+                    </TableCell>
 
-                <TableCell align='right'>
-                  <BuyButton fullWidth size='large' variant='outlined' startIcon={<VerticalAlignBottomOutlined />} onClick={onClickBuy}>
-                    Comprar
-                  </BuyButton>
-                </TableCell>
+                    <TableCell align='right'>
+                      <SwapButton fullWidth size='large' variant='outlined' startIcon={<SwapVertOutlined />} onClick={onClickSwap}>
+                        Trocar
+                      </SwapButton>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
 
-                <TableCell align='right' padding='none'>
-                  <SellButton fullWidth size='large' variant='outlined' startIcon={<VerticalAlignTopOutlined />} onClick={onClickSell}>
-                    Vender
-                  </SellButton>
-                </TableCell>
-
-                <TableCell align='right'>
-                  <SwapButton fullWidth size='large' variant='outlined' startIcon={<SwapVertOutlined />} onClick={onClickSwap}>
-                    Trocar
-                  </SwapButton>
-                </TableCell>
-              </TableRow>
-            );
-          })}
-
-          <TableFooter />
+              <TableFooter />
+            </>
+          )}
         </TableBody>
       </Table>
     </TableContainer>
@@ -198,6 +204,24 @@ const TableFooter: React.FC = observer(() => {
           <Box paddingX={2} alignSelf='center'>
             <Typography variant='button' color='textSecondary'>
               Mais em breve!
+            </Typography>
+          </Box>
+        </Box>
+      </TableCell>
+    </TableRow>
+  );
+});
+
+const TableEmpty: React.FC = observer(() => {
+  const styles = useStyles();
+
+  return (
+    <TableRow className={styles.empty}>
+      <TableCell colSpan={6}>
+        <Box display='flex' alignItems='center'>
+          <Box paddingX={2} alignSelf='center' width={1} textAlign='center'>
+            <Typography variant='button' color='textSecondary'>
+              Nenhum registro encontrado
             </Typography>
           </Box>
         </Box>

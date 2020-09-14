@@ -2,6 +2,9 @@ import { blue, green, grey, red } from '@material-ui/core/colors';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
+  empty: {
+    backgroundColor: grey[200],
+  },
   more: {
     backgroundColor: grey[200],
   },
