@@ -1,12 +1,13 @@
 import { AppBar, Avatar, Box, Button, Container, Hidden, ListItemIcon, MenuItem, MenuList, Popover, Tab, Tabs, Toolbar, Typography } from '@material-ui/core';
 import { ExitToAppOutlined } from '@material-ui/icons';
 import { observer } from 'mobx-react';
-import { useSnackbar } from 'notistack';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useHistory } from 'react-router-dom';
 import Constants from '../../Constants';
+import SessionStore from '../../Session.store';
 import { URL as HISTORY_VIEW_URL } from '../../Views/History/History.view';
+import { URL as LOGIN_VIEW_URL } from '../../Views/Login/Login.view';
 import { URL as TRADE_VIEW_URL } from '../../Views/Trade/Trade.view';
 import { URL as WALLET_VIEW_URL } from '../../Views/Wallet/Wallet.view';
 import DashboardStore from './Dashboard.store';
@@ -115,8 +116,8 @@ const NavbarNavigation: React.FC = observer(() => {
 });
 
 const NavbarMenu: React.FC = observer(() => {
+  const history = useHistory();
   const styles = useStyles();
-  const { enqueueSnackbar } = useSnackbar();
 
   const onClickMenu = (event: React.MouseEvent) => {
     DashboardStore.openMenu(event);
@@ -126,14 +127,12 @@ const NavbarMenu: React.FC = observer(() => {
     DashboardStore.closeMenu();
   };
 
-  const onClickProfile = () => {
-    DashboardStore.closeMenu();
-    enqueueSnackbar('Em desenvolvimento...');
-  };
-
   const onClickLogout = () => {
     DashboardStore.closeMenu();
-    enqueueSnackbar('Em desenvolvimento...');
+
+    SessionStore.unauthenticate();
+
+    history.push(LOGIN_VIEW_URL);
   };
 
   return (
