@@ -31,14 +31,14 @@ const Header: React.FC = observer(() => {
       <Box display='flex' alignItems='center'>
         <Box>
           <Typography variant='h6' color='textSecondary'>
-            Meu saldo atual
+            Saldo atual
           </Typography>
           <Typography component='h2' variant='h4' className={styles.balance}>
             {balance}
           </Typography>
           <Box paddingTop={1}>
             <Typography variant='body2' color='textSecondary'>
-              Total em criptoativos
+              Saldo em criptoativos
             </Typography>
             <Typography variant='subtitle1' className={styles.balance}>
               {cryptos}
@@ -52,7 +52,7 @@ const Header: React.FC = observer(() => {
           Olá,
         </Typography>
         <Typography variant='h6' color='textSecondary'>
-          Jonathan Seibt
+          Nome do usuário
         </Typography>
       </Box>
     </Box>
@@ -64,9 +64,11 @@ const Cryptos: React.FC = observer(() => {
 
   return (
     <>
-      <Typography variant='h6' color='textSecondary'>
-        Meus ativos
-      </Typography>
+      {!!WalletStore.data.length && (
+        <Typography variant='h6' color='textSecondary'>
+          Meus ativos
+        </Typography>
+      )}
 
       <Box marginTop={2}>
         <Grid container spacing={3}>
@@ -120,10 +122,12 @@ const SeeMore: React.FC = observer(() => {
   };
 
   return (
-    <Grid item xs={12} md={4}>
+    <Grid item xs={12} md={!!WalletStore.data.length ? 4 : 12}>
       <Box borderRadius={4} component={CardActionArea} onClick={onClickMore}>
         <Box padding={5} className={styles.more} display='flex' alignItems='center'>
           <AvatarGroup max={4}>
+            <Avatar src='/assets/img/bitcoin.png' />
+            <Avatar src='/assets/img/brita.png' />
             <Avatar src='/assets/img/ethereum.png' />
             <Avatar src='/assets/img/tether.png' />
             <Avatar src='/assets/img/litecoin.png' />
@@ -132,8 +136,13 @@ const SeeMore: React.FC = observer(() => {
           </AvatarGroup>
 
           <Box paddingX={2} alignSelf='center'>
-            <Typography variant='button' color='textSecondary'>
-              Ver mais...
+            {!WalletStore.data.length && (
+              <Typography variant='h6' color='textPrimary'>
+                Nenhum ativo na sua carteira ainda?
+              </Typography>
+            )}
+            <Typography variant='button' color={!!WalletStore.data.length ? 'textSecondary' : 'secondary'}>
+              {!!WalletStore.data.length ? 'Ver mais...' : 'Negociar agora!'}
             </Typography>
           </Box>
         </Box>
