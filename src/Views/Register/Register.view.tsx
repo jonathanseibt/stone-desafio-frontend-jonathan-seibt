@@ -4,6 +4,7 @@ import { useSnackbar } from 'notistack';
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import SessionStore from '../../Session.store';
+import Format from '../../Utils/Format';
 import LoginStore from '../Login/Login.store';
 import { URL as LOGIN_VIEW_URL } from '../Login/Login.view';
 import { URL as WALLET_VIEW_URL } from '../Wallet/Wallet.view';
@@ -33,9 +34,9 @@ const View: React.FC = observer(() => {
         LoginStore.inputPassword = RegisterStore.inputPassword;
 
         if (LoginStore.login()) {
-          const balance = SessionStore.getUser().wallet.balance.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
+          const balance = SessionStore.getUser().wallet.balance;
 
-          enqueueSnackbar(`Seja muito bem-vindo! Como presente de boas-vindas, você já inicia com ${balance}`, { variant: 'success' });
+          enqueueSnackbar(`Seja muito bem-vindo! Como presente de boas-vindas, você já inicia com ${Format.real(balance)}!`, { variant: 'success' });
 
           history.push(WALLET_VIEW_URL);
         }

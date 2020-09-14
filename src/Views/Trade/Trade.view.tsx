@@ -7,6 +7,7 @@ import React from 'react';
 import BrowserStore from '../../Browser.store';
 import { UserWalletCryptoModel } from '../../Models/User/Wallet/Crypto/UserWalletCrypto.model';
 import SessionStore from '../../Session.store';
+import Format from '../../Utils/Format';
 import BuyDialog from './Buy/Buy.dialog';
 import BuyDialogStore from './Buy/Buy.dialog.store';
 import SellDialog from './Sell/Sell.dialog';
@@ -65,16 +66,16 @@ const List: React.FC = observer(() => {
   const SellButton = withStylesSellButton(Button);
   const SwapButton = withStylesSwapButton(Button);
 
-  const onClickBuy = () => {
-    BuyDialogStore.open();
+  const onClickBuy = (_crypto: string) => {
+    BuyDialogStore.open(_crypto);
   };
 
-  const onClickSell = () => {
-    SellDialogStore.open();
+  const onClickSell = (_crypto: string) => {
+    SellDialogStore.open(_crypto);
   };
 
-  const onClickSwap = () => {
-    SwapDialogStore.open();
+  const onClickSwap = (_crypto: string) => {
+    SwapDialogStore.open(_crypto);
   };
 
   return (
@@ -88,28 +89,16 @@ const List: React.FC = observer(() => {
           ) : (
             <>
               {_.sortBy(BrowserStore.cryptos, ['name']).map((row, index) => {
-                const icon = `/assets/img/${row.icon}`;
-                const priceBuy = row.priceBuy.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
-                const priceSell = row.priceSell.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
-                const balanceQuantity = SessionStore.getUser()
-                  .wallet.cryptos.find((crypto) => (crypto._crypto = row.id))
-                  ?.quantity.toLocaleString('pt-BR', {
-                    style: 'decimal',
-                    minimumFractionDigits: 8,
-                  });
-                const balanceValue = UserWalletCryptoModel.getBalance(
-                  SessionStore.getUser().wallet.cryptos.find((crypto) => (crypto._crypto = row.id)) ?? new UserWalletCryptoModel(),
-                ).toLocaleString('pt-BR', {
-                  style: 'currency',
-                  currency: 'BRL',
-                  minimumFractionDigits: 2,
-                });
+                const user = SessionStore.getUser();
+
+                const balanceQuantity = user.wallet.cryptos.find((crypto) => (crypto._crypto = row.id))?.quantity;
+                const balanceValue = UserWalletCryptoModel.getBalance(user.wallet.cryptos.find((crypto) => (crypto._crypto = row.id)) ?? new UserWalletCryptoModel());
 
                 return (
                   <TableRow key={index} style={{ background: row.backgroundStyle }}>
                     <TableCell>
                       <Box display='flex' alignItems='center'>
-                        <Avatar src={icon} />
+                        <Avatar src={`/assets/img/${row.icon}`} />
 
                         <Box paddingX={2} alignSelf='center'>
                           <Typography variant='h6' color='textPrimary'>
@@ -124,7 +113,7 @@ const List: React.FC = observer(() => {
 
                     <TableCell align='right'>
                       <Typography variant='h6' align='right' className={styles.buy}>
-                        {priceBuy}
+                        {Format.real(row.priceBuy)}
                       </Typography>
                       <Typography variant='caption' className={row.priceBuy > row.lastPriceBuy ? styles.up : styles.down}>
                         {row.priceBuy > row.lastPriceBuy ? 'subiu' : 'caiu'}
@@ -133,7 +122,7 @@ const List: React.FC = observer(() => {
 
                     <TableCell align='right'>
                       <Typography variant='h6' align='right' className={styles.sell}>
-                        {priceSell}
+                        {Format.real(row.priceSell)}
                       </Typography>
                       <Typography variant='caption' className={row.priceSell > row.lastPriceSell ? styles.up : styles.down}>
                         {row.priceSell > row.lastPriceSell ? 'subiu' : 'caiu'}
@@ -142,27 +131,27 @@ const List: React.FC = observer(() => {
 
                     <TableCell align='right'>
                       <Typography variant='h6' color='textPrimary' align='right'>
-                        {balanceQuantity}
+                        {Format.decimal(balanceQuantity, 8)}
                       </Typography>
                       <Typography variant='button' color='textSecondary' align='right'>
-                        {balanceValue}
+                        {Format.real(balanceValue)}
                       </Typography>
                     </TableCell>
 
                     <TableCell align='right'>
-                      <BuyButton fullWidth size='large' variant='outlined' startIcon={<VerticalAlignBottomOutlined />} onClick={onClickBuy}>
+                      <BuyButton fullWidth size='large' variant='outlined' startIcon={<VerticalAlignBottomOutlined />} onClick={() => onClickBuy(row.id)}>
                         Comprar
                       </BuyButton>
                     </TableCell>
 
                     <TableCell align='right' padding='none'>
-                      <SellButton fullWidth size='large' variant='outlined' startIcon={<VerticalAlignTopOutlined />} onClick={onClickSell}>
+                      <SellButton fullWidth size='large' variant='outlined' startIcon={<VerticalAlignTopOutlined />} onClick={() => onClickSell(row.id)}>
                         Vender
                       </SellButton>
                     </TableCell>
 
                     <TableCell align='right'>
-                      <SwapButton fullWidth size='large' variant='outlined' startIcon={<SwapVertOutlined />} onClick={onClickSwap}>
+                      <SwapButton fullWidth size='large' variant='outlined' startIcon={<SwapVertOutlined />} onClick={() => onClickSwap(row.id)}>
                         Trocar
                       </SwapButton>
                     </TableCell>

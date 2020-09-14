@@ -4,6 +4,8 @@ import NumberField from '@unicef/material-ui-currency-textfield';
 import { observer } from 'mobx-react';
 import { useSnackbar } from 'notistack';
 import React, { useEffect } from 'react';
+import Constants from '../../../Constants';
+import { CryptoModel } from '../../../Models/Crypto/Crypto.model';
 import SellDialogStore from './Sell.dialog.store';
 import { withStylesSellButton } from './Sell.dialog.styles';
 
@@ -32,6 +34,8 @@ const View: React.FC = observer(() => {
     enqueueSnackbar('Em desenvolvimento...');
   };
 
+  const crypto = CryptoModel.findByID(SellDialogStore._crypto) ?? new CryptoModel();
+
   return (
     <Dialog onClose={onClose} open={SellDialogStore.opened} maxWidth='xs' scroll='body'>
       <Box padding={3} display='flex' justifyContent='space-between' alignItems='center'>
@@ -53,7 +57,7 @@ const View: React.FC = observer(() => {
 
       <Box padding={3}>
         <SellButton fullWidth size='large' variant='outlined' startIcon={<VerticalAlignBottomOutlined />} onClick={onClickSell}>
-          Vender
+          {`${TITLE} ${crypto.acronym === Constants.BITCOIN.acronym ? Constants.BITCOIN.name : Constants.BRITA.name}`}
         </SellButton>
       </Box>
     </Dialog>
@@ -61,11 +65,14 @@ const View: React.FC = observer(() => {
 });
 
 const InputCryptoCurrency: React.FC = observer(() => {
+  const crypto = CryptoModel.findByID(SellDialogStore._crypto) ?? new CryptoModel();
+
   return (
     <NumberField
-      {...SellDialogStore.inputCryptoCurrency}
+      value={SellDialogStore.inputCryptoCurrency.value}
+      error={SellDialogStore.inputCryptoCurrency.error}
       onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, value: string) => SellDialogStore.onChangeInputCryptoCurrency(value)}
-      label='Valor em Bitcoin'
+      label={`Quantidade de ${crypto.name}`}
       name='crypto-currency'
       variant='outlined'
       margin='normal'
@@ -76,18 +83,33 @@ const InputCryptoCurrency: React.FC = observer(() => {
       currencySymbol=''
       decimalCharacter=','
       digitGroupSeparator='.'
+      autoFocus
+      helperText={
+        <>
+          <Box component={'span'} display='block'>
+            <Typography variant='caption' color='textSecondary' noWrap>
+              {SellDialogStore.inputCryptoCurrency.helperText}
+            </Typography>
+          </Box>
+          <Box component={'span'} display='block'>
+            <Typography variant='caption' color='textSecondary' noWrap>
+              {SellDialogStore.inputCryptoCurrencyHelperText}
+            </Typography>
+          </Box>
+        </>
+      }
       InputProps={{
         autoComplete: 'off',
         startAdornment: (
           <Box marginRight={1}>
             <Typography variant='button' color='textSecondary'>
-              BTC
+              {crypto.acronym}
             </Typography>
           </Box>
         ),
         endAdornment: (
           <InputAdornment position='end'>
-            <Avatar src='/assets/img/bitcoin.png' />
+            <Avatar src={`/assets/img/${crypto.icon}`} />
           </InputAdornment>
         ),
       }}

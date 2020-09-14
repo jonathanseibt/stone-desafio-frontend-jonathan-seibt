@@ -7,6 +7,7 @@ import { CryptoModel } from '../../Models/Crypto/Crypto.model';
 import { UserWalletCryptoModel } from '../../Models/User/Wallet/Crypto/UserWalletCrypto.model';
 import { UserWalletModel } from '../../Models/User/Wallet/UserWallet.model';
 import SessionStore from '../../Session.store';
+import Format from '../../Utils/Format';
 import { URL as TRADE_VIEW_URL } from '../Trade/Trade.view';
 import useStyles from './Wallet.styles';
 
@@ -25,8 +26,7 @@ const WalletView: React.FC = observer(() => {
 const Header: React.FC = observer(() => {
   const styles = useStyles();
 
-  const balance = SessionStore.getUser().wallet.balance.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
-  const cryptoBalance = UserWalletModel.getCryptoBalance(SessionStore.getUser().wallet).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
+  const user = SessionStore.getUser();
 
   return (
     <Paper elevation={3} className={styles.background}>
@@ -38,7 +38,7 @@ const Header: React.FC = observer(() => {
             </Typography>
 
             <Typography component='h2' variant='h4' className={styles.balance} noWrap>
-              {balance}
+              {Format.real(user.wallet.balance)}
             </Typography>
 
             <Box paddingTop={1}>
@@ -46,7 +46,7 @@ const Header: React.FC = observer(() => {
                 Saldo em criptoativos
               </Typography>
               <Typography variant='subtitle1' className={styles.balance} noWrap>
-                {cryptoBalance}
+                {Format.real(UserWalletModel.getCryptoBalance(user.wallet))}
               </Typography>
             </Box>
           </Box>
@@ -58,7 +58,7 @@ const Header: React.FC = observer(() => {
               Olá,
             </Typography>
             <Typography align='right' variant='h5' color='textSecondary' noWrap>
-              {SessionStore.getUser().name}
+              {user.name}
             </Typography>
           </Box>
         </Hidden>
@@ -70,9 +70,11 @@ const Header: React.FC = observer(() => {
 const Cryptos: React.FC = observer(() => {
   const styles = useStyles();
 
+  const user = SessionStore.getUser();
+
   return (
     <>
-      {!!SessionStore.getUser().wallet.cryptos.length && (
+      {!!user.wallet.cryptos.length && (
         <Typography variant='h6' color='textSecondary' noWrap>
           Meus ativos
         </Typography>
@@ -80,34 +82,32 @@ const Cryptos: React.FC = observer(() => {
 
       <Box marginTop={2} marginBottom={2}>
         <Grid container spacing={3}>
-          {SessionStore.getUser().wallet.cryptos.map((row, index) => {
-            const icon = `/assets/img/${CryptoModel.findByID(row._crypto)?.icon}`;
-            const quantity = row.quantity.toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 8 });
-            const balance = UserWalletCryptoModel.getBalance(row).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
+          {user.wallet.cryptos.map((row, index) => {
+            const crypto = CryptoModel.findByID(row._crypto) ?? new CryptoModel();
 
             return (
               <Grid key={index} item xs={12} lg={4}>
-                <Paper elevation={3} style={{ background: CryptoModel.findByID(row._crypto)?.backgroundStyle }}>
+                <Paper elevation={3} style={{ background: crypto.backgroundStyle }}>
                   <Box padding={5} display='flex' justifyContent='space-between' overflow='auto'>
                     <Box display='flex' alignItems='center'>
-                      <Avatar src={icon} className={styles.avatar} />
+                      <Avatar src={`/assets/img/${crypto.icon}`} className={styles.avatar} />
 
                       <Box paddingX={2} alignSelf='center'>
                         <Typography variant='h6' color='textPrimary'>
-                          {CryptoModel.findByID(row._crypto)?.acronym}
+                          {crypto.acronym}
                         </Typography>
                         <Typography variant='button' color='textSecondary'>
-                          {CryptoModel.findByID(row._crypto)?.name}
+                          {crypto.name}
                         </Typography>
                       </Box>
                     </Box>
 
                     <Box paddingX={2} alignSelf='center' textAlign='end'>
                       <Typography variant='h6' color='textPrimary'>
-                        {quantity}
+                        {Format.decimal(row.quantity, 8)}
                       </Typography>
                       <Typography variant='button' color='textSecondary'>
-                        {balance}
+                        {Format.real(UserWalletCryptoModel.getBalance(row))}
                       </Typography>
                     </Box>
                   </Box>
@@ -131,8 +131,10 @@ const SeeMore: React.FC = observer(() => {
     history.push(TRADE_VIEW_URL);
   };
 
+  const user = SessionStore.getUser();
+
   return (
-    <Grid item xs={12} lg={!!SessionStore.getUser().wallet.cryptos.length ? 4 : 12}>
+    <Grid item xs={12} lg={!!user.wallet.cryptos.length ? 4 : 12}>
       <Box borderRadius={4} component={CardActionArea} onClick={onClickMore}>
         <Box padding={5} className={styles.more} display='flex' alignItems='center'>
           <AvatarGroup max={4}>
@@ -146,15 +148,15 @@ const SeeMore: React.FC = observer(() => {
           </AvatarGroup>
 
           <Box paddingX={2} alignSelf='center'>
-            {!SessionStore.getUser().wallet.cryptos.length && (
+            {!user.wallet.cryptos.length && (
               <Typography variant='h6' color='textPrimary'>
                 Nenhum ativo na sua carteira ainda?
               </Typography>
             )}
 
             <Box paddingTop={1 / 2}>
-              <Typography variant='button' color={!!SessionStore.getUser().wallet.cryptos.length ? 'textSecondary' : 'secondary'}>
-                {!!SessionStore.getUser().wallet.cryptos.length ? 'Ver mais...' : 'Negociar agora!'}
+              <Typography variant='button' color={!!user.wallet.cryptos.length ? 'textSecondary' : 'secondary'}>
+                {!!user.wallet.cryptos.length ? 'Ver mais...' : 'Negociar agora!'}
               </Typography>
             </Box>
           </Box>

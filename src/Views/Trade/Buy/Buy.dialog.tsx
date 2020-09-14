@@ -4,6 +4,8 @@ import NumberField from '@unicef/material-ui-currency-textfield';
 import { observer } from 'mobx-react';
 import { useSnackbar } from 'notistack';
 import React, { useEffect } from 'react';
+import Constants from '../../../Constants';
+import { CryptoModel } from '../../../Models/Crypto/Crypto.model';
 import BuyDialogStore from './Buy.dialog.store';
 import { withStylesBuyButton } from './Buy.dialog.styles';
 
@@ -32,6 +34,8 @@ const View: React.FC = observer(() => {
     enqueueSnackbar('Em desenvolvimento...');
   };
 
+  const crypto = CryptoModel.findByID(BuyDialogStore._crypto) ?? new CryptoModel();
+
   return (
     <Dialog onClose={onClose} open={BuyDialogStore.opened} maxWidth='xs' scroll='body'>
       <Box padding={3} display='flex' justifyContent='space-between' alignItems='center'>
@@ -53,7 +57,7 @@ const View: React.FC = observer(() => {
 
       <Box padding={3}>
         <BuyButton fullWidth size='large' variant='outlined' startIcon={<VerticalAlignBottomOutlined />} onClick={onClickBuy}>
-          Comprar
+          {`${TITLE} ${crypto.acronym === Constants.BITCOIN.acronym ? Constants.BITCOIN.name : Constants.BRITA.name}`}
         </BuyButton>
       </Box>
     </Dialog>
@@ -76,6 +80,7 @@ const InputCurrentCurrency: React.FC = observer(() => {
       currencySymbol=''
       decimalCharacter=','
       digitGroupSeparator='.'
+      autoFocus
       InputProps={{
         autoComplete: 'off',
         startAdornment: (
@@ -96,11 +101,14 @@ const InputCurrentCurrency: React.FC = observer(() => {
 });
 
 const InputCryptoCurrency: React.FC = observer(() => {
+  const crypto = CryptoModel.findByID(BuyDialogStore._crypto) ?? new CryptoModel();
+
   return (
     <NumberField
-      {...BuyDialogStore.inputCryptoCurrency}
+      value={BuyDialogStore.inputCryptoCurrency.value}
+      error={BuyDialogStore.inputCryptoCurrency.error}
       onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, value: string) => BuyDialogStore.onChangeInputCryptoCurrency(value)}
-      label='Valor em Bitcoin'
+      label={`Quantidade de ${crypto.name}`}
       name='crypto-currency'
       variant='outlined'
       margin='normal'
@@ -111,18 +119,32 @@ const InputCryptoCurrency: React.FC = observer(() => {
       currencySymbol=''
       decimalCharacter=','
       digitGroupSeparator='.'
+      helperText={
+        <>
+          <Box component={'span'} display='block'>
+            <Typography variant='caption' color='textSecondary' noWrap>
+              {BuyDialogStore.inputCryptoCurrency.helperText}
+            </Typography>
+          </Box>
+          <Box component={'span'} display='block'>
+            <Typography variant='caption' color='textSecondary' noWrap>
+              {BuyDialogStore.inputCryptoCurrencyHelperText}
+            </Typography>
+          </Box>
+        </>
+      }
       InputProps={{
         autoComplete: 'off',
         startAdornment: (
           <Box marginRight={1}>
             <Typography variant='button' color='textSecondary'>
-              BTC
+              {crypto.acronym}
             </Typography>
           </Box>
         ),
         endAdornment: (
           <InputAdornment position='end'>
-            <Avatar src='/assets/img/bitcoin.png' />
+            <Avatar src={`/assets/img/${crypto.icon}`} />
           </InputAdornment>
         ),
       }}

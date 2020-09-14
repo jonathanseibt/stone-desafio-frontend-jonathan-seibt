@@ -4,6 +4,7 @@ import React from 'react';
 import { CryptoModel } from '../../Models/Crypto/Crypto.model';
 import { UserWalletHistoryModel } from '../../Models/User/Wallet/History/UserWalletHistory.model';
 import SessionStore from '../../Session.store';
+import Format from '../../Utils/Format';
 import useStyles from './History.styles';
 
 export const URL = '/historico';
@@ -36,28 +37,24 @@ const View: React.FC = observer(() => {
 const List: React.FC = observer(() => {
   const styles = useStyles();
 
+  const user = SessionStore.getUser();
+
   return (
     <TableContainer>
       <Table>
         <TableHeader />
 
         <TableBody>
-          {!SessionStore.getUser().wallet.history.length ? (
+          {!user.wallet.history.length ? (
             <TableEmpty />
           ) : (
-            SessionStore.getUser().wallet.history.map((row, index) => {
-              const date = row.date.toLocaleDateString('pt-BR');
-              const time = row.date.toLocaleTimeString('pt-BR');
-              const icon = `/assets/img/${CryptoModel.findByID(row._crypto)?.icon}`;
-              const price = row.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
-              const quantity = row.quantity.toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 8 });
-              const balanceQuantity = row.balanceQuantity.toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 8 });
-              const balanceValue = row.balanceValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
+            user.wallet.history.map((row, index) => {
+              const crypto = CryptoModel.findByID(row._crypto) ?? new CryptoModel();
 
               return (
                 <TableRow
                   key={index}
-                  style={{ background: CryptoModel.findByID(row._crypto)?.backgroundStyle }}
+                  style={{ background: crypto.backgroundStyle }}
                   className={row.operation === UserWalletHistoryModel.OPERATION.BUY ? styles.rowBuy : styles.rowSell}>
                   <TableCell>
                     <Typography variant='button' className={row.operation === UserWalletHistoryModel.OPERATION.BUY ? styles.textBuy : styles.textSell}>
@@ -66,20 +63,20 @@ const List: React.FC = observer(() => {
                   </TableCell>
 
                   <TableCell>
-                    <Typography variant='h6'>{date}</Typography>
-                    <Typography variant='caption'>{time}</Typography>
+                    <Typography variant='h6'>{Format.date(row.date)}</Typography>
+                    <Typography variant='caption'>{Format.time(row.date)}</Typography>
                   </TableCell>
 
                   <TableCell>
                     <Box display='flex' alignItems='center'>
-                      <Avatar src={icon} />
+                      <Avatar src={`/assets/img/${crypto.icon}`} />
 
                       <Box paddingX={2} alignSelf='center'>
                         <Typography variant='h6' color='textPrimary'>
-                          {CryptoModel.findByID(row._crypto)?.acronym}
+                          {crypto.acronym}
                         </Typography>
                         <Typography variant='button' color='textSecondary'>
-                          {CryptoModel.findByID(row._crypto)?.name}
+                          {crypto.name}
                         </Typography>
                       </Box>
                     </Box>
@@ -87,19 +84,19 @@ const List: React.FC = observer(() => {
 
                   <TableCell align='right'>
                     <Typography variant='h6' align='right' className={row.operation === UserWalletHistoryModel.OPERATION.BUY ? styles.textBuy : styles.textSell}>
-                      {price}
+                      {Format.real(row.price)}
                     </Typography>
                     <Typography variant='button' color='textSecondary' align='right'>
-                      {quantity}
+                      {Format.decimal(row.quantity, 8)}
                     </Typography>
                   </TableCell>
 
                   <TableCell align='right'>
                     <Typography variant='h6' color='textPrimary' align='right'>
-                      {balanceQuantity}
+                      {Format.decimal(row.balanceQuantity, 8)}
                     </Typography>
                     <Typography variant='button' color='textSecondary' align='right'>
-                      {balanceValue}
+                      {Format.real(row.balanceValue)}
                     </Typography>
                   </TableCell>
                 </TableRow>
