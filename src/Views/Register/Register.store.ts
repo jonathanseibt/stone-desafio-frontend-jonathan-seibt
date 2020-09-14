@@ -1,5 +1,10 @@
 import { action, observable } from 'mobx';
+import { v4 as uuid } from 'uuid';
+import BrowserStore from '../../Browser.store';
 import { InputType } from '../../Components/Input/Input.type';
+import Constants from '../../Constants';
+import { UserModel } from '../../Models/User/User.model';
+import { UserWalletModel } from '../../Models/User/Wallet/UserWallet.model';
 
 class Store {
   @observable inputName: InputType = { value: '', helperText: '', error: false };
@@ -45,6 +50,15 @@ class Store {
       this.inputConfirmPassword.error = true;
 
       success = false;
+    }
+
+    if (success) {
+      if (this.inputPassword.value !== this.inputConfirmPassword.value) {
+        this.inputConfirmPassword.helperText = 'A senha não confere';
+        this.inputConfirmPassword.error = true;
+
+        success = false;
+      }
     }
 
     return success;
@@ -100,6 +114,36 @@ class Store {
   onChangeInputConfirmPassword = (value: string) => {
     this.clearInputConfirmPassword();
     this.inputConfirmPassword.value = value;
+  };
+
+  @action
+  register = (): boolean => {
+    const user = UserModel.findByEmail(this.inputEmail.value);
+
+    if (user) {
+      this.inputEmail.helperText = 'E-mail já cadastrado';
+      this.inputEmail.error = true;
+
+      return false;
+    }
+
+    const newWallet = new UserWalletModel();
+    newWallet.id = uuid();
+    newWallet.balance = Constants.NEW_USERS_GIFT_BALANCE;
+    newWallet.cryptos = [];
+    newWallet.history = [];
+
+    const newUser = new UserModel({
+      id: uuid(),
+      name: this.inputName.value,
+      email: this.inputEmail.value,
+      password: this.inputPassword.value,
+      wallet: newWallet,
+    });
+
+    BrowserStore.users.push(newUser);
+
+    return true;
   };
 }
 
