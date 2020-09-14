@@ -1,5 +1,6 @@
 import { action, observable } from 'mobx';
 import { InputType } from '../../Components/Input/Input.type';
+import { UserModel } from '../../Models/User/User.model';
 
 class Store {
   @observable inputEmail: InputType = { value: '', helperText: '', error: false };
@@ -34,6 +35,15 @@ class Store {
   onChangeInputEmail = (value: string) => {
     this.clearInputEmail();
     this.inputEmail.value = value;
+  };
+
+  @action
+  recover = (): boolean | string => {
+    const user = UserModel.findByEmail(this.inputEmail.value);
+
+    if (!user) return false;
+
+    return user.password;
   };
 }
 

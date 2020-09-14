@@ -24,7 +24,13 @@ const View: React.FC = observer(() => {
     event.preventDefault();
 
     if (ForgotPasswordStore.validateForm()) {
-      enqueueSnackbar('Em desenvolvimento...');
+      const result = ForgotPasswordStore.recover();
+
+      if (result) {
+        enqueueSnackbar(`Sua senha é: ${result}`, { variant: 'success' });
+      } else {
+        enqueueSnackbar('E-mail não cadastrado', { variant: 'error' });
+      }
     }
   };
 
