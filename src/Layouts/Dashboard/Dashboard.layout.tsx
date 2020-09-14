@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Box, Button, Container, Hidden, ListItemIcon, MenuItem, MenuList, Popover, Tab, Tabs, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Avatar, Box, Button, Container, Hidden, ListItemIcon, ListSubheader, MenuItem, MenuList, Popover, Tab, Tabs, Toolbar, Typography } from '@material-ui/core';
 import { ExitToAppOutlined } from '@material-ui/icons';
 import { observer } from 'mobx-react';
 import React from 'react';
@@ -140,7 +140,7 @@ const NavbarMenu: React.FC = observer(() => {
       <Button onClick={onClickMenu}>
         <Box paddingX={1} marginTop='1px'>
           <Typography component='h3' variant='button' align='right' className={styles.userText} noWrap>
-            Nome do usuário
+            {SessionStore.getUser().name}
           </Typography>
         </Box>
 
@@ -153,7 +153,7 @@ const NavbarMenu: React.FC = observer(() => {
         onClose={onCloseMenu}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}>
-        <MenuList>
+        <MenuList subheader={<ListSubheader>{SessionStore.getUser().email}</ListSubheader>}>
           <MenuItem onClick={onClickLogout}>
             <ListItemIcon>
               <ExitToAppOutlined fontSize='small' color='secondary' />

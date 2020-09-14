@@ -1,7 +1,8 @@
 import { Avatar, Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react';
-import React, { useEffect } from 'react';
-import HistoryStore from './History.store';
+import React from 'react';
+import { UserWalletHistoryModel } from '../../Models/User/Wallet/History/UserWalletHistory.model';
+import SessionStore from '../../Session.store';
 import useStyles from './History.styles';
 
 export const URL = '/historico';
@@ -9,8 +10,6 @@ export const TITLE = 'Histórico';
 export const SUBTITLE = 'Aqui você pode consultar o seu histórico de compra e venda de ativos';
 
 const HistoryView: React.FC = observer(() => {
-  useEffect(() => HistoryStore.load());
-
   return <View />;
 });
 
@@ -42,24 +41,26 @@ const List: React.FC = observer(() => {
         <TableHeader />
 
         <TableBody>
-          {!HistoryStore.data.length ? (
+          {!SessionStore.getUser().wallet.history.length ? (
             <TableEmpty />
           ) : (
-            HistoryStore.data.map((row, index) => {
-              const type = row.type === 'buy' ? 'Compra' : 'Venda';
-              const date = new Date().toLocaleDateString('pt-BR');
-              const time = new Date().toLocaleTimeString('pt-BR');
-              const icon = `/assets/img/${row.icon}`;
+            SessionStore.getUser().wallet.history.map((row, index) => {
+              const date = row.date.toLocaleDateString('pt-BR');
+              const time = row.date.toLocaleTimeString('pt-BR');
+              const icon = `/assets/img/${row.getCrypto().icon}`;
               const price = row.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
               const quantity = row.quantity.toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 8 });
-              const balanceQuantity = row.balance.quantity.toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 8 });
-              const balanceValue = row.balance.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
+              const balanceQuantity = row.balanceQuantity.toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 8 });
+              const balanceValue = row.balanceValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
 
               return (
-                <TableRow key={index} style={{ background: row.background }} className={row.type === 'buy' ? styles.rowBuy : styles.rowSell}>
+                <TableRow
+                  key={index}
+                  style={{ background: row.getCrypto().backgroundStyle }}
+                  className={row.operation === UserWalletHistoryModel.OPERATION.BUY ? styles.rowBuy : styles.rowSell}>
                   <TableCell>
-                    <Typography variant='button' className={row.type === 'buy' ? styles.textBuy : styles.textSell}>
-                      {type}
+                    <Typography variant='button' className={row.operation === UserWalletHistoryModel.OPERATION.BUY ? styles.textBuy : styles.textSell}>
+                      {row.operation === UserWalletHistoryModel.OPERATION.BUY ? 'Compra' : 'Venda'}
                     </Typography>
                   </TableCell>
 
@@ -74,17 +75,17 @@ const List: React.FC = observer(() => {
 
                       <Box paddingX={2} alignSelf='center'>
                         <Typography variant='h6' color='textPrimary'>
-                          {row.acronym}
+                          {row.getCrypto().acronym}
                         </Typography>
                         <Typography variant='button' color='textSecondary'>
-                          {row.coin}
+                          {row.getCrypto().name}
                         </Typography>
                       </Box>
                     </Box>
                   </TableCell>
 
                   <TableCell align='right'>
-                    <Typography variant='h6' align='right' className={row.type === 'buy' ? styles.textBuy : styles.textSell}>
+                    <Typography variant='h6' align='right' className={row.operation === UserWalletHistoryModel.OPERATION.BUY ? styles.textBuy : styles.textSell}>
                       {price}
                     </Typography>
                     <Typography variant='button' color='textSecondary' align='right'>

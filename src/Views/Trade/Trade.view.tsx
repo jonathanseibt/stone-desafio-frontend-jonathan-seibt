@@ -1,9 +1,11 @@
 import { Avatar, Box, Button, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
 import { SwapVertOutlined, SyncOutlined, VerticalAlignBottomOutlined, VerticalAlignTopOutlined } from '@material-ui/icons';
 import { AvatarGroup } from '@material-ui/lab';
+import _ from 'lodash';
 import { observer } from 'mobx-react';
-import { useSnackbar } from 'notistack';
-import React, { useEffect } from 'react';
+import React from 'react';
+import BrowserStore from '../../Browser.store';
+import SessionStore from '../../Session.store';
 import BuyDialog from './Buy/Buy.dialog';
 import BuyDialogStore from './Buy/Buy.dialog.store';
 import SellDialog from './Sell/Sell.dialog';
@@ -18,8 +20,6 @@ export const TITLE = 'Negociar';
 export const SUBTITLE = 'Aqui você pode comprar, vender e trocar ativos';
 
 const TradeView: React.FC = observer(() => {
-  useEffect(() => TradeStore.load());
-
   return (
     <>
       <View />
@@ -31,10 +31,8 @@ const TradeView: React.FC = observer(() => {
 });
 
 const View: React.FC = observer(() => {
-  const { enqueueSnackbar } = useSnackbar();
-
   const onClickSync = () => {
-    enqueueSnackbar('Em desenvolvimento...');
+    TradeStore.sync();
   };
 
   return (
@@ -84,19 +82,31 @@ const List: React.FC = observer(() => {
         <TableHeader />
 
         <TableBody>
-          {!TradeStore.data.length ? (
+          {!BrowserStore.cryptos.length ? (
             <TableEmpty />
           ) : (
             <>
-              {TradeStore.data.map((row, index) => {
+              {_.sortBy(BrowserStore.cryptos, ['name']).map((row, index) => {
                 const icon = `/assets/img/${row.icon}`;
-                const price = row.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
-                const status = row.status === 'up' ? 'subiu' : 'caiu';
-                const balanceQuantity = row.balance.quantity.toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 8 });
-                const balanceValue = row.balance.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
+                const priceBuy = row.priceBuy.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
+                const priceSell = row.priceSell.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
+                const balanceQuantity = SessionStore.getUser()
+                  .wallet.cryptos.find((crypto) => (crypto._crypto = row.id))
+                  ?.quantity.toLocaleString('pt-BR', {
+                    style: 'decimal',
+                    minimumFractionDigits: 8,
+                  });
+                const balanceValue = SessionStore.getUser()
+                  .wallet.cryptos.find((crypto) => (crypto._crypto = row.id))
+                  ?.getBalance()
+                  .toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                    minimumFractionDigits: 2,
+                  });
 
                 return (
-                  <TableRow key={index} style={{ background: row.background }}>
+                  <TableRow key={index} style={{ background: row.backgroundStyle }}>
                     <TableCell>
                       <Box display='flex' alignItems='center'>
                         <Avatar src={icon} />
@@ -106,7 +116,7 @@ const List: React.FC = observer(() => {
                             {row.acronym}
                           </Typography>
                           <Typography variant='button' color='textSecondary'>
-                            {row.coin}
+                            {row.name}
                           </Typography>
                         </Box>
                       </Box>
@@ -114,19 +124,19 @@ const List: React.FC = observer(() => {
 
                     <TableCell align='right'>
                       <Typography variant='h6' align='right' className={styles.buy}>
-                        {price}
+                        {priceBuy}
                       </Typography>
-                      <Typography variant='caption' className={row.status === 'up' ? styles.up : styles.down}>
-                        {status}
+                      <Typography variant='caption' className={row.priceBuy > row.lastPriceBuy ? styles.up : styles.down}>
+                        {row.priceBuy > row.lastPriceBuy ? 'subiu' : 'caiu'}
                       </Typography>
                     </TableCell>
 
                     <TableCell align='right'>
                       <Typography variant='h6' align='right' className={styles.sell}>
-                        {price}
+                        {priceSell}
                       </Typography>
-                      <Typography variant='caption' className={row.status === 'up' ? styles.up : styles.down}>
-                        {status}
+                      <Typography variant='caption' className={row.priceSell > row.lastPriceSell ? styles.up : styles.down}>
+                        {row.priceSell > row.lastPriceSell ? 'subiu' : 'caiu'}
                       </Typography>
                     </TableCell>
 
