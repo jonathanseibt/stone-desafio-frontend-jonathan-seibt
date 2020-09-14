@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Dialog, DialogContent, IconButton, InputAdornment, Typography } from '@material-ui/core';
-import { CloseOutlined, VerticalAlignBottomOutlined } from '@material-ui/icons';
+import { CloseOutlined, VerticalAlignTopOutlined } from '@material-ui/icons';
 import NumberField from '@unicef/material-ui-currency-textfield';
 import { observer } from 'mobx-react';
 import { useSnackbar } from 'notistack';
@@ -56,7 +56,7 @@ const View: React.FC = observer(() => {
       </DialogContent>
 
       <Box padding={3}>
-        <SellButton fullWidth size='large' variant='outlined' startIcon={<VerticalAlignBottomOutlined />} onClick={onClickSell}>
+        <SellButton fullWidth size='large' variant='outlined' startIcon={<VerticalAlignTopOutlined />} onClick={onClickSell}>
           {`${TITLE} ${crypto.acronym === Constants.BITCOIN.acronym ? Constants.BITCOIN.name : Constants.BRITA.name}`}
         </SellButton>
       </Box>
