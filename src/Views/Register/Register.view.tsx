@@ -10,7 +10,7 @@ import { URL as LOGIN_VIEW_URL } from '../Login/Login.view';
 import { URL as WALLET_VIEW_URL } from '../Wallet/Wallet.view';
 import RegisterStore from './Register.store';
 
-export const URL = '/register';
+export const URL = '/cadastrar';
 export const TITLE = 'Nova conta';
 
 const RegisterView: React.FC = observer(() => {

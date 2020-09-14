@@ -8,7 +8,7 @@ import { URL as REGISTER_VIEW_URL } from '../Register/Register.view';
 import { URL as WALLET_VIEW_URL } from '../Wallet/Wallet.view';
 import LoginStore from './Login.store';
 
-export const URL = '/login';
+export const URL = '/acessar';
 export const TITLE = 'Acessar';
 
 const LoginView: React.FC = observer(() => {

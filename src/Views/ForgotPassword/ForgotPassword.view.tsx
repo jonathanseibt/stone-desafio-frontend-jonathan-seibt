@@ -7,8 +7,8 @@ import { URL as LOGIN_VIEW_URL } from '../Login/Login.view';
 import { URL as REGISTER_VIEW_URL } from '../Register/Register.view';
 import ForgotPasswordStore from './ForgotPassword.store';
 
-export const URL = '/forgot-password';
-export const TITLE = 'Recuperar a senha';
+export const URL = '/recuperar-senha';
+export const TITLE = 'Recuperar senha';
 
 const ForgotPasswordView: React.FC = observer(() => {
   useEffect(() => ForgotPasswordStore.load());
