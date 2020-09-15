@@ -14,7 +14,7 @@ import WalletView, { TITLE as WALLET_VIEW_TITLE, URL as WALLET_VIEW_URL } from '
 
 const Router: React.FC = observer(() => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       {BrowserStore.hydrated && (
         <Switch>
           <Route exact path='/'>
