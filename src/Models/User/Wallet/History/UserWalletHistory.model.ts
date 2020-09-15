@@ -6,8 +6,7 @@ export class UserWalletHistoryModel {
   date = new Date();
   price = 0;
   quantity = 0;
-  balanceQuantity = 0;
-  balanceValue = 0;
+  balance = 0;
   acronym = '';
 
   static OPERATION = { BUY: BUY as typeof BUY, SELL: SELL as typeof SELL };
@@ -19,8 +18,7 @@ export class UserWalletHistoryModel {
     this.date = userWalletHistory.date;
     this.price = userWalletHistory.price;
     this.quantity = userWalletHistory.quantity;
-    this.balanceQuantity = userWalletHistory.balanceQuantity;
-    this.balanceValue = userWalletHistory.balanceValue;
+    this.balance = userWalletHistory.balance;
     this.acronym = userWalletHistory.acronym;
   }
 }
