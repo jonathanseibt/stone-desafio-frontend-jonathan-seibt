@@ -1,5 +1,4 @@
 import { action, computed, observable } from 'mobx';
-import { v4 as uuid } from 'uuid';
 import { InputType } from '../../../Components/Input/Input.type';
 import { CryptoModel } from '../../../Models/Crypto/Crypto.model';
 import { UserModel } from '../../../Models/User/User.model';
@@ -8,7 +7,7 @@ import SessionStore from '../../../Session.store';
 import Convert from '../../../Utils/Convert';
 
 class Store {
-  @observable _crypto = '';
+  @observable acronym = '';
   @observable opened = false;
   @observable inputCurrentCurrency: InputType = { value: '', helperText: '', error: false };
   @observable inputCryptoCurrency: InputType = { value: '', helperText: '', error: false };
@@ -23,8 +22,8 @@ class Store {
   };
 
   @action
-  open = (_crypto: string) => {
-    this._crypto = _crypto;
+  open = (acronym: string) => {
+    this.acronym = acronym;
 
     this.load();
 
@@ -121,26 +120,27 @@ class Store {
   buy = () => {
     const user = SessionStore.getUser();
 
-    if (user.wallet.cryptos.find((crypto) => crypto._crypto === this._crypto)) {
-      const index = user.wallet.cryptos.findIndex((crypto) => crypto._crypto === this._crypto);
+    const crypto = user.wallet.cryptos.find((crypto) => crypto.acronym === this.acronym);
+
+    if (crypto) {
+      const index = user.wallet.cryptos.findIndex((crypto) => crypto.acronym === this.acronym);
       user.wallet.cryptos[index].quantity += Number(this.inputCryptoCurrency.value);
     } else {
       user.wallet.cryptos.push(
         new UserWalletCryptoModel({
-          id: uuid(),
           quantity: Number(this.inputCryptoCurrency.value),
-          _crypto: this._crypto,
+          acronym: this.acronym,
         }),
       );
     }
 
     user.wallet.balance -= Number(this.inputCurrentCurrency.value);
 
-    UserModel.updateByID(user.id, user);
+    UserModel.updateByEmail(user.email, user);
   };
 
   @computed get getCrypto(): CryptoModel {
-    return CryptoModel.findByID(this._crypto) ?? new CryptoModel();
+    return CryptoModel.findByAcronym(this.acronym) ?? new CryptoModel();
   }
 
   @computed get getUserWalletBalance(): number {
@@ -148,7 +148,7 @@ class Store {
   }
 
   @computed get getUserWalletCryptoBalance(): number {
-    return SessionStore.getUser().wallet.cryptos.find((crypto) => (crypto._crypto = this._crypto))?.quantity ?? 0;
+    return SessionStore.getUser().wallet.cryptos.find((crypto) => crypto.acronym === this.acronym)?.quantity ?? 0;
   }
 
   @computed get getCryptoPriceBuy(): number {

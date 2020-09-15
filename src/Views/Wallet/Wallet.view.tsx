@@ -72,7 +72,7 @@ const Cryptos: React.FC = observer(() => {
       <Box marginTop={2} marginBottom={2}>
         <Grid container spacing={3}>
           {user.wallet.cryptos.map((row, index) => {
-            const crypto = CryptoModel.findByID(row._crypto) ?? new CryptoModel();
+            const crypto = CryptoModel.findByAcronym(row.acronym) ?? new CryptoModel();
 
             return (
               <Grid key={index} item xs={12} lg={4}>

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { v4 as uuid } from 'uuid';
 import Constants from '../Constants';
 import { CryptoModel } from '../Models/Crypto/Crypto.model';
 
@@ -22,7 +21,6 @@ class BitcoinScheduler {
 
     if (!crypto) {
       crypto = new CryptoModel({
-        id: uuid(),
         name: Constants.BITCOIN.name,
         acronym: Constants.BITCOIN.acronym,
         icon: Constants.BITCOIN.icon,

@@ -3,18 +3,18 @@ import { persist } from 'mobx-persist';
 import { UserModel } from './Models/User/User.model';
 
 class SessionStore {
-  @persist @observable _user: string = '';
+  @persist @observable email: string = '';
 
   isAuthenticated = (): boolean => {
-    return !!this._user;
+    return !!this.email;
   };
 
   unauthenticate = () => {
-    this._user = '';
+    this.email = '';
   };
 
   getUser = (): UserModel => {
-    return UserModel.findByID(this._user) ?? new UserModel();
+    return UserModel.findByEmail(this.email) ?? new UserModel();
   };
 }
 

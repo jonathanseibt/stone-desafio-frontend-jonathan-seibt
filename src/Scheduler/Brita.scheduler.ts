@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { v4 as uuid } from 'uuid';
 import Constants from '../Constants';
 import { CryptoModel } from '../Models/Crypto/Crypto.model';
 
@@ -22,7 +21,6 @@ class BritaScheduler {
 
     if (!crypto) {
       crypto = new CryptoModel({
-        id: uuid(),
         name: Constants.BRITA.name,
         acronym: Constants.BRITA.acronym,
         icon: Constants.BRITA.icon,

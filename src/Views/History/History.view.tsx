@@ -49,7 +49,7 @@ const List: React.FC = observer(() => {
             <TableEmpty />
           ) : (
             user.wallet.history.map((row, index) => {
-              const crypto = CryptoModel.findByID(row._crypto) ?? new CryptoModel();
+              const crypto = CryptoModel.findByAcronym(row.acronym) ?? new CryptoModel();
 
               return (
                 <TableRow

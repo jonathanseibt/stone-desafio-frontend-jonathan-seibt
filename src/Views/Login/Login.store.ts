@@ -65,7 +65,7 @@ class Store {
     const user = UserModel.findByEmailAndPassword(this.inputEmail.value, this.inputPassword.value);
 
     if (user) {
-      SessionStore._user = user.id;
+      SessionStore.email = user.email;
 
       return true;
     }

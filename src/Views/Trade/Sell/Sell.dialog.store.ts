@@ -5,7 +5,7 @@ import SessionStore from '../../../Session.store';
 import Convert from '../../../Utils/Convert';
 
 class Store {
-  @observable _crypto = '';
+  @observable acronym = '';
   @observable opened = false;
   @observable inputCryptoCurrency: InputType = { value: '', helperText: '', error: false };
   @observable inputCurrentCurrency: InputType = { value: '', helperText: '', error: false };
@@ -20,8 +20,8 @@ class Store {
   };
 
   @action
-  open = (_crypto: string) => {
-    this._crypto = _crypto;
+  open = (acronym: string) => {
+    this.acronym = acronym;
 
     this.load();
 
@@ -120,7 +120,7 @@ class Store {
   };
 
   @computed get getCrypto(): CryptoModel {
-    return CryptoModel.findByID(this._crypto) ?? new CryptoModel();
+    return CryptoModel.findByAcronym(this.acronym) ?? new CryptoModel();
   }
 
   @computed get getUserWalletBalance(): number {
@@ -128,7 +128,7 @@ class Store {
   }
 
   @computed get getUserWalletCryptoBalance(): number {
-    return SessionStore.getUser().wallet.cryptos.find((crypto) => (crypto._crypto = this._crypto))?.quantity ?? 0;
+    return SessionStore.getUser().wallet.cryptos.find((crypto) => crypto.acronym === this.acronym)?.quantity ?? 0;
   }
 
   @computed get getCryptoPriceSell(): number {

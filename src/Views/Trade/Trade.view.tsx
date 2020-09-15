@@ -65,16 +65,16 @@ const List: React.FC = observer(() => {
   const SellButton = withStylesSellButton(Button);
   const SwapButton = withStylesSwapButton(Button);
 
-  const onClickBuy = (_crypto: string) => {
-    BuyDialogStore.open(_crypto);
+  const onClickBuy = (acronym: string) => {
+    BuyDialogStore.open(acronym);
   };
 
-  const onClickSell = (_crypto: string) => {
-    SellDialogStore.open(_crypto);
+  const onClickSell = (acronym: string) => {
+    SellDialogStore.open(acronym);
   };
 
-  const onClickSwap = (_crypto: string) => {
-    SwapDialogStore.open(_crypto);
+  const onClickSwap = (acronym: string) => {
+    SwapDialogStore.open(acronym);
   };
 
   return (
@@ -88,7 +88,7 @@ const List: React.FC = observer(() => {
           ) : (
             <>
               {_.sortBy(BrowserStore.cryptos, ['name']).map((row, index) => {
-                const balance = SessionStore.getUser().wallet.cryptos.find((crypto) => crypto._crypto === row.id)?.quantity ?? 0;
+                const balance = SessionStore.getUser().wallet.cryptos.find((crypto) => crypto.acronym === row.acronym)?.quantity ?? 0;
 
                 return (
                   <TableRow key={index} style={{ background: row.backgroundStyle }}>
@@ -132,19 +132,19 @@ const List: React.FC = observer(() => {
                     </TableCell>
 
                     <TableCell align='right'>
-                      <BuyButton fullWidth size='large' variant='outlined' startIcon={<VerticalAlignBottomOutlined />} onClick={() => onClickBuy(row.id)}>
+                      <BuyButton fullWidth size='large' variant='outlined' startIcon={<VerticalAlignBottomOutlined />} onClick={() => onClickBuy(row.acronym)}>
                         Comprar
                       </BuyButton>
                     </TableCell>
 
                     <TableCell align='right' padding='none'>
-                      <SellButton fullWidth size='large' variant='outlined' startIcon={<VerticalAlignTopOutlined />} onClick={() => onClickSell(row.id)}>
+                      <SellButton fullWidth size='large' variant='outlined' startIcon={<VerticalAlignTopOutlined />} onClick={() => onClickSell(row.acronym)}>
                         Vender
                       </SellButton>
                     </TableCell>
 
                     <TableCell align='right'>
-                      <SwapButton fullWidth size='large' variant='outlined' startIcon={<SwapVertOutlined />} onClick={() => onClickSwap(row.id)}>
+                      <SwapButton fullWidth size='large' variant='outlined' startIcon={<SwapVertOutlined />} onClick={() => onClickSwap(row.acronym)}>
                         Trocar
                       </SwapButton>
                     </TableCell>

@@ -1,5 +1,4 @@
 import { action, observable } from 'mobx';
-import { v4 as uuid } from 'uuid';
 import BrowserStore from '../../Browser.store';
 import { InputType } from '../../Components/Input/Input.type';
 import Constants from '../../Constants';
@@ -128,14 +127,12 @@ class Store {
     }
 
     const newWallet = new UserWalletModel({
-      id: uuid(),
       balance: Constants.NEW_USERS_GIFT_BALANCE,
       cryptos: [],
       history: [],
     });
 
     const newUser = new UserModel({
-      id: uuid(),
       name: this.inputName.value,
       email: this.inputEmail.value,
       password: this.inputPassword.value,

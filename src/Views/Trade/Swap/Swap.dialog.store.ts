@@ -6,7 +6,7 @@ import SessionStore from '../../../Session.store';
 import Convert from '../../../Utils/Convert';
 
 class Store {
-  @observable _crypto = '';
+  @observable acronym = '';
   @observable opened = false;
   @observable inputCryptoCurrencyBitcoin: InputType = { value: '', helperText: '', error: false };
   @observable inputCryptoCurrencyBrita: InputType = { value: '', helperText: '', error: false };
@@ -34,8 +34,8 @@ class Store {
   };
 
   @action
-  open = (_crypto: string) => {
-    this._crypto = _crypto;
+  open = (acronym: string) => {
+    this.acronym = acronym;
 
     this.load();
 
@@ -163,7 +163,7 @@ class Store {
   };
 
   @computed get getCrypto(): CryptoModel {
-    return CryptoModel.findByID(this._crypto) ?? new CryptoModel();
+    return CryptoModel.findByAcronym(this.acronym) ?? new CryptoModel();
   }
 
   @computed get getBitcoin(): CryptoModel {
@@ -183,11 +183,11 @@ class Store {
   }
 
   @computed get getUserWalletBitcoinBalance(): number {
-    return SessionStore.getUser().wallet.cryptos.find((crypto) => (crypto._crypto = this.getBitcoin.id))?.quantity ?? 0;
+    return SessionStore.getUser().wallet.cryptos.find((crypto) => crypto.acronym === this.getBitcoin.acronym)?.quantity ?? 0;
   }
 
   @computed get getUserWalletBritaBalance(): number {
-    return SessionStore.getUser().wallet.cryptos.find((crypto) => (crypto._crypto = this.getBrita.id))?.quantity ?? 0;
+    return SessionStore.getUser().wallet.cryptos.find((crypto) => crypto.acronym === this.getBrita.acronym)?.quantity ?? 0;
   }
 
   @computed get getBitcoinPriceBuy(): number {

@@ -1,7 +1,6 @@
 import BrowserStore from '../../Browser.store';
 
 export class CryptoModel {
-  id = '';
   name = '';
   acronym = '';
   icon = '';
@@ -14,7 +13,6 @@ export class CryptoModel {
   constructor(crypto?: CryptoModel) {
     if (!crypto) return;
 
-    this.id = crypto.id;
     this.name = crypto.name;
     this.acronym = crypto.acronym;
     this.icon = crypto.icon;
@@ -24,10 +22,6 @@ export class CryptoModel {
     this.lastPriceSell = crypto.lastPriceSell;
     this.backgroundStyle = crypto.backgroundStyle;
   }
-
-  static findByID = (id: string) => {
-    return BrowserStore.cryptos.find((crypto) => crypto.id === id);
-  };
 
   static findByAcronym = (acronym: string) => {
     return BrowserStore.cryptos.find((crypto) => crypto.acronym === acronym);
