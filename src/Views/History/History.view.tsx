@@ -84,7 +84,7 @@ const List: React.FC = observer(() => {
 
                   <TableCell align='right'>
                     <Typography variant='h6' align='right' className={row.operation === UserWalletHistoryModel.OPERATION.BUY ? styles.textBuy : styles.textSell}>
-                      {Format.real(row.price)}
+                      {Format.currency(row.price)}
                     </Typography>
                     <Typography variant='button' color='textSecondary' align='right'>
                       {Format.decimal(row.quantity)}
@@ -96,7 +96,7 @@ const List: React.FC = observer(() => {
                       {Format.decimal(row.balanceQuantity)}
                     </Typography>
                     <Typography variant='button' color='textSecondary' align='right'>
-                      {Format.real(row.balanceValue)}
+                      {Format.currency(row.balanceValue)}
                     </Typography>
                   </TableCell>
                 </TableRow>

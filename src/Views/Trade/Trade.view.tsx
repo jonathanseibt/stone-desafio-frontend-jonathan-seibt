@@ -109,7 +109,7 @@ const List: React.FC = observer(() => {
 
                     <TableCell align='right'>
                       <Typography variant='h6' align='right' className={styles.buy}>
-                        {Format.real(row.priceBuy)}
+                        {Format.currency(row.priceBuy)}
                       </Typography>
                       <Typography variant='caption' className={row.priceBuy > row.lastPriceBuy ? styles.up : styles.down}>
                         {row.priceBuy > row.lastPriceBuy ? 'subiu' : 'caiu'}
@@ -118,7 +118,7 @@ const List: React.FC = observer(() => {
 
                     <TableCell align='right'>
                       <Typography variant='h6' align='right' className={styles.sell}>
-                        {Format.real(row.priceSell)}
+                        {Format.currency(row.priceSell)}
                       </Typography>
                       <Typography variant='caption' className={row.priceSell > row.lastPriceSell ? styles.up : styles.down}>
                         {row.priceSell > row.lastPriceSell ? 'subiu' : 'caiu'}

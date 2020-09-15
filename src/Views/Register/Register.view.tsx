@@ -36,7 +36,7 @@ const View: React.FC = observer(() => {
         if (LoginStore.login()) {
           const balance = SessionStore.getUser().wallet.balance;
 
-          enqueueSnackbar(`Seja muito bem-vindo! Como presente de boas-vindas, você já inicia com ${Format.real(balance)}!`, { variant: 'success' });
+          enqueueSnackbar(`Seja muito bem-vindo! Como presente de boas-vindas, você já inicia com ${Format.currency(balance, 2)}!`, { variant: 'success' });
 
           history.push(WALLET_VIEW_URL);
         }

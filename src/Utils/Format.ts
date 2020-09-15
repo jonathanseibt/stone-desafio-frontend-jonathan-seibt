@@ -2,10 +2,11 @@ class Format {
   static LOCALE = 'pt-BR';
   static CURRENCY = 'BRL';
 
-  static real = (value: number | undefined): string => {
+  static currency = (value: number | undefined, digits?: number): string => {
     value = value ? Number(value) : 0;
+    digits = digits ? Number(digits) : 4;
 
-    return value.toLocaleString(Format.LOCALE, { style: 'currency', currency: Format.CURRENCY, minimumFractionDigits: 2 });
+    return value.toLocaleString(Format.LOCALE, { style: 'currency', currency: Format.CURRENCY, minimumFractionDigits: digits });
   };
 
   static decimal = (value: number | undefined, digits?: number): string => {

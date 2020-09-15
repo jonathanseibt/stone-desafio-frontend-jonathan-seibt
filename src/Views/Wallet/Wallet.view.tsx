@@ -36,7 +36,7 @@ const Header: React.FC = observer(() => {
             </Typography>
 
             <Typography component='h2' variant='h4' className={styles.balance} noWrap>
-              {Format.real(user.wallet.balance)}
+              {Format.currency(user.wallet.balance, 2)}
             </Typography>
           </Box>
         </Box>

@@ -98,7 +98,7 @@ const InputCurrentCurrency: React.FC = observer(() => {
 
           <Box component={'span'} display='block'>
             <Typography variant='caption' color='textSecondary' noWrap>
-              {`Saldo disponível: ${Format.real(BuyDialogStore.getUserWalletBalance)}`}
+              {`Saldo disponível: ${Format.currency(BuyDialogStore.getUserWalletBalance, 2)}`}
             </Typography>
           </Box>
         </>
@@ -151,13 +151,13 @@ const InputCryptoCurrency: React.FC = observer(() => {
 
           <Box component={'span'} display='block'>
             <Typography variant='caption' color='textSecondary' noWrap>
-              {`Saldo atual: ${Format.real(BuyDialogStore.getUserWalletCryptoBalance)}`}
+              {`Saldo atual: ${Format.currency(BuyDialogStore.getUserWalletCryptoBalance)}`}
             </Typography>
           </Box>
 
           <Box component={'span'} display='block'>
             <Typography variant='caption' color='textSecondary' noWrap>
-              {`Preço de compra: ${Format.real(BuyDialogStore.getCrypto.priceBuy)}`}
+              {`Preço de compra: ${Format.currency(BuyDialogStore.getCrypto.priceBuy)}`}
             </Typography>
           </Box>
         </>

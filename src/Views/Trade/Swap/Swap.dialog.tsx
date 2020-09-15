@@ -92,9 +92,9 @@ const InputCryptoCurrencyBitcoin: React.FC<InputProps> = observer((props) => {
 
   const getCaptionPrice = () => {
     if (SwapDialogStore.isBitcoin) {
-      return `Preço de venda: ${Format.real(SwapDialogStore.getBitcoinPriceSell)}`;
+      return `Preço de venda: ${Format.currency(SwapDialogStore.getBitcoinPriceSell, 2)}`;
     } else {
-      return `Preço de compra: ${Format.real(SwapDialogStore.getBitcoinPriceBuy)}`;
+      return `Preço de compra: ${Format.currency(SwapDialogStore.getBitcoinPriceBuy, 2)}`;
     }
   };
 
@@ -168,9 +168,9 @@ const InputCryptoCurrencyBrita: React.FC<InputProps> = observer((props) => {
 
   const getCaptionPrice = () => {
     if (SwapDialogStore.isBrita) {
-      return `Preço de venda: ${Format.real(SwapDialogStore.getBritaPriceSell)}`;
+      return `Preço de venda: ${Format.currency(SwapDialogStore.getBritaPriceSell, 2)}`;
     } else {
-      return `Preço de compra: ${Format.real(SwapDialogStore.getBritaPriceBuy)}`;
+      return `Preço de compra: ${Format.currency(SwapDialogStore.getBritaPriceBuy, 2)}`;
     }
   };
 
