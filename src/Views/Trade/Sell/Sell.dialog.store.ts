@@ -1,6 +1,7 @@
 import { action, computed, observable } from 'mobx';
 import { InputType } from '../../../Components/Input/Input.type';
 import { CryptoModel } from '../../../Models/Crypto/Crypto.model';
+import { UserModel } from '../../../Models/User/User.model';
 import SessionStore from '../../../Session.store';
 import Convert from '../../../Utils/Convert';
 
@@ -115,8 +116,15 @@ class Store {
   };
 
   @action
-  sell = (): boolean => {
-    return true;
+  sell = () => {
+    const user = SessionStore.getUser();
+
+    const index = user.wallet.cryptos.findIndex((crypto) => crypto.acronym === this.acronym);
+    user.wallet.cryptos[index].quantity -= Number(this.inputCryptoCurrency.value);
+
+    user.wallet.balance += Number(this.inputCurrentCurrency.value);
+
+    UserModel.updateByEmail(user.email, user);
   };
 
   @computed get getCrypto(): CryptoModel {
