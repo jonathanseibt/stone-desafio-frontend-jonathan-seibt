@@ -29,8 +29,6 @@ jobs:
         run: npm run eslint
       - name: prettier
         run: npm run prettier
-      - name: test
-        run: npm test
       - name: build
         run: npm run build
       - name: deploy
