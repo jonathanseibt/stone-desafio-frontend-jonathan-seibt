@@ -17,11 +17,11 @@ class Format {
   };
 
   static date = (value: Date): string => {
-    return value ? value.toLocaleDateString(Format.LOCALE) : '';
+    return value ? new Date(value).toLocaleDateString(Format.LOCALE) : '';
   };
 
   static time = (value: Date): string => {
-    return value ? value.toLocaleTimeString(Format.LOCALE) : '';
+    return value ? new Date(value).toLocaleTimeString(Format.LOCALE) : '';
   };
 }
 
