@@ -30,7 +30,7 @@ export class UserWalletHistoryModel {
   static register = (operation: typeof BUY | typeof SELL, acronym: string, value: number, price: number, balanceWallet: number, balanceCrypto: number) => {
     const user = SessionStore.getUser();
 
-    user.wallet.history.push(
+    user.wallet.history.unshift(
       new UserWalletHistoryModel({
         operation: operation,
         date: new Date(),
