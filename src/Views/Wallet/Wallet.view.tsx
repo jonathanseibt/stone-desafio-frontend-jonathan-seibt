@@ -1,5 +1,6 @@
 import { Avatar, Box, CardActionArea, Grid, Hidden, Paper, Typography } from '@material-ui/core';
 import { AvatarGroup } from '@material-ui/lab';
+import _ from 'lodash';
 import { observer } from 'mobx-react';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
@@ -60,7 +61,7 @@ const Header: React.FC = observer(() => {
 const Cryptos: React.FC = observer(() => {
   const styles = useStyles();
 
-  const cryptos = SessionStore.getUser().wallet.cryptos;
+  const cryptos = _.sortBy(SessionStore.getUser().wallet.cryptos, ['name']);
 
   return (
     <>
@@ -115,6 +116,9 @@ const SeeMore: React.FC = observer(() => {
   const styles = useStyles();
 
   const cryptos = SessionStore.getUser().wallet.cryptos;
+
+  const color = !!cryptos.length ? 'textSecondary' : 'secondary';
+  const text = !!cryptos.length ? 'Ver mais...' : 'Negociar agora!';
 
   const onClickMore = () => {
     history.push(TRADE_VIEW_URL);
