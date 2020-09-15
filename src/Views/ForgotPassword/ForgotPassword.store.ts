@@ -1,5 +1,6 @@
 import { action, observable } from 'mobx';
 import { InputType } from '../../Components/Input/Input.type';
+import Constants from '../../Constants';
 import { UserModel } from '../../Models/User/User.model';
 
 class Store {
@@ -15,7 +16,7 @@ class Store {
     let success = true;
 
     if (!this.inputEmail.value) {
-      this.inputEmail.helperText = 'É necessário informar o seu e-mail';
+      this.inputEmail.helperText = Constants.MESSAGE_REQUIRED;
       this.inputEmail.error = true;
 
       success = false;

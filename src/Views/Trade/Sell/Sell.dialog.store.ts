@@ -1,5 +1,6 @@
 import { action, computed, observable } from 'mobx';
 import { InputType } from '../../../Components/Input/Input.type';
+import Constants from '../../../Constants';
 import { CryptoModel } from '../../../Models/Crypto/Crypto.model';
 import { UserModel } from '../../../Models/User/User.model';
 import { UserWalletHistoryModel } from '../../../Models/User/Wallet/History/UserWalletHistory.model';
@@ -35,13 +36,13 @@ class Store {
     let success = true;
 
     if (!this.inputCryptoCurrency.value) {
-      this.inputCryptoCurrency.helperText = 'É necessário informar o valor';
+      this.inputCryptoCurrency.helperText = Constants.MESSAGE_REQUIRED;
       this.inputCryptoCurrency.error = true;
 
       success = false;
     } else {
       if (Number(this.inputCryptoCurrency.value) <= 0) {
-        this.inputCryptoCurrency.helperText = 'É necessário informar um valor maior que 0 (zero)';
+        this.inputCryptoCurrency.helperText = Constants.MESSAGE_GREATER_THAN_ZERO;
         this.inputCryptoCurrency.error = true;
 
         success = false;
@@ -49,13 +50,13 @@ class Store {
     }
 
     if (!this.inputCurrentCurrency.value) {
-      this.inputCurrentCurrency.helperText = 'É necessário informar o valor';
+      this.inputCurrentCurrency.helperText = Constants.MESSAGE_REQUIRED;
       this.inputCurrentCurrency.error = true;
 
       success = false;
     } else {
       if (Number(this.inputCurrentCurrency.value) <= 0) {
-        this.inputCurrentCurrency.helperText = 'É necessário informar um valor maior que 0 (zero)';
+        this.inputCurrentCurrency.helperText = Constants.MESSAGE_GREATER_THAN_ZERO;
         this.inputCurrentCurrency.error = true;
 
         success = false;
@@ -64,7 +65,7 @@ class Store {
 
     if (success) {
       if (Number(this.inputCryptoCurrency.value) > this.getUserWalletCryptoBalance) {
-        this.inputCryptoCurrency.helperText = 'Valor acima do saldo disponível';
+        this.inputCryptoCurrency.helperText = Constants.MESSAGE_ABOVE_BALANCE;
         this.inputCryptoCurrency.error = true;
 
         success = false;
@@ -90,7 +91,7 @@ class Store {
     this.inputCurrentCurrency.value = String(Convert.cryptoToReal(this.getCryptoPriceSell, Number(this.inputCryptoCurrency.value)));
 
     if (Number(this.inputCryptoCurrency.value) > this.getUserWalletCryptoBalance) {
-      this.inputCryptoCurrency.helperText = 'Valor acima do saldo disponível';
+      this.inputCryptoCurrency.helperText = Constants.MESSAGE_ABOVE_BALANCE;
       this.inputCryptoCurrency.error = true;
     }
   };
@@ -111,7 +112,7 @@ class Store {
     this.inputCryptoCurrency.value = String(Convert.realToCrypto(this.getCryptoPriceSell, Number(this.inputCurrentCurrency.value)));
 
     if (Number(this.inputCryptoCurrency.value) > this.getUserWalletCryptoBalance) {
-      this.inputCryptoCurrency.helperText = 'Valor acima do saldo disponível';
+      this.inputCryptoCurrency.helperText = Constants.MESSAGE_ABOVE_BALANCE;
       this.inputCryptoCurrency.error = true;
     }
   };

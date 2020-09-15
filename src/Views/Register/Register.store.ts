@@ -24,28 +24,28 @@ class Store {
     let success = true;
 
     if (!this.inputName.value) {
-      this.inputName.helperText = 'É necessário informar o seu nome';
+      this.inputName.helperText = Constants.MESSAGE_REQUIRED;
       this.inputName.error = true;
 
       success = false;
     }
 
     if (!this.inputEmail.value) {
-      this.inputEmail.helperText = 'É necessário informar o seu e-mail';
+      this.inputEmail.helperText = Constants.MESSAGE_REQUIRED;
       this.inputEmail.error = true;
 
       success = false;
     }
 
     if (!this.inputPassword.value) {
-      this.inputPassword.helperText = 'É necessário informar a sua senha';
+      this.inputPassword.helperText = Constants.MESSAGE_REQUIRED;
       this.inputPassword.error = true;
 
       success = false;
     }
 
     if (!this.inputConfirmPassword.value) {
-      this.inputConfirmPassword.helperText = 'É necessário confirmar a sua senha';
+      this.inputConfirmPassword.helperText = Constants.MESSAGE_REQUIRED;
       this.inputConfirmPassword.error = true;
 
       success = false;
@@ -53,7 +53,7 @@ class Store {
 
     if (success) {
       if (this.inputPassword.value !== this.inputConfirmPassword.value) {
-        this.inputConfirmPassword.helperText = 'A senha não confere';
+        this.inputConfirmPassword.helperText = Constants.MESSAGE_WRONG_PASSWORD;
         this.inputConfirmPassword.error = true;
 
         success = false;
@@ -120,7 +120,7 @@ class Store {
     const user = UserModel.findByEmail(this.inputEmail.value);
 
     if (user) {
-      this.inputEmail.helperText = 'E-mail já cadastrado';
+      this.inputEmail.helperText = Constants.MESSAGE_EXISTENT_EMAIL;
       this.inputEmail.error = true;
 
       return false;

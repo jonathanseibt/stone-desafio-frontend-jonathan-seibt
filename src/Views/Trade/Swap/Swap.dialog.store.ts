@@ -50,13 +50,13 @@ class Store {
     let success = true;
 
     if (!this.inputCryptoCurrencyBitcoin.value) {
-      this.inputCryptoCurrencyBitcoin.helperText = 'É necessário informar o valor';
+      this.inputCryptoCurrencyBitcoin.helperText = Constants.MESSAGE_REQUIRED;
       this.inputCryptoCurrencyBitcoin.error = true;
 
       success = false;
     } else {
       if (Number(this.inputCryptoCurrencyBitcoin.value) <= 0) {
-        this.inputCryptoCurrencyBitcoin.helperText = 'É necessário informar um valor maior que 0 (zero)';
+        this.inputCryptoCurrencyBitcoin.helperText = Constants.MESSAGE_GREATER_THAN_ZERO;
         this.inputCryptoCurrencyBitcoin.error = true;
 
         success = false;
@@ -64,13 +64,13 @@ class Store {
     }
 
     if (!this.inputCryptoCurrencyBrita.value) {
-      this.inputCryptoCurrencyBrita.helperText = 'É necessário informar o valor';
+      this.inputCryptoCurrencyBrita.helperText = Constants.MESSAGE_REQUIRED;
       this.inputCryptoCurrencyBrita.error = true;
 
       success = false;
     } else {
       if (Number(this.inputCryptoCurrencyBrita.value) <= 0) {
-        this.inputCryptoCurrencyBrita.helperText = 'É necessário informar um valor maior que 0 (zero)';
+        this.inputCryptoCurrencyBrita.helperText = Constants.MESSAGE_GREATER_THAN_ZERO;
         this.inputCryptoCurrencyBrita.error = true;
 
         success = false;
@@ -80,14 +80,14 @@ class Store {
     if (success) {
       if (this.isBitcoin) {
         if (Number(this.inputCryptoCurrencyBitcoin.value) > this.getUserWalletBitcoinBalance) {
-          this.inputCryptoCurrencyBitcoin.helperText = 'Valor acima do saldo disponível';
+          this.inputCryptoCurrencyBitcoin.helperText = Constants.MESSAGE_ABOVE_BALANCE;
           this.inputCryptoCurrencyBitcoin.error = true;
 
           success = false;
         }
       } else {
         if (Number(this.inputCryptoCurrencyBrita.value) > this.getUserWalletBritaBalance) {
-          this.inputCryptoCurrencyBrita.helperText = 'Valor acima do saldo disponível';
+          this.inputCryptoCurrencyBrita.helperText = Constants.MESSAGE_ABOVE_BALANCE;
           this.inputCryptoCurrencyBrita.error = true;
 
           success = false;
@@ -118,12 +118,12 @@ class Store {
 
     if (this.isBitcoin) {
       if (Number(this.inputCryptoCurrencyBitcoin.value) > this.getUserWalletBitcoinBalance) {
-        this.inputCryptoCurrencyBitcoin.helperText = 'Valor acima do saldo disponível';
+        this.inputCryptoCurrencyBitcoin.helperText = Constants.MESSAGE_ABOVE_BALANCE;
         this.inputCryptoCurrencyBitcoin.error = true;
       }
     } else {
       if (Number(this.inputCryptoCurrencyBrita.value) > this.getUserWalletBritaBalance) {
-        this.inputCryptoCurrencyBrita.helperText = 'Valor acima do saldo disponível';
+        this.inputCryptoCurrencyBrita.helperText = Constants.MESSAGE_ABOVE_BALANCE;
         this.inputCryptoCurrencyBrita.error = true;
       }
     }
@@ -149,12 +149,12 @@ class Store {
 
     if (this.isBitcoin) {
       if (Number(this.inputCryptoCurrencyBitcoin.value) > this.getUserWalletBitcoinBalance) {
-        this.inputCryptoCurrencyBitcoin.helperText = 'Valor acima do saldo disponível';
+        this.inputCryptoCurrencyBitcoin.helperText = Constants.MESSAGE_ABOVE_BALANCE;
         this.inputCryptoCurrencyBitcoin.error = true;
       }
     } else {
       if (Number(this.inputCryptoCurrencyBrita.value) > this.getUserWalletBritaBalance) {
-        this.inputCryptoCurrencyBrita.helperText = 'Valor acima do saldo disponível';
+        this.inputCryptoCurrencyBrita.helperText = Constants.MESSAGE_ABOVE_BALANCE;
         this.inputCryptoCurrencyBrita.error = true;
       }
     }

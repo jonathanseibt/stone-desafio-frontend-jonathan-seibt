@@ -1,5 +1,6 @@
 import { action, observable } from 'mobx';
 import { InputType } from '../../Components/Input/Input.type';
+import Constants from '../../Constants';
 import { UserModel } from '../../Models/User/User.model';
 import SessionStore from '../../Session.store';
 
@@ -18,14 +19,14 @@ class Store {
     let success = true;
 
     if (!this.inputEmail.value) {
-      this.inputEmail.helperText = 'É necessário informar o seu e-mail';
+      this.inputEmail.helperText = Constants.MESSAGE_REQUIRED;
       this.inputEmail.error = true;
 
       success = false;
     }
 
     if (!this.inputPassword.value) {
-      this.inputPassword.helperText = 'É necessário informar a sua senha';
+      this.inputPassword.helperText = Constants.MESSAGE_REQUIRED;
       this.inputPassword.error = true;
 
       success = false;

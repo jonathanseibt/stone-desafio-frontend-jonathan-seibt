@@ -5,6 +5,12 @@ class Constants {
 
   static NEW_USERS_GIFT_BALANCE = 100000;
 
+  static MESSAGE_REQUIRED = 'Este campo é obrigatório';
+  static MESSAGE_GREATER_THAN_ZERO = 'É necessário informar um valor maior que 0 (zero)';
+  static MESSAGE_WRONG_PASSWORD = 'A senha não confere';
+  static MESSAGE_EXISTENT_EMAIL = 'Este e-mail já está cadastrado';
+  static MESSAGE_ABOVE_BALANCE = 'Valor acima do saldo disponível';
+
   static REAL = {
     name: 'Real',
     acronym: 'BRL',
