@@ -1,7 +1,8 @@
 > Link do desafio: https://gist.github.com/renatazenaro/4f68af50c12a0c324404dec849242eed
 
 > Recebido em: 25/08/2020 às 09:53
-> Entregue em: 15/09/2020 às XX:XX
+
+> Entregue em: 15/09/2020 às 19:00
 
 <h1 align="center">E-Wallet</h1>
 
