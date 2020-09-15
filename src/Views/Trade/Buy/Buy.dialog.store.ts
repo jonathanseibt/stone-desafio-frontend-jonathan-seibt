@@ -2,6 +2,7 @@ import { action, computed, observable } from 'mobx';
 import { InputType } from '../../../Components/Input/Input.type';
 import Constants from '../../../Constants';
 import { CryptoModel } from '../../../Models/Crypto/Crypto.model';
+import { UserWalletModel } from '../../../Models/User/Wallet/UserWallet.model';
 import SessionStore from '../../../Session.store';
 import Convert from '../../../Utils/Convert';
 
@@ -117,42 +118,7 @@ class Store {
 
   @action
   buy = () => {
-    const user = SessionStore.getUser();
-
-    const crypto = user.wallet.cryptos.find((crypto) => crypto.acronym === this.acronym);
-
-    let balance = 0;
-
-    if (crypto) {
-      const index = user.wallet.cryptos.findIndex((crypto) => crypto.acronym === this.acronym);
-      user.wallet.cryptos[index].quantity += Number(this.inputCryptoCurrency.value);
-
-      balance = user.wallet.cryptos[index].quantity;
-    } else {
-      user.wallet.cryptos.push(
-        new UserWalletCryptoModel({
-          quantity: Number(this.inputCryptoCurrency.value),
-          acronym: this.acronym,
-        }),
-      );
-
-      balance = Number(this.inputCryptoCurrency.value);
-    }
-
-    user.wallet.balance -= Number(this.inputCurrentCurrency.value);
-
-    user.wallet.history.push(
-      new UserWalletHistoryModel({
-        operation: UserWalletHistoryModel.OPERATION.BUY,
-        date: new Date(),
-        price: this.getCryptoPriceBuy,
-        quantity: Number(this.inputCryptoCurrency.value),
-        balance: balance,
-        acronym: this.acronym,
-      }),
-    );
-
-    UserModel.updateByEmail(user.email, user);
+    UserWalletModel.buy(this.acronym, Number(this.inputCryptoCurrency.value), this.getCryptoPriceBuy);
   };
 
   @computed get getCrypto(): CryptoModel {
