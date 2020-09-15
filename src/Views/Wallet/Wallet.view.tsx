@@ -94,7 +94,7 @@ const Cryptos: React.FC = observer(() => {
 
                     <Box paddingX={2} alignSelf='center' textAlign='end'>
                       <Typography variant='h6' color='textPrimary'>
-                        {Format.decimal(row.quantity)}
+                        {Format.decimal(row.balance)}
                       </Typography>
                     </Box>
                   </Box>
@@ -142,8 +142,8 @@ const SeeMore: React.FC = observer(() => {
             )}
 
             <Box paddingTop={1 / 2}>
-              <Typography variant='button' color={!!cryptos.length ? 'textSecondary' : 'secondary'}>
-                {!!cryptos.length ? 'Ver mais...' : 'Negociar agora!'}
+              <Typography variant='button' color={color}>
+                {text}
               </Typography>
             </Box>
           </Box>

@@ -2,9 +2,6 @@ import { action, computed, observable } from 'mobx';
 import { InputType } from '../../../Components/Input/Input.type';
 import Constants from '../../../Constants';
 import { CryptoModel } from '../../../Models/Crypto/Crypto.model';
-import { UserModel } from '../../../Models/User/User.model';
-import { UserWalletCryptoModel } from '../../../Models/User/Wallet/Crypto/UserWalletCrypto.model';
-import { UserWalletHistoryModel } from '../../../Models/User/Wallet/History/UserWalletHistory.model';
 import SessionStore from '../../../Session.store';
 import Convert from '../../../Utils/Convert';
 
@@ -167,7 +164,7 @@ class Store {
   }
 
   @computed get getUserWalletCryptoBalance(): number {
-    return SessionStore.getUser().wallet.cryptos.find((crypto) => crypto.acronym === this.acronym)?.quantity ?? 0;
+    return SessionStore.getUser().wallet.cryptos.find((crypto) => crypto.acronym === this.acronym)?.balance ?? 0;
   }
 
   @computed get getCryptoPriceBuy(): number {

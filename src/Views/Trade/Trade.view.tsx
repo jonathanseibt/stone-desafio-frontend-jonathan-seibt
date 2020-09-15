@@ -91,7 +91,7 @@ const List: React.FC = observer(() => {
           ) : (
             <>
               {cryptos.map((row, index) => {
-                const balance = SessionStore.getUser().wallet.cryptos.find((crypto) => crypto.acronym === row.acronym)?.quantity ?? 0;
+                const balance = SessionStore.getUser().wallet.cryptos.find((crypto) => crypto.acronym === row.acronym)?.balance ?? 0;
                 const statusBuy = row.priceBuy > row.lastPriceBuy ? 'subiu' : 'caiu';
                 const statusSell = row.priceSell > row.lastPriceSell ? 'subiu' : 'caiu';
 

@@ -311,11 +311,11 @@ class Store {
   }
 
   @computed get getUserWalletBitcoinBalance(): number {
-    return SessionStore.getUser().wallet.cryptos.find((crypto) => crypto.acronym === this.getBitcoin.acronym)?.quantity ?? 0;
+    return SessionStore.getUser().wallet.cryptos.find((crypto) => crypto.acronym === this.getBitcoin.acronym)?.balance ?? 0;
   }
 
   @computed get getUserWalletBritaBalance(): number {
-    return SessionStore.getUser().wallet.cryptos.find((crypto) => crypto.acronym === this.getBrita.acronym)?.quantity ?? 0;
+    return SessionStore.getUser().wallet.cryptos.find((crypto) => crypto.acronym === this.getBrita.acronym)?.balance ?? 0;
   }
 
   @computed get getBitcoinPriceBuy(): number {
