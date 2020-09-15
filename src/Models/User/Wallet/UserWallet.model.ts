@@ -20,13 +20,13 @@ export class UserWalletModel {
   static buy = (acronym: string, value: number, price: number) => {
     const user = SessionStore.getUser();
 
-    value += user.wallet.cryptos.find((_crypto) => _crypto.acronym === acronym)?.balance ?? 0;
+    let balance = user.wallet.cryptos.find((_crypto) => _crypto.acronym === acronym)?.balance ?? 0;
 
     user.wallet.cryptos = user.wallet.cryptos.filter((_crypto) => _crypto.acronym !== acronym);
 
     user.wallet.cryptos.push(
       new UserWalletCryptoModel({
-        balance: value,
+        balance: balance + value,
         acronym: acronym,
       }),
     );
@@ -35,7 +35,7 @@ export class UserWalletModel {
 
     UserModel.updateByEmail(user.email, user);
 
-    const balance = user.wallet.cryptos.find((_crypto) => _crypto.acronym === acronym)?.balance ?? 0;
+    balance = user.wallet.cryptos.find((_crypto) => _crypto.acronym === acronym)?.balance ?? 0;
     UserWalletHistoryModel.register(UserWalletHistoryModel.OPERATION.BUY, acronym, value, price, user.wallet.balance, balance);
   };
 
