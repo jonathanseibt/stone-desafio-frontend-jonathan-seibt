@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 import { useSnackbar } from 'notistack';
 import React, { useEffect } from 'react';
 import Constants from '../../../Constants';
-import { CryptoModel } from '../../../Models/Crypto/Crypto.model';
+import Format from '../../../Utils/Format';
 import BuyDialogStore from './Buy.dialog.store';
 import { withStylesBuyButton } from './Buy.dialog.styles';
 
@@ -31,10 +31,14 @@ const View: React.FC = observer(() => {
   };
 
   const onClickBuy = () => {
-    enqueueSnackbar('Em desenvolvimento...');
-  };
+    if (BuyDialogStore.validateForm()) {
+      const result = BuyDialogStore.buy();
 
-  const crypto = CryptoModel.findByID(BuyDialogStore._crypto) ?? new CryptoModel();
+      if (result) {
+        enqueueSnackbar('Compra realizada com sucesso!', { variant: 'success' });
+      }
+    }
+  };
 
   return (
     <Dialog onClose={onClose} open={BuyDialogStore.opened} maxWidth='xs' scroll='body'>
@@ -57,7 +61,7 @@ const View: React.FC = observer(() => {
 
       <Box padding={3}>
         <BuyButton fullWidth size='large' variant='outlined' startIcon={<VerticalAlignBottomOutlined />} onClick={onClickBuy}>
-          {`${TITLE} ${crypto.acronym === Constants.BITCOIN.acronym ? Constants.BITCOIN.name : Constants.BRITA.name}`}
+          {`${TITLE} ${BuyDialogStore.getCrypto.acronym === Constants.BITCOIN.acronym ? Constants.BITCOIN.name : Constants.BRITA.name}`}
         </BuyButton>
       </Box>
     </Dialog>
@@ -67,9 +71,10 @@ const View: React.FC = observer(() => {
 const InputCurrentCurrency: React.FC = observer(() => {
   return (
     <NumberField
-      {...BuyDialogStore.inputCurrentCurrency}
+      value={BuyDialogStore.inputCurrentCurrency.value}
+      error={BuyDialogStore.inputCurrentCurrency.error}
       onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, value: string) => BuyDialogStore.onChangeInputCurrentCurrency(value)}
-      label='Valor em Real'
+      label={`Valor em ${Constants.REAL.name}`}
       name='current-currency'
       variant='outlined'
       margin='normal'
@@ -81,18 +86,35 @@ const InputCurrentCurrency: React.FC = observer(() => {
       decimalCharacter=','
       digitGroupSeparator='.'
       autoFocus
+      helperText={
+        <>
+          {!!BuyDialogStore.inputCurrentCurrency.helperText && (
+            <Box component={'span'} display='block'>
+              <Typography variant='caption' color={BuyDialogStore.inputCurrentCurrency.error ? 'error' : 'textSecondary'} noWrap>
+                {BuyDialogStore.inputCurrentCurrency.helperText}
+              </Typography>
+            </Box>
+          )}
+
+          <Box component={'span'} display='block'>
+            <Typography variant='caption' color='textSecondary' noWrap>
+              {`Saldo disponível: ${Format.real(BuyDialogStore.getUserWalletBalance)}`}
+            </Typography>
+          </Box>
+        </>
+      }
       InputProps={{
         autoComplete: 'off',
         startAdornment: (
           <Box marginRight={1}>
             <Typography variant='button' color='textSecondary'>
-              BRL
+              {Constants.REAL.acronym}
             </Typography>
           </Box>
         ),
         endAdornment: (
           <InputAdornment position='end'>
-            <Avatar src='/assets/img/real.png' />
+            <Avatar src={`/assets/img/${Constants.REAL.icon}`} />
           </InputAdornment>
         ),
       }}
@@ -101,14 +123,12 @@ const InputCurrentCurrency: React.FC = observer(() => {
 });
 
 const InputCryptoCurrency: React.FC = observer(() => {
-  const crypto = CryptoModel.findByID(BuyDialogStore._crypto) ?? new CryptoModel();
-
   return (
     <NumberField
       value={BuyDialogStore.inputCryptoCurrency.value}
       error={BuyDialogStore.inputCryptoCurrency.error}
       onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, value: string) => BuyDialogStore.onChangeInputCryptoCurrency(value)}
-      label={`Quantidade de ${crypto.name}`}
+      label={`Valor em ${BuyDialogStore.getCrypto.name}`}
       name='crypto-currency'
       variant='outlined'
       margin='normal'
@@ -121,14 +141,23 @@ const InputCryptoCurrency: React.FC = observer(() => {
       digitGroupSeparator='.'
       helperText={
         <>
+          {!!BuyDialogStore.inputCryptoCurrency.helperText && (
+            <Box component={'span'} display='block'>
+              <Typography variant='caption' color={BuyDialogStore.inputCryptoCurrency.error ? 'error' : 'textSecondary'} noWrap>
+                {BuyDialogStore.inputCryptoCurrency.helperText}
+              </Typography>
+            </Box>
+          )}
+
           <Box component={'span'} display='block'>
             <Typography variant='caption' color='textSecondary' noWrap>
-              {BuyDialogStore.inputCryptoCurrency.helperText}
+              {`Saldo atual: ${Format.real(BuyDialogStore.getUserWalletCryptoBalance)}`}
             </Typography>
           </Box>
+
           <Box component={'span'} display='block'>
             <Typography variant='caption' color='textSecondary' noWrap>
-              {BuyDialogStore.inputCryptoCurrencyHelperText}
+              {`Preço de compra: ${Format.real(BuyDialogStore.getCrypto.priceBuy)}`}
             </Typography>
           </Box>
         </>
@@ -138,13 +167,13 @@ const InputCryptoCurrency: React.FC = observer(() => {
         startAdornment: (
           <Box marginRight={1}>
             <Typography variant='button' color='textSecondary'>
-              {crypto.acronym}
+              {BuyDialogStore.getCrypto.acronym}
             </Typography>
           </Box>
         ),
         endAdornment: (
           <InputAdornment position='end'>
-            <Avatar src={`/assets/img/${crypto.icon}`} />
+            <Avatar src={`/assets/img/${BuyDialogStore.getCrypto.icon}`} />
           </InputAdornment>
         ),
       }}

@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 import { useSnackbar } from 'notistack';
 import React, { useEffect } from 'react';
 import Constants from '../../../Constants';
-import { CryptoModel } from '../../../Models/Crypto/Crypto.model';
+import Format from '../../../Utils/Format';
 import SwapDialogStore from './Swap.dialog.store';
 import { withStylesSwapButton } from './Swap.dialog.styles';
 
@@ -35,10 +35,14 @@ const View: React.FC = observer(() => {
   };
 
   const onClickSwap = () => {
-    enqueueSnackbar('Em desenvolvimento...');
-  };
+    if (SwapDialogStore.validateForm()) {
+      const result = SwapDialogStore.swap();
 
-  const crypto = CryptoModel.findByID(SwapDialogStore._crypto) ?? new CryptoModel();
+      if (result) {
+        enqueueSnackbar('Troca realizada com sucesso!', { variant: 'success' });
+      }
+    }
+  };
 
   return (
     <Dialog onClose={onClose} open={SwapDialogStore.opened} maxWidth='xs' scroll='body'>
@@ -54,7 +58,7 @@ const View: React.FC = observer(() => {
 
       <DialogContent dividers>
         <Box padding={3}>
-          {crypto.acronym === Constants.BITCOIN.acronym ? (
+          {SwapDialogStore.isBitcoin ? (
             <>
               <InputCryptoCurrencyBitcoin autoFocus />
               <InputCryptoCurrencyBrita />
@@ -70,9 +74,7 @@ const View: React.FC = observer(() => {
 
       <Box padding={3}>
         <SwapButton fullWidth size='large' variant='outlined' startIcon={<SwapVertOutlined />} onClick={onClickSwap}>
-          {`${TITLE} ${
-            crypto.acronym === Constants.BITCOIN.acronym ? `${Constants.BITCOIN.name} por ${Constants.BRITA.name}` : `${Constants.BRITA.name} por ${Constants.BITCOIN.name}`
-          }`}
+          {SwapDialogStore.isBitcoin ? `${TITLE} ${Constants.BITCOIN.name} por ${Constants.BRITA.name}` : `${TITLE} ${Constants.BRITA.name} por ${Constants.BITCOIN.name}`}
         </SwapButton>
       </Box>
     </Dialog>
@@ -80,13 +82,29 @@ const View: React.FC = observer(() => {
 });
 
 const InputCryptoCurrencyBitcoin: React.FC<InputProps> = observer((props) => {
+  const getCaptionBalance = () => {
+    if (SwapDialogStore.isBitcoin) {
+      return `Saldo disponível: ${Format.decimal(SwapDialogStore.getUserWalletBitcoinBalance, 8)}`;
+    } else {
+      return `Saldo atual: ${Format.decimal(SwapDialogStore.getUserWalletBitcoinBalance, 8)}`;
+    }
+  };
+
+  const getCaptionPrice = () => {
+    if (SwapDialogStore.isBitcoin) {
+      return `Preço de venda: ${Format.real(SwapDialogStore.getBitcoinPriceSell)}`;
+    } else {
+      return `Preço de compra: ${Format.real(SwapDialogStore.getBitcoinPriceBuy)}`;
+    }
+  };
+
   return (
     <NumberField
       value={SwapDialogStore.inputCryptoCurrencyBitcoin.value}
       error={SwapDialogStore.inputCryptoCurrencyBitcoin.error}
       onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, value: string) => SwapDialogStore.onChangeInputCryptoCurrencyBitcoin(value)}
-      label={`Quantidade de ${Constants.BITCOIN.name}`}
-      name='crypto-currency-bitcoin'
+      label={`Valor em ${Constants.BITCOIN.name}`}
+      name={`crypto-currency-${Constants.BITCOIN.name}`}
       variant='outlined'
       margin='normal'
       required
@@ -99,14 +117,23 @@ const InputCryptoCurrencyBitcoin: React.FC<InputProps> = observer((props) => {
       autoFocus={props.autoFocus}
       helperText={
         <>
+          {!!SwapDialogStore.inputCryptoCurrencyBitcoin.helperText && (
+            <Box component={'span'} display='block'>
+              <Typography variant='caption' color={SwapDialogStore.inputCryptoCurrencyBitcoin.error ? 'error' : 'textSecondary'} noWrap>
+                {SwapDialogStore.inputCryptoCurrencyBitcoin.helperText}
+              </Typography>
+            </Box>
+          )}
+
           <Box component={'span'} display='block'>
             <Typography variant='caption' color='textSecondary' noWrap>
-              {SwapDialogStore.inputCryptoCurrencyBitcoin.helperText}
+              {getCaptionBalance()}
             </Typography>
           </Box>
+
           <Box component={'span'} display='block'>
             <Typography variant='caption' color='textSecondary' noWrap>
-              {SwapDialogStore.inputCryptoCurrencyBitcoinHelperText}
+              {getCaptionPrice()}
             </Typography>
           </Box>
         </>
@@ -131,13 +158,29 @@ const InputCryptoCurrencyBitcoin: React.FC<InputProps> = observer((props) => {
 });
 
 const InputCryptoCurrencyBrita: React.FC<InputProps> = observer((props) => {
+  const getCaptionBalance = () => {
+    if (SwapDialogStore.isBrita) {
+      return `Saldo disponível: ${Format.decimal(SwapDialogStore.getUserWalletBritaBalance, 8)}`;
+    } else {
+      return `Saldo atual: ${Format.decimal(SwapDialogStore.getUserWalletBritaBalance, 8)}`;
+    }
+  };
+
+  const getCaptionPrice = () => {
+    if (SwapDialogStore.isBrita) {
+      return `Preço de venda: ${Format.real(SwapDialogStore.getBritaPriceSell)}`;
+    } else {
+      return `Preço de compra: ${Format.real(SwapDialogStore.getBritaPriceBuy)}`;
+    }
+  };
+
   return (
     <NumberField
       value={SwapDialogStore.inputCryptoCurrencyBrita.value}
       error={SwapDialogStore.inputCryptoCurrencyBrita.error}
       onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, value: string) => SwapDialogStore.onChangeInputCryptoCurrencyBrita(value)}
-      label={`Quantidade de ${Constants.BRITA.name}`}
-      name='crypto-currency-brita'
+      label={`Valor em ${Constants.BRITA.name}`}
+      name={`crypto-currency-${Constants.BRITA.name}`}
       variant='outlined'
       margin='normal'
       required
@@ -150,14 +193,23 @@ const InputCryptoCurrencyBrita: React.FC<InputProps> = observer((props) => {
       autoFocus={props.autoFocus}
       helperText={
         <>
+          {!!SwapDialogStore.inputCryptoCurrencyBrita.helperText && (
+            <Box component={'span'} display='block'>
+              <Typography variant='caption' color={SwapDialogStore.inputCryptoCurrencyBrita.error ? 'error' : 'textSecondary'} noWrap>
+                {SwapDialogStore.inputCryptoCurrencyBrita.helperText}
+              </Typography>
+            </Box>
+          )}
+
           <Box component={'span'} display='block'>
             <Typography variant='caption' color='textSecondary' noWrap>
-              {SwapDialogStore.inputCryptoCurrencyBrita.helperText}
+              {getCaptionBalance()}
             </Typography>
           </Box>
+
           <Box component={'span'} display='block'>
             <Typography variant='caption' color='textSecondary' noWrap>
-              {SwapDialogStore.inputCryptoCurrencyBritaHelperText}
+              {getCaptionPrice()}
             </Typography>
           </Box>
         </>

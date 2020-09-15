@@ -1,20 +1,22 @@
-import { action, observable } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { InputType } from '../../../Components/Input/Input.type';
 import { CryptoModel } from '../../../Models/Crypto/Crypto.model';
 import SessionStore from '../../../Session.store';
-import Format from '../../../Utils/Format';
+import Convert from '../../../Utils/Convert';
 
 class Store {
   @observable _crypto = '';
   @observable opened = false;
   @observable inputCurrentCurrency: InputType = { value: '', helperText: '', error: false };
   @observable inputCryptoCurrency: InputType = { value: '', helperText: '', error: false };
-  @observable inputCryptoCurrencyHelperText = '';
 
   @action
   load = () => {
     this.clearInputCurrentCurrency();
     this.clearInputCryptoCurrency();
+
+    this.inputCurrentCurrency.value = String(this.getUserWalletBalance);
+    this.inputCryptoCurrency.value = String(Convert.realToCrypto(this.getCryptoPriceBuy, Number(this.inputCurrentCurrency.value)));
   };
 
   @action
@@ -35,6 +37,13 @@ class Store {
       this.inputCurrentCurrency.error = true;
 
       success = false;
+    } else {
+      if (Number(this.inputCurrentCurrency.value) <= 0) {
+        this.inputCurrentCurrency.helperText = 'É necessário informar um valor maior que 0 (zero)';
+        this.inputCurrentCurrency.error = true;
+
+        success = false;
+      }
     }
 
     if (!this.inputCryptoCurrency.value) {
@@ -42,13 +51,21 @@ class Store {
       this.inputCryptoCurrency.error = true;
 
       success = false;
+    } else {
+      if (Number(this.inputCryptoCurrency.value) <= 0) {
+        this.inputCryptoCurrency.helperText = 'É necessário informar um valor maior que 0 (zero)';
+        this.inputCryptoCurrency.error = true;
+
+        success = false;
+      }
     }
 
     if (success) {
-      const balance = SessionStore.getUser().wallet.balance;
-
-      if (Number(this.inputCurrentCurrency.value) > balance) {
+      if (Number(this.inputCurrentCurrency.value) > this.getUserWalletBalance) {
+        this.inputCurrentCurrency.helperText = 'Valor acima do saldo disponível';
         this.inputCurrentCurrency.error = true;
+
+        success = false;
       }
     }
 
@@ -58,64 +75,65 @@ class Store {
   @action
   clearInputCurrentCurrency = () => {
     this.inputCurrentCurrency.value = '';
-
-    const balance = SessionStore.getUser().wallet.balance;
-
-    this.inputCurrentCurrency.helperText = `Saldo disponível: ${Format.real(balance)}`;
-
+    this.inputCurrentCurrency.helperText = '';
     this.inputCurrentCurrency.error = false;
   };
 
   @action
   onChangeInputCurrentCurrency = (value: string) => {
     this.clearInputCurrentCurrency();
+
     this.inputCurrentCurrency.value = value;
 
-    const quantity = Number(value) ?? 0;
-    const priceBuy = CryptoModel.findByID(this._crypto)?.priceBuy ?? 0;
+    this.inputCryptoCurrency.value = String(Convert.realToCrypto(this.getCryptoPriceBuy, Number(this.inputCurrentCurrency.value)));
 
-    this.inputCryptoCurrency.value = String(quantity / priceBuy);
-
-    const balance = SessionStore.getUser().wallet.balance ?? 0;
-
-    if (Number(this.inputCurrentCurrency.value) > balance) {
+    if (Number(this.inputCurrentCurrency.value) > this.getUserWalletBalance) {
+      this.inputCurrentCurrency.helperText = 'Valor acima do saldo disponível';
       this.inputCurrentCurrency.error = true;
-    } else {
-      this.inputCurrentCurrency.error = false;
     }
   };
 
   @action
   clearInputCryptoCurrency = () => {
     this.inputCryptoCurrency.value = '';
-
-    const balance = SessionStore.getUser().wallet.cryptos.find((crypto) => (crypto._crypto = this._crypto))?.quantity ?? 0;
-    const priceBuy = CryptoModel.findByID(this._crypto)?.priceBuy;
-
-    this.inputCryptoCurrency.helperText = `Saldo atual: ${Format.decimal(balance, 8)}`;
-    this.inputCryptoCurrencyHelperText = `Preço da unidade: ${Format.real(priceBuy)}`;
-
+    this.inputCryptoCurrency.helperText = '';
     this.inputCryptoCurrency.error = false;
   };
 
   @action
   onChangeInputCryptoCurrency = (value: string) => {
     this.clearInputCryptoCurrency();
+
     this.inputCryptoCurrency.value = value;
 
-    const quantity = Number(value) ?? 0;
-    const priceBuy = CryptoModel.findByID(this._crypto)?.priceBuy ?? 0;
+    this.inputCurrentCurrency.value = String(Convert.cryptoToReal(this.getCryptoPriceBuy, Number(this.inputCryptoCurrency.value)));
 
-    this.inputCurrentCurrency.value = String(quantity * priceBuy);
-
-    const balance = SessionStore.getUser().wallet.balance ?? 0;
-
-    if (Number(this.inputCurrentCurrency.value) > balance) {
+    if (Number(this.inputCurrentCurrency.value) > this.getUserWalletBalance) {
+      this.inputCurrentCurrency.helperText = 'Valor acima do saldo disponível';
       this.inputCurrentCurrency.error = true;
-    } else {
-      this.inputCurrentCurrency.error = false;
     }
   };
+
+  @action
+  buy = (): boolean => {
+    return true;
+  };
+
+  @computed get getCrypto(): CryptoModel {
+    return CryptoModel.findByID(this._crypto) ?? new CryptoModel();
+  }
+
+  @computed get getUserWalletBalance(): number {
+    return SessionStore.getUser().wallet.balance ?? 0;
+  }
+
+  @computed get getUserWalletCryptoBalance(): number {
+    return SessionStore.getUser().wallet.cryptos.find((crypto) => (crypto._crypto = this._crypto))?.quantity ?? 0;
+  }
+
+  @computed get getCryptoPriceBuy(): number {
+    return this.getCrypto.priceBuy ?? 0;
+  }
 }
 
 export default new Store();
