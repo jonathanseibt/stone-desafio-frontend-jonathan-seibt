@@ -60,11 +60,11 @@ const Header: React.FC = observer(() => {
 const Cryptos: React.FC = observer(() => {
   const styles = useStyles();
 
-  const user = SessionStore.getUser();
+  const cryptos = SessionStore.getUser().wallet.cryptos;
 
   return (
     <>
-      {!!user.wallet.cryptos.length && (
+      {!!cryptos.length && (
         <Typography variant='h6' color='textSecondary' noWrap>
           Meus ativos
         </Typography>
@@ -72,7 +72,7 @@ const Cryptos: React.FC = observer(() => {
 
       <Box marginTop={2} marginBottom={2}>
         <Grid container spacing={3}>
-          {user.wallet.cryptos.map((row, index) => {
+          {cryptos.map((row, index) => {
             const crypto = CryptoModel.findByAcronym(row.acronym) ?? new CryptoModel();
 
             return (
@@ -114,14 +114,14 @@ const SeeMore: React.FC = observer(() => {
   const history = useHistory();
   const styles = useStyles();
 
+  const cryptos = SessionStore.getUser().wallet.cryptos;
+
   const onClickMore = () => {
     history.push(TRADE_VIEW_URL);
   };
 
-  const user = SessionStore.getUser();
-
   return (
-    <Grid item xs={12} lg={!!user.wallet.cryptos.length ? 4 : 12}>
+    <Grid item xs={12} lg={!!cryptos.length ? 4 : 12}>
       <Box borderRadius={4} component={CardActionArea} onClick={onClickMore}>
         <Box padding={5} className={styles.more} display='flex' alignItems='center'>
           <AvatarGroup max={4}>
@@ -135,15 +135,15 @@ const SeeMore: React.FC = observer(() => {
           </AvatarGroup>
 
           <Box paddingX={2} alignSelf='center'>
-            {!user.wallet.cryptos.length && (
+            {!cryptos.length && (
               <Typography variant='h6' color='textPrimary'>
                 Nenhum ativo na sua carteira ainda?
               </Typography>
             )}
 
             <Box paddingTop={1 / 2}>
-              <Typography variant='button' color={!!user.wallet.cryptos.length ? 'textSecondary' : 'secondary'}>
-                {!!user.wallet.cryptos.length ? 'Ver mais...' : 'Negociar agora!'}
+              <Typography variant='button' color={!!cryptos.length ? 'textSecondary' : 'secondary'}>
+                {!!cryptos.length ? 'Ver mais...' : 'Negociar agora!'}
               </Typography>
             </Box>
           </Box>

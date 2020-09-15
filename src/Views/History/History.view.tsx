@@ -13,10 +13,6 @@ export const TITLE = 'Histórico';
 export const SUBTITLE = 'Aqui você pode consultar o seu histórico de compra e venda de ativos';
 
 const HistoryView: React.FC = observer(() => {
-  return <View />;
-});
-
-const View: React.FC = observer(() => {
   return (
     <Paper elevation={3}>
       <Box display='flex' justifyContent='space-between' alignItems='center' padding={2}>
@@ -38,7 +34,7 @@ const View: React.FC = observer(() => {
 const List: React.FC = observer(() => {
   const styles = useStyles();
 
-  const user = SessionStore.getUser();
+  const history = SessionStore.getUser().wallet.history;
 
   return (
     <TableContainer>
@@ -46,17 +42,21 @@ const List: React.FC = observer(() => {
         <TableHeader />
 
         <TableBody>
-          {!user.wallet.history.length ? (
+          {!history.length ? (
             <TableEmpty />
           ) : (
-            user.wallet.history.map((row, index) => {
+            history.map((row, index) => {
               const crypto = CryptoModel.findByAcronym(row.acronym) ?? new CryptoModel();
+              const operation = row.operation === UserWalletHistoryModel.OPERATION.BUY ? 'Compra' : 'Venda';
+
+              const classNameRow = row.operation === UserWalletHistoryModel.OPERATION.BUY ? styles.buy : styles.sell;
+              const classNameColor = row.operation === UserWalletHistoryModel.OPERATION.BUY ? styles.green : styles.red;
 
               return (
-                <TableRow key={index} style={{ background: crypto.backgroundStyle }} className={row.operation === UserWalletHistoryModel.OPERATION.BUY ? styles.buy : styles.sell}>
+                <TableRow key={index} style={{ background: crypto.backgroundStyle }} className={classNameRow}>
                   <TableCell>
-                    <Typography variant='button' className={row.operation === UserWalletHistoryModel.OPERATION.BUY ? styles.green : styles.red}>
-                      {row.operation === UserWalletHistoryModel.OPERATION.BUY ? 'Compra' : 'Venda'}
+                    <Typography variant='button' className={classNameColor}>
+                      {operation}
                     </Typography>
                   </TableCell>
 
@@ -81,7 +81,7 @@ const List: React.FC = observer(() => {
                   </TableCell>
 
                   <TableCell align='right'>
-                    <Typography variant='h6' align='right' className={row.operation === UserWalletHistoryModel.OPERATION.BUY ? styles.green : styles.red}>
+                    <Typography variant='h6' align='right' className={classNameColor}>
                       {Format.currency(row.price)}
                     </Typography>
                     <Typography variant='button' color='textSecondary' align='right'>

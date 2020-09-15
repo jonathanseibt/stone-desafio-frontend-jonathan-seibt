@@ -66,6 +66,8 @@ const List: React.FC = observer(() => {
   const SellButton = withStylesSellButton(Button);
   const SwapButton = withStylesSwapButton(Button);
 
+  const cryptos = _.sortBy(BrowserStore.cryptos, ['name']);
+
   const onClickBuy = (acronym: string) => {
     BuyDialogStore.open(acronym);
   };
@@ -84,12 +86,17 @@ const List: React.FC = observer(() => {
         <TableHeader />
 
         <TableBody>
-          {!BrowserStore.cryptos.length ? (
+          {!cryptos.length ? (
             <TableEmpty />
           ) : (
             <>
-              {_.sortBy(BrowserStore.cryptos, ['name']).map((row, index) => {
+              {cryptos.map((row, index) => {
                 const balance = SessionStore.getUser().wallet.cryptos.find((crypto) => crypto.acronym === row.acronym)?.quantity ?? 0;
+                const statusBuy = row.priceBuy > row.lastPriceBuy ? 'subiu' : 'caiu';
+                const statusSell = row.priceSell > row.lastPriceSell ? 'subiu' : 'caiu';
+
+                const classNameColorBuy = row.priceBuy > row.lastPriceBuy ? styles.up : styles.down;
+                const classNameColorSell = row.priceSell > row.lastPriceSell ? styles.up : styles.down;
 
                 return (
                   <TableRow key={index} style={{ background: row.backgroundStyle }}>
@@ -112,8 +119,8 @@ const List: React.FC = observer(() => {
                       <Typography variant='h6' align='right' className={styles.buy}>
                         {Format.currency(row.priceBuy)}
                       </Typography>
-                      <Typography variant='caption' className={row.priceBuy > row.lastPriceBuy ? styles.up : styles.down}>
-                        {row.priceBuy > row.lastPriceBuy ? 'subiu' : 'caiu'}
+                      <Typography variant='caption' className={classNameColorBuy}>
+                        {statusBuy}
                       </Typography>
                     </TableCell>
 
@@ -121,8 +128,8 @@ const List: React.FC = observer(() => {
                       <Typography variant='h6' align='right' className={styles.sell}>
                         {Format.currency(row.priceSell)}
                       </Typography>
-                      <Typography variant='caption' className={row.priceSell > row.lastPriceSell ? styles.up : styles.down}>
-                        {row.priceSell > row.lastPriceSell ? 'subiu' : 'caiu'}
+                      <Typography variant='caption' className={classNameColorSell}>
+                        {statusSell}
                       </Typography>
                     </TableCell>
 
