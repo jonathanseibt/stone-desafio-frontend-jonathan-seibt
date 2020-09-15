@@ -1,7 +1,7 @@
 class Constants {
   static TITLE = 'E-Wallet';
 
-  static PATH_IMAGES = `${process.env.PUBLIC_URL}/assets/img`;
+  static PATH_IMAGES = '/assets/img';
 
   static NEW_USERS_GIFT_BALANCE = 100000;
 
