@@ -10,7 +10,7 @@ import useStyles from './History.styles';
 
 export const URL = '/historico';
 export const TITLE = 'Histórico';
-export const SUBTITLE = 'Aqui você pode consultar o seu histórico de compra e venda de ativos';
+export const SUBTITLE = 'Aqui você pode consultar o seu histórico de compra e venda de criptomoedas';
 
 const HistoryView: React.FC = observer(() => {
   return (
@@ -125,7 +125,7 @@ const TableHeader: React.FC = observer(() => {
 
         <TableCell>
           <Typography noWrap variant='inherit'>
-            Nome do ativo
+            Nome da criptomoeda
           </Typography>
         </TableCell>
 

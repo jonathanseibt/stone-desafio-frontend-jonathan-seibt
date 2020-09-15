@@ -67,7 +67,7 @@ const Cryptos: React.FC = observer(() => {
     <>
       {!!cryptos.length && (
         <Typography variant='h6' color='textSecondary' noWrap>
-          Meus ativos
+          Minhas criptomoedas
         </Typography>
       )}
 
@@ -141,7 +141,7 @@ const SeeMore: React.FC = observer(() => {
           <Box paddingX={2} alignSelf='center'>
             {!cryptos.length && (
               <Typography variant='h6' color='textPrimary'>
-                Nenhum ativo na sua carteira ainda?
+                Nenhuma criptomoeda na sua carteira ainda?
               </Typography>
             )}
 

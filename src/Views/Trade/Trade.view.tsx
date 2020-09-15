@@ -19,7 +19,7 @@ import useStyles, { withStylesBuyButton, withStylesSellButton, withStylesSwapBut
 
 export const URL = '/negociar';
 export const TITLE = 'Negociar';
-export const SUBTITLE = 'Aqui você pode comprar, vender e trocar ativos';
+export const SUBTITLE = 'Aqui você pode comprar, vender e trocar suas criptomoedas';
 
 const TradeView: React.FC = observer(() => {
   return (
@@ -175,7 +175,7 @@ const TableHeader: React.FC = observer(() => {
       <TableRow>
         <TableCell>
           <Typography noWrap variant='inherit'>
-            Nome do ativo
+            Nome da criptomoeda
           </Typography>
         </TableCell>
 
