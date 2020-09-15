@@ -5,7 +5,6 @@ import _ from 'lodash';
 import { observer } from 'mobx-react';
 import React from 'react';
 import BrowserStore from '../../Browser.store';
-import { UserWalletCryptoModel } from '../../Models/User/Wallet/Crypto/UserWalletCrypto.model';
 import SessionStore from '../../Session.store';
 import Format from '../../Utils/Format';
 import BuyDialog from './Buy/Buy.dialog';
@@ -89,10 +88,7 @@ const List: React.FC = observer(() => {
           ) : (
             <>
               {_.sortBy(BrowserStore.cryptos, ['name']).map((row, index) => {
-                const user = SessionStore.getUser();
-
-                const balanceQuantity = user.wallet.cryptos.find((crypto) => (crypto._crypto = row.id))?.quantity;
-                const balanceValue = UserWalletCryptoModel.getBalance(user.wallet.cryptos.find((crypto) => (crypto._crypto = row.id)) ?? new UserWalletCryptoModel());
+                const balance = SessionStore.getUser().wallet.cryptos.find((crypto) => crypto._crypto === row.id)?.quantity ?? 0;
 
                 return (
                   <TableRow key={index} style={{ background: row.backgroundStyle }}>
@@ -131,10 +127,7 @@ const List: React.FC = observer(() => {
 
                     <TableCell align='right'>
                       <Typography variant='h6' color='textPrimary' align='right'>
-                        {Format.decimal(balanceQuantity, 8)}
-                      </Typography>
-                      <Typography variant='button' color='textSecondary' align='right'>
-                        {Format.real(balanceValue)}
+                        {Format.decimal(balance, 8)}
                       </Typography>
                     </TableCell>
 

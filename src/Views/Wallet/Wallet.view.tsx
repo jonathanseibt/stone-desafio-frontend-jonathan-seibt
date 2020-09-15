@@ -4,8 +4,6 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { CryptoModel } from '../../Models/Crypto/Crypto.model';
-import { UserWalletCryptoModel } from '../../Models/User/Wallet/Crypto/UserWalletCrypto.model';
-import { UserWalletModel } from '../../Models/User/Wallet/UserWallet.model';
 import SessionStore from '../../Session.store';
 import Format from '../../Utils/Format';
 import { URL as TRADE_VIEW_URL } from '../Trade/Trade.view';
@@ -40,15 +38,6 @@ const Header: React.FC = observer(() => {
             <Typography component='h2' variant='h4' className={styles.balance} noWrap>
               {Format.real(user.wallet.balance)}
             </Typography>
-
-            <Box paddingTop={1}>
-              <Typography variant='body2' color='textSecondary' noWrap>
-                Saldo em criptoativos
-              </Typography>
-              <Typography variant='subtitle1' className={styles.balance} noWrap>
-                {Format.real(UserWalletModel.getCryptoBalance(user.wallet))}
-              </Typography>
-            </Box>
           </Box>
         </Box>
 
@@ -105,9 +94,6 @@ const Cryptos: React.FC = observer(() => {
                     <Box paddingX={2} alignSelf='center' textAlign='end'>
                       <Typography variant='h6' color='textPrimary'>
                         {Format.decimal(row.quantity, 8)}
-                      </Typography>
-                      <Typography variant='button' color='textSecondary'>
-                        {Format.real(UserWalletCryptoModel.getBalance(row))}
                       </Typography>
                     </Box>
                   </Box>

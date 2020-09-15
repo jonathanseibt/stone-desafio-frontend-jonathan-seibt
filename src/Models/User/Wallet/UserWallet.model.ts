@@ -15,14 +15,4 @@ export class UserWalletModel {
     this.cryptos = userWallet.cryptos;
     this.history = userWallet.history;
   }
-
-  static getCryptoBalance = (userWallet: UserWalletModel) => {
-    let cryptoBalance = 0;
-
-    for (const userWalletCrypto of userWallet.cryptos) {
-      cryptoBalance += UserWalletCryptoModel.getBalance(userWalletCrypto);
-    }
-
-    return cryptoBalance;
-  };
 }
