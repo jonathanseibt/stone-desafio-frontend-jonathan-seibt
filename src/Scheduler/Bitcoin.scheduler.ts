@@ -35,10 +35,10 @@ class BitcoinScheduler {
     const api: any = (await axios('https://www.mercadobitcoin.net/api/BTC/ticker/')).data.ticker;
 
     crypto.lastPriceBuy = crypto.priceBuy;
-    crypto.priceBuy = api.buy;
+    crypto.priceBuy = api.sell; // this is the price when i buy (mercado sells, i buy)
 
     crypto.lastPriceSell = crypto.priceSell;
-    crypto.priceSell = api.sell;
+    crypto.priceSell = api.buy; // this is the price when i sell (i sell, mercado buys)
 
     CryptoModel.updateByAcronym(Constants.BITCOIN.acronym, crypto);
   };
