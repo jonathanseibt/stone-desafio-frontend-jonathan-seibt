@@ -1,6 +1,6 @@
 import axios from 'axios';
-import Constants from '../Constants';
-import { CryptoModel } from '../Models/Crypto/Crypto.model';
+import Constants from '../../Constants';
+import { CryptoModel } from '../../Models/Crypto/Crypto.model';
 
 const DEFAULT_INTERVAL_IN_MILLISECONDS = 60000; // 1 minute
 

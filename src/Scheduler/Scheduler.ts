@@ -1,5 +1,5 @@
-import BitcoinScheduler from './Bitcoin.scheduler';
-import BritaScheduler from './Brita.scheduler';
+import BitcoinScheduler from './Bitcoin/Bitcoin.scheduler';
+import BritaScheduler from './Brita/Brita.scheduler';
 
 const INTERVAL_IN_MILLISECONDS = 5000; // 5 seconds
 

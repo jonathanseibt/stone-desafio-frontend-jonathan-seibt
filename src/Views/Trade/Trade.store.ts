@@ -1,6 +1,6 @@
 import { action } from 'mobx';
-import BitcoinScheduler from '../../Scheduler/Bitcoin.scheduler';
-import BritaScheduler from '../../Scheduler/Brita.scheduler';
+import BitcoinScheduler from '../../Scheduler/Bitcoin/Bitcoin.scheduler';
+import BritaScheduler from '../../Scheduler/Brita/Brita.scheduler';
 
 class Store {
   @action
