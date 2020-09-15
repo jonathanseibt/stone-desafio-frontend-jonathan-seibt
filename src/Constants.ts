@@ -3,6 +3,13 @@ class Constants {
 
   static NEW_USERS_GIFT_BALANCE = 100000;
 
+  static REAL = {
+    name: 'Real',
+    acronym: 'BRL',
+    icon: 'real.png',
+    backgroundStyle: 'linear-gradient(90deg, rgba(255,222,175,0.5) 0%, rgba(255,255,255,0.5) 50%)',
+  };
+
   static BITCOIN = {
     name: 'Bitcoin',
     acronym: 'BTC',
