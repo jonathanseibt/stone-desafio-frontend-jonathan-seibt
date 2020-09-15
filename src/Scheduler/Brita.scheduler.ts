@@ -35,10 +35,10 @@ class BritaScheduler {
     const api: any = (await axios('https://economia.awesomeapi.com.br/json/all/USD/')).data.USD;
 
     crypto.lastPriceBuy = crypto.priceBuy;
-    crypto.priceBuy = api.bid;
+    crypto.priceBuy = api.ask; // this is the price when i buy (exchange sells, i buy)
 
     crypto.lastPriceSell = crypto.priceSell;
-    crypto.priceSell = api.ask;
+    crypto.priceSell = api.bid; // this is the price when i sell (i sell, exchange buys)
 
     CryptoModel.updateByAcronym(Constants.BRITA.acronym, crypto);
   };
