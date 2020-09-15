@@ -2,6 +2,8 @@ import { action, computed, observable } from 'mobx';
 import { InputType } from '../../../Components/Input/Input.type';
 import Constants from '../../../Constants';
 import { CryptoModel } from '../../../Models/Crypto/Crypto.model';
+import { UserModel } from '../../../Models/User/User.model';
+import { UserWalletCryptoModel } from '../../../Models/User/Wallet/Crypto/UserWalletCrypto.model';
 import SessionStore from '../../../Session.store';
 import Convert from '../../../Utils/Convert';
 
@@ -158,8 +160,77 @@ class Store {
   };
 
   @action
-  swap = (): boolean => {
-    return true;
+  swap = () => {
+    this.sell();
+    this.buy();
+  };
+
+  @action
+  sell = () => {
+    const user = SessionStore.getUser();
+
+    if (this.isBitcoin) {
+      const index = user.wallet.cryptos.findIndex((crypto) => crypto.acronym === Constants.BITCOIN.acronym);
+      user.wallet.cryptos[index].quantity -= Number(this.inputCryptoCurrencyBitcoin.value);
+
+      const bitcoinToReal = Convert.cryptoToReal(this.getBitcoinPriceSell, Number(this.inputCryptoCurrencyBitcoin.value));
+
+      user.wallet.balance += Number(bitcoinToReal);
+    } else {
+      const index = user.wallet.cryptos.findIndex((crypto) => crypto.acronym === Constants.BRITA.acronym);
+      user.wallet.cryptos[index].quantity -= Number(this.inputCryptoCurrencyBrita.value);
+
+      const britaToReal = Convert.cryptoToReal(this.getBritaPriceSell, Number(this.inputCryptoCurrencyBrita.value));
+
+      user.wallet.balance += Number(britaToReal);
+    }
+
+    UserModel.updateByEmail(user.email, user);
+  };
+
+  @action
+  buy = () => {
+    const user = SessionStore.getUser();
+
+    if (this.isBrita) {
+      const crypto = user.wallet.cryptos.find((crypto) => crypto.acronym === Constants.BITCOIN.acronym);
+
+      if (crypto) {
+        const index = user.wallet.cryptos.findIndex((crypto) => crypto.acronym === Constants.BITCOIN.acronym);
+        user.wallet.cryptos[index].quantity += Number(this.inputCryptoCurrencyBitcoin.value);
+      } else {
+        user.wallet.cryptos.push(
+          new UserWalletCryptoModel({
+            quantity: Number(this.inputCryptoCurrencyBitcoin.value),
+            acronym: Constants.BITCOIN.acronym,
+          }),
+        );
+      }
+
+      const bitcoinToReal = Convert.cryptoToReal(this.getBitcoinPriceBuy, Number(this.inputCryptoCurrencyBitcoin.value));
+
+      user.wallet.balance -= Number(bitcoinToReal);
+    } else {
+      const crypto = user.wallet.cryptos.find((crypto) => crypto.acronym === Constants.BRITA.acronym);
+
+      if (crypto) {
+        const index = user.wallet.cryptos.findIndex((crypto) => crypto.acronym === Constants.BRITA.acronym);
+        user.wallet.cryptos[index].quantity += Number(this.inputCryptoCurrencyBrita.value);
+      } else {
+        user.wallet.cryptos.push(
+          new UserWalletCryptoModel({
+            quantity: Number(this.inputCryptoCurrencyBrita.value),
+            acronym: Constants.BRITA.acronym,
+          }),
+        );
+      }
+
+      const britaToReal = Convert.cryptoToReal(this.getBritaPriceBuy, Number(this.inputCryptoCurrencyBrita.value));
+
+      user.wallet.balance -= Number(britaToReal);
+    }
+
+    UserModel.updateByEmail(user.email, user);
   };
 
   @computed get getCrypto(): CryptoModel {

@@ -36,11 +36,11 @@ const View: React.FC = observer(() => {
 
   const onClickSwap = () => {
     if (SwapDialogStore.validateForm()) {
-      const result = SwapDialogStore.swap();
+      SwapDialogStore.swap();
 
-      if (result) {
-        enqueueSnackbar('Troca realizada com sucesso!', { variant: 'success' });
-      }
+      enqueueSnackbar('Troca realizada com sucesso!', { variant: 'success' });
+
+      SwapDialogStore.opened = false;
     }
   };
 
