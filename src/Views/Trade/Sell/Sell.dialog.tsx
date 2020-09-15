@@ -12,7 +12,9 @@ import { withStylesSellButton } from './Sell.dialog.styles';
 export const TITLE = 'Vender';
 
 const SellDialog: React.FC = observer(() => {
-  useEffect(() => SellDialogStore.load());
+  useEffect(() => {
+    SellDialogStore.load();
+  });
 
   return <View />;
 });

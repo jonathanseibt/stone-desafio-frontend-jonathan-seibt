@@ -11,7 +11,9 @@ export const URL = '/recuperar-senha';
 export const TITLE = 'Recuperar senha';
 
 const ForgotPasswordView: React.FC = observer(() => {
-  useEffect(() => ForgotPasswordStore.load());
+  useEffect(() => {
+    ForgotPasswordStore.load();
+  });
 
   return <View />;
 });

@@ -12,7 +12,9 @@ export const URL = '/acessar';
 export const TITLE = 'Acessar';
 
 const LoginView: React.FC = observer(() => {
-  useEffect(() => LoginStore.load());
+  useEffect(() => {
+    LoginStore.load();
+  });
 
   return <View />;
 });

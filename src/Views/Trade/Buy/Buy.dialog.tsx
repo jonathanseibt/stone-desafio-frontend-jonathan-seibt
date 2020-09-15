@@ -12,7 +12,9 @@ import { withStylesBuyButton } from './Buy.dialog.styles';
 export const TITLE = 'Comprar';
 
 const BuyDialog: React.FC = observer(() => {
-  useEffect(() => BuyDialogStore.load());
+  useEffect(() => {
+    BuyDialogStore.load();
+  });
 
   return <View />;
 });

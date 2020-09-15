@@ -16,7 +16,9 @@ interface InputProps {
 }
 
 const SwapDialog: React.FC = observer(() => {
-  useEffect(() => SwapDialogStore.load());
+  useEffect(() => {
+    SwapDialogStore.load();
+  });
 
   return <View />;
 });

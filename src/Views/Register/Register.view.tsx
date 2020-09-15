@@ -14,7 +14,9 @@ export const URL = '/cadastrar';
 export const TITLE = 'Nova conta';
 
 const RegisterView: React.FC = observer(() => {
-  useEffect(() => RegisterStore.load());
+  useEffect(() => {
+    RegisterStore.load();
+  });
 
   return <View />;
 });
