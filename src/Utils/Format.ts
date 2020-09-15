@@ -6,7 +6,7 @@ class Format {
     value = value ? Number(value) : 0;
     digits = digits ? Number(digits) : 4;
 
-    if (value.toLocaleString() === '-0') value = 0;
+    if (value.toLocaleString().startsWith('-0')) value = 0;
 
     return value.toLocaleString(Format.LOCALE, { style: 'currency', currency: Format.CURRENCY, minimumFractionDigits: digits });
   };
@@ -15,7 +15,7 @@ class Format {
     value = value ? Number(value) : 0;
     digits = digits ? Number(digits) : 8;
 
-    if (value.toLocaleString() === '-0') value = 0;
+    if (value.toLocaleString().startsWith('-0')) value = 0;
 
     return value.toLocaleString(Format.LOCALE, { style: 'decimal', minimumFractionDigits: digits });
   };
