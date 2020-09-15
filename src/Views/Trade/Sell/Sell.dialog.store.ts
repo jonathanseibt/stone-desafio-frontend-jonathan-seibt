@@ -2,6 +2,7 @@ import { action, computed, observable } from 'mobx';
 import { InputType } from '../../../Components/Input/Input.type';
 import { CryptoModel } from '../../../Models/Crypto/Crypto.model';
 import { UserModel } from '../../../Models/User/User.model';
+import { UserWalletHistoryModel } from '../../../Models/User/Wallet/History/UserWalletHistory.model';
 import SessionStore from '../../../Session.store';
 import Convert from '../../../Utils/Convert';
 
@@ -123,6 +124,17 @@ class Store {
     user.wallet.cryptos[index].quantity -= Number(this.inputCryptoCurrency.value);
 
     user.wallet.balance += Number(this.inputCurrentCurrency.value);
+
+    user.wallet.history.push(
+      new UserWalletHistoryModel({
+        operation: UserWalletHistoryModel.OPERATION.SELL,
+        date: new Date(),
+        price: this.getCryptoPriceSell,
+        quantity: Number(this.inputCryptoCurrency.value),
+        balance: user.wallet.cryptos[index].quantity,
+        acronym: this.acronym,
+      }),
+    );
 
     UserModel.updateByEmail(user.email, user);
   };
