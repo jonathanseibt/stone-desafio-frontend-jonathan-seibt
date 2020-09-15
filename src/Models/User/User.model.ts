@@ -29,4 +29,14 @@ export class UserModel {
   static findByEmailAndPassword = (email: string, password: string) => {
     return BrowserStore.users.find((user) => user.email === email && user.password === password);
   };
+
+  static updateByID = (id: string, user: UserModel) => {
+    const index = BrowserStore.users.findIndex((_user) => _user.id === id);
+
+    if (index >= 0) {
+      BrowserStore.users.splice(index, 1, user);
+    } else {
+      BrowserStore.users.push(user);
+    }
+  };
 }

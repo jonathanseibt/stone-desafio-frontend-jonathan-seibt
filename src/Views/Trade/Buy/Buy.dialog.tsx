@@ -32,11 +32,11 @@ const View: React.FC = observer(() => {
 
   const onClickBuy = () => {
     if (BuyDialogStore.validateForm()) {
-      const result = BuyDialogStore.buy();
+      BuyDialogStore.buy();
 
-      if (result) {
-        enqueueSnackbar('Compra realizada com sucesso!', { variant: 'success' });
-      }
+      enqueueSnackbar('Compra realizada com sucesso!', { variant: 'success' });
+
+      BuyDialogStore.opened = false;
     }
   };
 

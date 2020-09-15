@@ -1,6 +1,9 @@
 import { action, computed, observable } from 'mobx';
+import { v4 as uuid } from 'uuid';
 import { InputType } from '../../../Components/Input/Input.type';
 import { CryptoModel } from '../../../Models/Crypto/Crypto.model';
+import { UserModel } from '../../../Models/User/User.model';
+import { UserWalletCryptoModel } from '../../../Models/User/Wallet/Crypto/UserWalletCrypto.model';
 import SessionStore from '../../../Session.store';
 import Convert from '../../../Utils/Convert';
 
@@ -115,8 +118,25 @@ class Store {
   };
 
   @action
-  buy = (): boolean => {
-    return true;
+  buy = () => {
+    const user = SessionStore.getUser();
+
+    if (user.wallet.cryptos.find((crypto) => crypto._crypto === this._crypto)) {
+      const index = user.wallet.cryptos.findIndex((crypto) => crypto._crypto === this._crypto);
+      user.wallet.cryptos[index].quantity += Number(this.inputCryptoCurrency.value);
+    } else {
+      user.wallet.cryptos.push(
+        new UserWalletCryptoModel({
+          id: uuid(),
+          quantity: Number(this.inputCryptoCurrency.value),
+          _crypto: this._crypto,
+        }),
+      );
+    }
+
+    user.wallet.balance -= Number(this.inputCurrentCurrency.value);
+
+    UserModel.updateByID(user.id, user);
   };
 
   @computed get getCrypto(): CryptoModel {
