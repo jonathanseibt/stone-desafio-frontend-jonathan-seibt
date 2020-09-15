@@ -73,10 +73,10 @@ const NavbarLogo: React.FC = observer(() => {
 
   return (
     <>
-      <Avatar variant='square' src={`${Constants.PATH_IMAGES}/logo.png`} className={styles.logoImage} />
+      <Avatar variant='square' src={`${Constants.PATH_IMAGES}/logo.png`} className={styles.logo} />
 
       <Box paddingX={1} alignSelf='center'>
-        <Typography component='h1' variant='button' align='center' className={styles.logoText} noWrap>
+        <Typography component='h1' variant='button' align='center' className={styles.name} noWrap>
           {Constants.TITLE}
         </Typography>
       </Box>
@@ -139,12 +139,12 @@ const NavbarMenu: React.FC = observer(() => {
     <>
       <Button onClick={onClickMenu}>
         <Box paddingX={1} marginTop='1px'>
-          <Typography component='h3' variant='button' align='right' className={styles.userText} noWrap>
+          <Typography component='h3' variant='button' align='right' className={styles.user} noWrap>
             {SessionStore.getUser().name}
           </Typography>
         </Box>
 
-        <Avatar src={`${Constants.PATH_IMAGES}/avatar.png`} className={styles.userImage} />
+        <Avatar src={`${Constants.PATH_IMAGES}/avatar.png`} className={styles.avatar} />
       </Button>
 
       <Popover

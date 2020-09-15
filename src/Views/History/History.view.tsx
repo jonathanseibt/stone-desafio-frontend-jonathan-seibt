@@ -53,12 +53,9 @@ const List: React.FC = observer(() => {
               const crypto = CryptoModel.findByAcronym(row.acronym) ?? new CryptoModel();
 
               return (
-                <TableRow
-                  key={index}
-                  style={{ background: crypto.backgroundStyle }}
-                  className={row.operation === UserWalletHistoryModel.OPERATION.BUY ? styles.rowBuy : styles.rowSell}>
+                <TableRow key={index} style={{ background: crypto.backgroundStyle }} className={row.operation === UserWalletHistoryModel.OPERATION.BUY ? styles.buy : styles.sell}>
                   <TableCell>
-                    <Typography variant='button' className={row.operation === UserWalletHistoryModel.OPERATION.BUY ? styles.textBuy : styles.textSell}>
+                    <Typography variant='button' className={row.operation === UserWalletHistoryModel.OPERATION.BUY ? styles.green : styles.red}>
                       {row.operation === UserWalletHistoryModel.OPERATION.BUY ? 'Compra' : 'Venda'}
                     </Typography>
                   </TableCell>
@@ -84,7 +81,7 @@ const List: React.FC = observer(() => {
                   </TableCell>
 
                   <TableCell align='right'>
-                    <Typography variant='h6' align='right' className={row.operation === UserWalletHistoryModel.OPERATION.BUY ? styles.textBuy : styles.textSell}>
+                    <Typography variant='h6' align='right' className={row.operation === UserWalletHistoryModel.OPERATION.BUY ? styles.green : styles.red}>
                       {Format.currency(row.price)}
                     </Typography>
                     <Typography variant='button' color='textSecondary' align='right'>

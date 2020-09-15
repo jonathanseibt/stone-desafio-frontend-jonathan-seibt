@@ -9,23 +9,23 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   },
-  logoImage: {
+  logo: {
     alignSelf: 'center',
     width: theme.spacing(7),
     height: theme.spacing(7),
   },
-  logoText: {
+  name: {
     marginTop: '1px',
     color: 'white',
   },
   menu: {
     color: 'white',
   },
-  userImage: {
+  avatar: {
     width: theme.spacing(4),
     height: theme.spacing(4),
   },
-  userText: {
+  user: {
     color: 'white',
   },
 }));

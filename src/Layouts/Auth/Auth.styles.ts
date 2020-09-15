@@ -9,12 +9,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   },
-  logoImage: {
+  logo: {
     alignSelf: 'center',
     width: theme.spacing(7),
     height: theme.spacing(7),
   },
-  logoText: {
+  name: {
     color: 'white',
   },
 }));

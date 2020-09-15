@@ -21,9 +21,9 @@ const AuthLayout: React.FC<Props> = observer((props) => {
       <Box minHeight='100vh' paddingTop='5%' paddingBottom={3} className={styles.background}>
         <Container component='main' maxWidth='xs'>
           <Box display='flex' justifyContent='center' flexDirection='column' paddingBottom={3}>
-            <Avatar variant='square' src={`${Constants.PATH_IMAGES}/logo.png`} className={styles.logoImage} />
+            <Avatar variant='square' src={`${Constants.PATH_IMAGES}/logo.png`} className={styles.logo} />
 
-            <Typography component='h1' variant='button' align='center' className={styles.logoText}>
+            <Typography component='h1' variant='button' align='center' className={styles.name}>
               {Constants.TITLE}
             </Typography>
           </Box>

@@ -5,20 +5,20 @@ const useStyles = makeStyles((theme) => ({
   empty: {
     backgroundColor: grey[200],
   },
-  rowBuy: {
+  buy: {
     borderLeftWidth: '15px',
     borderLeftColor: green[500],
     borderLeftStyle: 'solid',
   },
-  rowSell: {
+  sell: {
     borderLeftWidth: '15px',
     borderLeftColor: red[500],
     borderLeftStyle: 'solid',
   },
-  textBuy: {
+  green: {
     color: green[500],
   },
-  textSell: {
+  red: {
     color: red[500],
   },
 }));
