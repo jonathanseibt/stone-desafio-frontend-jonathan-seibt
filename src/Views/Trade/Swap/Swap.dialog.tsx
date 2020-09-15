@@ -84,9 +84,9 @@ const View: React.FC = observer(() => {
 const InputCryptoCurrencyBitcoin: React.FC<InputProps> = observer((props) => {
   const getCaptionBalance = () => {
     if (SwapDialogStore.isBitcoin) {
-      return `Saldo disponível: ${Format.decimal(SwapDialogStore.getUserWalletBitcoinBalance, 8)}`;
+      return `Saldo disponível: ${Format.decimal(SwapDialogStore.getUserWalletBitcoinBalance)}`;
     } else {
-      return `Saldo atual: ${Format.decimal(SwapDialogStore.getUserWalletBitcoinBalance, 8)}`;
+      return `Saldo atual: ${Format.decimal(SwapDialogStore.getUserWalletBitcoinBalance)}`;
     }
   };
 
@@ -160,9 +160,9 @@ const InputCryptoCurrencyBitcoin: React.FC<InputProps> = observer((props) => {
 const InputCryptoCurrencyBrita: React.FC<InputProps> = observer((props) => {
   const getCaptionBalance = () => {
     if (SwapDialogStore.isBrita) {
-      return `Saldo disponível: ${Format.decimal(SwapDialogStore.getUserWalletBritaBalance, 8)}`;
+      return `Saldo disponível: ${Format.decimal(SwapDialogStore.getUserWalletBritaBalance)}`;
     } else {
-      return `Saldo atual: ${Format.decimal(SwapDialogStore.getUserWalletBritaBalance, 8)}`;
+      return `Saldo atual: ${Format.decimal(SwapDialogStore.getUserWalletBritaBalance)}`;
     }
   };
 

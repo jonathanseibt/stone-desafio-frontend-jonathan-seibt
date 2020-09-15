@@ -10,7 +10,7 @@ class Format {
 
   static decimal = (value: number | undefined, digits?: number): string => {
     value = value ? Number(value) : 0;
-    digits = digits ? Number(digits) : 2;
+    digits = digits ? Number(digits) : 8;
 
     return value.toLocaleString(Format.LOCALE, { style: 'decimal', minimumFractionDigits: digits });
   };

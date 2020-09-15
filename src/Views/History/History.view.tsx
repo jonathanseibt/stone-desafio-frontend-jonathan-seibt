@@ -87,13 +87,13 @@ const List: React.FC = observer(() => {
                       {Format.real(row.price)}
                     </Typography>
                     <Typography variant='button' color='textSecondary' align='right'>
-                      {Format.decimal(row.quantity, 8)}
+                      {Format.decimal(row.quantity)}
                     </Typography>
                   </TableCell>
 
                   <TableCell align='right'>
                     <Typography variant='h6' color='textPrimary' align='right'>
-                      {Format.decimal(row.balanceQuantity, 8)}
+                      {Format.decimal(row.balanceQuantity)}
                     </Typography>
                     <Typography variant='button' color='textSecondary' align='right'>
                       {Format.real(row.balanceValue)}

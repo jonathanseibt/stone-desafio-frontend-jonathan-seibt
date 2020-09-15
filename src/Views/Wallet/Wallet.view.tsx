@@ -93,7 +93,7 @@ const Cryptos: React.FC = observer(() => {
 
                     <Box paddingX={2} alignSelf='center' textAlign='end'>
                       <Typography variant='h6' color='textPrimary'>
-                        {Format.decimal(row.quantity, 8)}
+                        {Format.decimal(row.quantity)}
                       </Typography>
                     </Box>
                   </Box>

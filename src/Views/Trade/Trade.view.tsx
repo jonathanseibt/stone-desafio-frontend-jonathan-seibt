@@ -127,7 +127,7 @@ const List: React.FC = observer(() => {
 
                     <TableCell align='right'>
                       <Typography variant='h6' color='textPrimary' align='right'>
-                        {Format.decimal(balance, 8)}
+                        {Format.decimal(balance)}
                       </Typography>
                     </TableCell>
 
