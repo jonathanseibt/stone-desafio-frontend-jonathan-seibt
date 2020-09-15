@@ -1,7 +1,5 @@
 import { green } from '@material-ui/core/colors';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({}));
+import { withStyles } from '@material-ui/core/styles';
 
 export const withStylesBuyButton = withStyles((theme) => ({
   root: {
@@ -15,5 +13,3 @@ export const withStylesBuyButton = withStyles((theme) => ({
     },
   },
 }));
-
-export default useStyles;
