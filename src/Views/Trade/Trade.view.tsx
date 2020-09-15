@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { observer } from 'mobx-react';
 import React from 'react';
 import BrowserStore from '../../Browser.store';
+import Constants from '../../Constants';
 import SessionStore from '../../Session.store';
 import Format from '../../Utils/Format';
 import BuyDialog from './Buy/Buy.dialog';
@@ -94,7 +95,7 @@ const List: React.FC = observer(() => {
                   <TableRow key={index} style={{ background: row.backgroundStyle }}>
                     <TableCell>
                       <Box display='flex' alignItems='center'>
-                        <Avatar src={`/assets/img/${row.icon}`} />
+                        <Avatar src={`${Constants.PATH_IMAGES}/${row.icon}`} />
 
                         <Box paddingX={2} alignSelf='center'>
                           <Typography variant='h6' color='textPrimary'>
@@ -205,11 +206,11 @@ const TableFooter: React.FC = observer(() => {
       <TableCell colSpan={7}>
         <Box display='flex' alignItems='center'>
           <AvatarGroup max={4}>
-            <Avatar src='/assets/img/ethereum.png' />
-            <Avatar src='/assets/img/tether.png' />
-            <Avatar src='/assets/img/litecoin.png' />
-            <Avatar src='/assets/img/xrp.png' />
-            <Avatar src='/assets/img/binance.png' />
+            <Avatar src={`${Constants.PATH_IMAGES}/ethereum.png`} />
+            <Avatar src={`${Constants.PATH_IMAGES}/tether.png`} />
+            <Avatar src={`${Constants.PATH_IMAGES}/litecoin.png`} />
+            <Avatar src={`${Constants.PATH_IMAGES}/xrp.png`} />
+            <Avatar src={`${Constants.PATH_IMAGES}/binance.png`} />
           </AvatarGroup>
 
           <Box paddingX={2} alignSelf='center'>

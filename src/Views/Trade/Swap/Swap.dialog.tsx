@@ -149,7 +149,7 @@ const InputCryptoCurrencyBitcoin: React.FC<InputProps> = observer((props) => {
         ),
         endAdornment: (
           <InputAdornment position='end'>
-            <Avatar src={`/assets/img/${Constants.BITCOIN.icon}`} />
+            <Avatar src={`${Constants.PATH_IMAGES}/${Constants.BITCOIN.icon}`} />
           </InputAdornment>
         ),
       }}
@@ -225,7 +225,7 @@ const InputCryptoCurrencyBrita: React.FC<InputProps> = observer((props) => {
         ),
         endAdornment: (
           <InputAdornment position='end'>
-            <Avatar src={`/assets/img/${Constants.BRITA.icon}`} />
+            <Avatar src={`${Constants.PATH_IMAGES}/${Constants.BRITA.icon}`} />
           </InputAdornment>
         ),
       }}

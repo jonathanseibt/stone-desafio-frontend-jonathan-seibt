@@ -120,7 +120,7 @@ const InputCryptoCurrency: React.FC = observer(() => {
         ),
         endAdornment: (
           <InputAdornment position='end'>
-            <Avatar src={`/assets/img/${SellDialogStore.getCrypto.icon}`} />
+            <Avatar src={`${Constants.PATH_IMAGES}/${SellDialogStore.getCrypto.icon}`} />
           </InputAdornment>
         ),
       }}
@@ -173,7 +173,7 @@ const InputCurrentCurrency: React.FC = observer(() => {
         ),
         endAdornment: (
           <InputAdornment position='end'>
-            <Avatar src={`/assets/img/${Constants.REAL.icon}`} />
+            <Avatar src={`${Constants.PATH_IMAGES}/${Constants.REAL.icon}`} />
           </InputAdornment>
         ),
       }}

@@ -1,9 +1,10 @@
 import { green } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
+import Constants from '../../Constants';
 
 const useStyles = makeStyles((theme) => ({
   background: {
-    backgroundImage: 'url(/assets/img/wallet-background.png)',
+    backgroundImage: `url(${Constants.PATH_IMAGES}/wallet-background.png)`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',

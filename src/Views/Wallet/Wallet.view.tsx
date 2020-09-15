@@ -3,6 +3,7 @@ import { AvatarGroup } from '@material-ui/lab';
 import { observer } from 'mobx-react';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import Constants from '../../Constants';
 import { CryptoModel } from '../../Models/Crypto/Crypto.model';
 import SessionStore from '../../Session.store';
 import Format from '../../Utils/Format';
@@ -79,7 +80,7 @@ const Cryptos: React.FC = observer(() => {
                 <Paper elevation={3} style={{ background: crypto.backgroundStyle }}>
                   <Box padding={5} display='flex' justifyContent='space-between' overflow='auto'>
                     <Box display='flex' alignItems='center'>
-                      <Avatar src={`/assets/img/${crypto.icon}`} className={styles.avatar} />
+                      <Avatar src={`${Constants.PATH_IMAGES}/${crypto.icon}`} className={styles.avatar} />
 
                       <Box paddingX={2} alignSelf='center'>
                         <Typography variant='h6' color='textPrimary'>
@@ -124,13 +125,13 @@ const SeeMore: React.FC = observer(() => {
       <Box borderRadius={4} component={CardActionArea} onClick={onClickMore}>
         <Box padding={5} className={styles.more} display='flex' alignItems='center'>
           <AvatarGroup max={4}>
-            <Avatar src='/assets/img/bitcoin.png' />
-            <Avatar src='/assets/img/brita.png' />
-            <Avatar src='/assets/img/ethereum.png' />
-            <Avatar src='/assets/img/tether.png' />
-            <Avatar src='/assets/img/litecoin.png' />
-            <Avatar src='/assets/img/xrp.png' />
-            <Avatar src='/assets/img/binance.png' />
+            <Avatar src={`${Constants.PATH_IMAGES}/bitcoin.png`} />
+            <Avatar src={`${Constants.PATH_IMAGES}/brita.png`} />
+            <Avatar src={`${Constants.PATH_IMAGES}/ethereum.png`} />
+            <Avatar src={`${Constants.PATH_IMAGES}/tether.png`} />
+            <Avatar src={`${Constants.PATH_IMAGES}/litecoin.png`} />
+            <Avatar src={`${Constants.PATH_IMAGES}/xrp.png`} />
+            <Avatar src={`${Constants.PATH_IMAGES}/binance.png`} />
           </AvatarGroup>
 
           <Box paddingX={2} alignSelf='center'>

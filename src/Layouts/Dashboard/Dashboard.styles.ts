@@ -1,8 +1,9 @@
 import { makeStyles } from '@material-ui/core/styles';
+import Constants from '../../Constants';
 
 const useStyles = makeStyles((theme) => ({
   background: {
-    backgroundImage: 'url(/assets/img/dashboard-background.png)',
+    backgroundImage: `url(${Constants.PATH_IMAGES}/dashboard-background.png)`,
     backgroundRepeat: 'no-repeat',
     backgroundColor: theme.palette.grey[50],
     backgroundSize: 'cover',

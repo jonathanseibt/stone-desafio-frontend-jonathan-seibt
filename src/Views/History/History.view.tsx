@@ -1,6 +1,7 @@
 import { Avatar, Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react';
 import React from 'react';
+import Constants from '../../Constants';
 import { CryptoModel } from '../../Models/Crypto/Crypto.model';
 import { UserWalletHistoryModel } from '../../Models/User/Wallet/History/UserWalletHistory.model';
 import SessionStore from '../../Session.store';
@@ -69,7 +70,7 @@ const List: React.FC = observer(() => {
 
                   <TableCell>
                     <Box display='flex' alignItems='center'>
-                      <Avatar src={`/assets/img/${crypto.icon}`} />
+                      <Avatar src={`${Constants.PATH_IMAGES}/${crypto.icon}`} />
 
                       <Box paddingX={2} alignSelf='center'>
                         <Typography variant='h6' color='textPrimary'>
